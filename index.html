@@ -37,10 +37,14 @@ main{padding:0 0 3rem}
 h1{font-family:var(--display);font-weight:400;font-size:clamp(2.4rem,5vw,4.4rem);line-height:1.02;letter-spacing:-.03em;margin:0 0 1.2rem;overflow-wrap:anywhere}
 .tagline{color:var(--ink-3);font-size:1.05rem;margin:0}
 .grid{display:grid;gap:1rem;margin-top:1rem}
-.card{display:block;background:var(--paper-2);border:1px solid var(--rule);border-radius:.6rem;padding:1.4rem 1.6rem;text-decoration:none;color:inherit;box-shadow:var(--shadow);transition:border-color .15s ease}
+.card{background:var(--paper-2);border:1px solid var(--rule);border-radius:.6rem;padding:1.4rem 1.6rem;box-shadow:var(--shadow);transition:border-color .15s ease}
 .card:hover{border-color:var(--gold-soft)}
+.card-link{display:block;text-decoration:none;color:inherit}
 .card h2{font-family:var(--display);font-weight:400;font-size:1.4rem;color:var(--ink);margin:0 0 .4rem}
 .card p{color:var(--ink-3);font-size:.92rem;margin:0;line-height:1.6}
+.card p.meta{margin-top:.6rem;font:.8rem var(--mono);letter-spacing:.02em}
+.card p.meta a{color:var(--gold);text-decoration:none}
+.card p.meta a:hover{text-decoration:underline}
 footer{border-top:1px solid var(--rule);padding-top:1.4rem;margin-top:3rem;display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;font:.875rem/1.6 var(--ui);color:var(--ink-3)}
 .sig{font-family:var(--body);font-size:1.05rem;color:var(--ink);margin:0}
 @media(max-width:640px){
@@ -65,30 +69,35 @@ footer{border-top:1px solid var(--rule);padding-top:1.4rem;margin-top:3rem;displ
   </section>
 
   <section class="grid" aria-label="Projects">
-    <a class="card" href="/hallucinations-2000/">
-      <h2>Two Thousand Decisions</h2>
+    <div class="card">
+      <a class="card-link" href="/hallucinations-2000/"><h2>Two Thousand Decisions</h2></a>
       <p>Damien Charlotin's AI Hallucination Cases database passed 2,000 decisions &mdash; read the study in two editions.</p>
-    </a>
+      <p class="meta">September 9, 2026 &middot; <a href="https://lnkd.in/p/gpnAp2JX" target="_blank" rel="noopener">update post</a> &middot; <a href="https://lnkd.in/p/gxRn894w" target="_blank" rel="noopener">original post (Sept. 5)</a></p>
+    </div>
 
-    <a class="card" href="/hallucinations-1000/">
-      <h2>1,000 AI Hallucination Cases</h2>
-      <p>The database's 1,000-case milestone, with charts on growth, geography, sanctions, and the litigant divide.</p>
-    </a>
-
-    <a class="card" href="/jury-simulation/">
-      <h2>AI Jurors for the AI Trial</h2>
+    <div class="card">
+      <a class="card-link" href="/jury-simulation/"><h2>AI Jurors for the AI Trial</h2></a>
       <p>Nine simulated jurors walked through the Musk v. Altman trial record, day by day, to see how they'd decide.</p>
-    </a>
+      <p class="meta">May 18, 2026 &middot; <a href="https://lnkd.in/p/ge7DtCgr" target="_blank" rel="noopener">LinkedIn post</a></p>
+    </div>
 
-    <a class="card" href="/grand-museum-of-legalese/">
-      <h2>The Grand Museum of Legalese</h2>
-      <p>A catalogue of the 100 most enduring examples of legal language, ranked by absurdity.</p>
-    </a>
-
-    <a class="card" href="/hereinafter-codex/">
-      <h2>The Hereinafter Codex</h2>
+    <div class="card">
+      <a class="card-link" href="/hereinafter-codex/"><h2>The Hereinafter Codex</h2></a>
       <p>A catalogue of 100 specimens of legalese &mdash; Latin, Norman French, and Old English &mdash; still governing law today.</p>
-    </a>
+      <p class="meta">April 16, 2026 &middot; <a href="https://lnkd.in/p/gb39VA_f" target="_blank" rel="noopener">LinkedIn post</a></p>
+    </div>
+
+    <div class="card">
+      <a class="card-link" href="/grand-museum-of-legalese/"><h2>The Grand Museum of Legalese</h2></a>
+      <p>A catalogue of the 100 most enduring examples of legal language, ranked by absurdity.</p>
+      <p class="meta">March 23, 2026 &middot; <a href="https://lnkd.in/p/gEQu-gX4" target="_blank" rel="noopener">LinkedIn post</a></p>
+    </div>
+
+    <div class="card">
+      <a class="card-link" href="/hallucinations-1000/"><h2>1,000 AI Hallucination Cases</h2></a>
+      <p>The database's 1,000-case milestone, with charts on growth, geography, sanctions, and the litigant divide.</p>
+      <p class="meta">March 4, 2026 &middot; <a href="https://lnkd.in/p/g2Ji7mvD" target="_blank" rel="noopener">LinkedIn post</a></p>
+    </div>
   </section>
 
   <footer>
