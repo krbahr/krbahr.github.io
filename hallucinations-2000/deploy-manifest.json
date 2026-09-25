@@ -1,0 +1,61 @@
+{
+  "folder": "netlify-deploy-v36",
+  "files": {
+    "2000/expanded/index.html": {
+      "bytes": 1507463,
+      "sha256": "88743044f8522f78559baba4d747dd84df04dd5c3fe8bd09220a35ee6e95752d"
+    },
+    "2000/img/expanded-dark.webp": {
+      "bytes": 57434,
+      "sha256": "076295f5bf3202f5cf08b6578ffb1cd6984374ce3bf1a0605781d856ba76e56c"
+    },
+    "2000/img/expanded-light.webp": {
+      "bytes": 53910,
+      "sha256": "68fa64bce17b143bac1a3580e58fafd066bacecd47157adebfca5f6e7826d4e5"
+    },
+    "2000/img/original-dark.webp": {
+      "bytes": 32746,
+      "sha256": "d28b720534ee878f548c3f001e70f9876fda4e2b16c8d9f6690ae364f4bf4552"
+    },
+    "2000/img/original-light.webp": {
+      "bytes": 32308,
+      "sha256": "a97f946be1cb18b3eb5bf26d934b0da51c3c6f3bea3d46587757498a38064e7f"
+    },
+    "2000/index.html": {
+      "bytes": 540842,
+      "sha256": "daa1a9d760084f21bd522ca090d0a31a2294d88a439fb8b8af3c2eab94c0d9b1"
+    },
+    "2000/og-image.png": {
+      "bytes": 225727,
+      "sha256": "7ccaf1e22312ef07659cd212b517471a90d9ede3acc3e4ef672b7689bc2d5d3c"
+    },
+    "2000/original/index.html": {
+      "bytes": 474916,
+      "sha256": "ab16f2f67c050703a7f8595e8f190c0c8304bf020f9ee4439ecabeb7727f1bcf"
+    },
+    "_redirects": {
+      "bytes": 19,
+      "sha256": "cbf728d6fb2fb75bddb8a6511331dbf57594902aaffb709bd4f8858aa73c64f2"
+    },
+    "apple-touch-icon.png": {
+      "bytes": 2962,
+      "sha256": "d142d31e1aca49dc8ab15560a351f6caea17889efc4cf5886ba737b1feeb8d20"
+    },
+    "favicon-2k-v2.ico": {
+      "bytes": 4870,
+      "sha256": "f89e5f1882063ffdfa7bfe471f099185cd364d775186c7668f28692b2e427c8d"
+    },
+    "favicon-2k-v2.svg": {
+      "bytes": 254,
+      "sha256": "89988fde23a2b1d9a837e79377748ac85da46e20fd507b484b3469e9fd0dd0f5"
+    },
+    "favicon.ico": {
+      "bytes": 4870,
+      "sha256": "f89e5f1882063ffdfa7bfe471f099185cd364d775186c7668f28692b2e427c8d"
+    },
+    "favicon.svg": {
+      "bytes": 254,
+      "sha256": "89988fde23a2b1d9a837e79377748ac85da46e20fd507b484b3469e9fd0dd0f5"
+    }
+  }
+}

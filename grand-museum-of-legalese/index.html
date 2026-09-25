@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Grand Museum of Legalese</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,300;1,8..60,400;1,8..60,500&family=JetBrains+Mono:wght@300;400;500&family=Libre+Franklin:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0f1118;
+  --bg2:#161821;
+  --bg3:#1e2030;
+  --surface:#232538;
+  --surface2:#2a2d42;
+  --border:#2e3148;
+  --border2:#3a3d58;
+  --text:#c8cad8;
+  --text2:#8e92a8;
+  --text3:#5e6278;
+  --heading:#e8eaf0;
+  --gold:#c9a84c;
+  --gold2:#e8c868;
+  --gold-dim:rgba(201,168,76,0.15);
+  --red:#b54545;
+  --red2:#d46a6a;
+  --red-dim:rgba(181,69,69,0.12);
+  --blue:#4a6fa5;
+  --green:#5a8a6a;
+  --teal:#4a8a8a;
+  --purple:#7a6aaa;
+  --latin:#b58a5a;
+  --french:#6a8ab5;
+  --english:#6aaa7a;
+  --mixed:#aa8a6a;
+}
+html{scroll-behavior:smooth;scrollbar-color:var(--border) var(--bg)}
+body{
+  font-family:'Libre Franklin',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+
+/* === GRAIN OVERLAY === */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+  opacity:0.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* === HEADER === */
+.masthead{
+  padding:4rem 2rem 3rem;
+  text-align:center;
+  position:relative;
+  background:linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
+  border-bottom:1px solid var(--border);
+}
+.masthead::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold2) 50%, var(--gold) 70%, transparent 100%);
+}
+.mast-eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.62rem;font-weight:400;
+  letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--gold);opacity:0.8;
+  margin-bottom:1.5rem;
+}
+.mast-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.2rem,5.5vw,4rem);
+  font-weight:400;letter-spacing:-0.01em;
+  color:var(--heading);line-height:1.1;
+  margin-bottom:0.3rem;
+}
+.mast-title em{font-style:italic;color:var(--gold)}
+.mast-sub{
+  font-family:'Source Serif 4',serif;
+  font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:300;font-style:italic;
+  color:var(--text2);max-width:640px;margin:0.8rem auto 0;
+  line-height:1.55;
+}
+.mast-sub strong{color:var(--gold);font-weight:500;font-style:normal}
+.mast-attribution{
+  margin-top:1.5rem;
+  font-size:0.72rem;color:var(--text3);
+  font-family:'JetBrains Mono',monospace;
+}
+.mast-attribution a{color:var(--gold);text-decoration:none;opacity:0.7}
+.mast-attribution a:hover{opacity:1;text-decoration:underline}
+
+/* === STATS RIBBON === */
+.ribbon{
+  display:flex;justify-content:center;gap:0;
+  border-bottom:1px solid var(--border);
+  background:var(--bg2);
+}
+.ribbon-stat{
+  padding:1rem 2.5rem;
+  text-align:center;
+  border-right:1px solid var(--border);
+  flex:none;
+}
+.ribbon-stat:last-child{border-right:none}
+.ribbon-num{
+  font-family:'Playfair Display',serif;
+  font-size:1.6rem;font-weight:700;
+  color:var(--gold);line-height:1;
+}
+.ribbon-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--text3);margin-top:0.2rem;
+}
+
+/* === TAB NAV === */
+.tabs{
+  display:flex;justify-content:center;
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.tab{
+  padding:0.85rem 1.8rem;
+  font-family:'Libre Franklin',sans-serif;
+  font-size:0.7rem;font-weight:500;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--text3);background:none;border:none;
+  cursor:pointer;position:relative;
+  transition:color 0.25s;
+}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--gold)}
+.tab.active::after{
+  content:'';position:absolute;
+  bottom:0;left:1rem;right:1rem;height:1px;
+  background:var(--gold);
+}
+
+/* === SECTIONS === */
+.panel{display:none;max-width:1280px;margin:0 auto;padding:2rem 2rem 4rem}
+.panel.active{display:block}
+
+/* === CONTROLS === */
+.controls{
+  display:flex;gap:0.6rem;flex-wrap:wrap;
+  margin-bottom:1.75rem;align-items:center;
+}
+.search-input{
+  flex:1;min-width:220px;
+  padding:0.6rem 1rem 0.6rem 2.4rem;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:6px;color:var(--text);
+  font-family:'Libre Franklin',sans-serif;font-size:0.82rem;
+  outline:none;transition:border-color 0.2s;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235e6278' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:0.75rem center;
+}
+.search-input:focus{border-color:var(--gold)}
+.search-input::placeholder{color:var(--text3)}
+
+.pill{
+  padding:0.4rem 0.75rem;
+  font-family:'Libre Franklin',sans-serif;
+  font-size:0.65rem;font-weight:500;
+  letter-spacing:0.04em;text-transform:uppercase;
+  border:1px solid var(--border);border-radius:100px;
+  background:transparent;color:var(--text3);
+  cursor:pointer;transition:all 0.2s;white-space:nowrap;
+}
+.pill:hover{border-color:var(--text2);color:var(--text2)}
+.pill.on{background:var(--gold-dim);border-color:var(--gold);color:var(--gold)}
+
+.sort-sel{
+  padding:0.45rem 0.7rem;
+  font-family:'JetBrains Mono',monospace;font-size:0.68rem;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:6px;color:var(--text2);cursor:pointer;outline:none;
+}
+
+/* === GLOSSARY GRID === */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(360px, 1fr));
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.card{
+  background:var(--bg2);
+  padding:1.5rem 1.5rem 1.25rem;
+  cursor:pointer;
+  transition:background 0.25s;
+  position:relative;
+}
+.card:hover{background:var(--bg3)}
+.card::before{
+  content:'';position:absolute;top:0;left:0;bottom:0;width:3px;
+  opacity:0;transition:opacity 0.3s;
+}
+.card:hover::before{opacity:1}
+.card[data-origin="latin"]::before{background:var(--latin)}
+.card[data-origin="french"]::before{background:var(--french)}
+.card[data-origin="english"]::before{background:var(--english)}
+.card[data-origin="mixed"]::before{background:var(--mixed)}
+
+.card-rank{
+  position:absolute;top:1.25rem;right:1.25rem;
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;font-weight:500;
+  color:var(--gold);line-height:1;
+  opacity:0.7;
+}
+
+.card-term{
+  font-family:'Playfair Display',serif;
+  font-size:1.25rem;font-weight:600;
+  color:var(--heading);
+  margin-bottom:0.3rem;
+  padding-right:2.5rem;line-height:1.25;
+}
+
+.card-tags{display:flex;gap:0.35rem;flex-wrap:wrap;margin-bottom:0.6rem;}
+.tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.52rem;letter-spacing:0.06em;text-transform:uppercase;
+  padding:0.15rem 0.45rem;border-radius:3px;
+}
+.tag-latin{background:rgba(181,138,90,0.15);color:var(--latin)}
+.tag-french{background:rgba(106,138,181,0.15);color:var(--french)}
+.tag-english{background:rgba(106,170,122,0.15);color:var(--english)}
+.tag-mixed{background:rgba(170,138,106,0.15);color:var(--mixed)}
+.tag-ctx{border:1px solid var(--border);color:var(--text3);background:transparent}
+
+.card-meaning{
+  font-family:'Source Serif 4',serif;
+  font-size:0.82rem;font-weight:300;
+  color:var(--text2);line-height:1.55;
+  margin-bottom:0.6rem;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+
+.card-snark{
+  font-family:'Source Serif 4',serif;
+  font-style:italic;font-size:0.78rem;font-weight:400;
+  color:var(--red2);line-height:1.45;
+  padding-top:0.6rem;
+  border-top:1px solid var(--border);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+
+.card-absurdity{
+  display:flex;align-items:center;gap:0.4rem;
+  margin-top:0.65rem;
+}
+.abs-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.5rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--text3);
+}
+.abs-pips{display:flex;gap:3px}
+.pip{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--border);transition:background 0.3s;
+}
+.pip.a1{background:#5a8a6a}
+.pip.a2{background:#7a9a5a}
+.pip.a3{background:#b8860b}
+.pip.a4{background:#c06030}
+.pip.a5{background:#b54545}
+
+.grid-count{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.68rem;color:var(--text3);
+  text-align:center;margin-top:1.25rem;
+}
+
+/* === DETAIL MODAL === */
+.overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);
+  z-index:200;justify-content:center;align-items:start;
+  padding:3rem 1.5rem;overflow-y:auto;
+}
+.overlay.open{display:flex}
+.modal{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:10px;width:100%;max-width:600px;
+  padding:2.5rem;position:relative;
+  animation:modalIn 0.3s ease;
+}
+@keyframes modalIn{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.modal-close{
+  position:absolute;top:1.25rem;right:1.25rem;
+  background:none;border:none;color:var(--text3);
+  font-size:1.4rem;cursor:pointer;line-height:1;
+  transition:color 0.2s;
+}
+.modal-close:hover{color:var(--text)}
+.modal-term{
+  font-family:'Playfair Display',serif;
+  font-size:2rem;font-weight:600;
+  color:var(--heading);margin-bottom:0.5rem;
+  line-height:1.15;
+}
+.modal-tags{display:flex;gap:0.35rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.modal-section{margin-bottom:1.25rem}
+.modal-section h4{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:0.3rem;
+}
+.modal-section p{
+  font-family:'Source Serif 4',serif;
+  font-size:0.92rem;font-weight:300;
+  color:var(--text);line-height:1.65;
+}
+.modal-snark p{
+  font-style:italic;color:var(--red2);font-weight:400;
+}
+.modal-meters{
+  display:flex;gap:2.5rem;margin-top:1.5rem;
+  padding-top:1.25rem;border-top:1px solid var(--border);
+}
+.meter{display:flex;flex-direction:column;gap:0.3rem}
+.meter-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.5rem;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--text3);
+}
+.meter-pips{display:flex;gap:4px}
+.meter-pip{
+  width:10px;height:10px;border-radius:50%;
+  background:var(--border);
+}
+.meter-pip.on-a1{background:#5a8a6a}
+.meter-pip.on-a2{background:#7a9a5a}
+.meter-pip.on-a3{background:#b8860b}
+.meter-pip.on-a4{background:#c06030}
+.meter-pip.on-a5{background:#b54545}
+.meter-pip.on-green{background:var(--green)}
+
+/* === DATA VIZ === */
+.viz-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:8px;padding:2rem;margin-bottom:1.5rem;
+}
+.viz-card h3{
+  font-family:'Playfair Display',serif;
+  font-size:1.35rem;font-weight:500;
+  color:var(--heading);margin-bottom:0.15rem;
+}
+.viz-card .viz-sub{
+  font-size:0.75rem;color:var(--text3);
+  margin-bottom:1.5rem;font-style:italic;
+  font-family:'Source Serif 4',serif;
+}
+.viz-row{display:flex;gap:1.5rem;flex-wrap:wrap}
+.viz-row>.viz-card{flex:1;min-width:300px}
+
+/* Horizontal bars */
+.hbar{display:flex;flex-direction:column;gap:0.65rem}
+.hbar-row{display:flex;align-items:center;gap:0.75rem}
+.hbar-label{
+  width:140px;text-align:right;flex-shrink:0;
+  font-size:0.78rem;color:var(--text);
+}
+.hbar-track{
+  flex:1;height:30px;background:var(--surface);
+  border-radius:4px;overflow:hidden;
+}
+.hbar-fill{
+  height:100%;border-radius:4px;
+  display:flex;align-items:center;padding-left:0.6rem;
+  transition:width 1.5s cubic-bezier(0.22,1,0.36,1);
+}
+.hbar-fill span{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.62rem;color:rgba(255,255,255,0.9);
+  white-space:nowrap;
+}
+
+/* Donut chart */
+.donut-wrap{display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.donut-svg{width:200px;height:200px;flex-shrink:0}
+.donut-legend{display:flex;flex-direction:column;gap:0.5rem}
+.donut-leg-item{display:flex;align-items:center;gap:0.5rem}
+.donut-swatch{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.donut-leg-label{font-size:0.78rem;color:var(--text)}
+.donut-leg-num{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text2)}
+
+/* Scatter */
+.scatter-wrap{
+  position:relative;height:360px;
+  background:var(--surface);border-radius:6px;
+  overflow:hidden;
+}
+.scatter-axis{
+  position:absolute;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--text3);
+}
+.scatter-dot{
+  position:absolute;width:10px;height:10px;border-radius:50%;
+  cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;
+  opacity:0.75;
+}
+.scatter-dot:hover{
+  transform:scale(2.2);opacity:1;z-index:10;
+  box-shadow:0 0 12px rgba(201,168,76,0.3);
+}
+.scatter-tooltip{
+  display:none;position:fixed;
+  background:var(--bg);border:1px solid var(--gold);
+  border-radius:6px;padding:0.5rem 0.75rem;
+  font-size:0.72rem;color:var(--text);
+  z-index:300;pointer-events:none;
+  max-width:240px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.4);
+}
+.scatter-tooltip.show{display:block}
+.scatter-tooltip strong{color:var(--gold);font-weight:600}
+
+/* Timeline */
+.tl{position:relative;padding:1rem 0 1rem 2rem}
+.tl::before{
+  content:'';position:absolute;top:0;bottom:0;left:0.5rem;
+  width:1px;background:var(--border);
+}
+.tl-item{
+  position:relative;margin-bottom:2rem;
+  padding-left:1.5rem;
+}
+.tl-item::before{
+  content:'';position:absolute;
+  left:-1.95rem;top:0.35rem;
+  width:9px;height:9px;border-radius:50%;
+  background:var(--gold);border:2px solid var(--bg2);
+}
+.tl-year{
+  font-family:'Playfair Display',serif;
+  font-size:1.3rem;font-weight:600;
+  color:var(--gold);line-height:1;
+  margin-bottom:0.3rem;
+}
+.tl-text{
+  font-family:'Source Serif 4',serif;
+  font-size:0.85rem;font-weight:300;
+  color:var(--text2);line-height:1.6;
+  max-width:600px;
+}
+.tl-text strong{color:var(--heading);font-weight:500}
+.tl-text em{color:var(--gold);font-style:italic}
+
+/* === ABOUT === */
+.about-body{max-width:680px}
+.about-body p{
+  font-family:'Source Serif 4',serif;
+  font-size:1rem;font-weight:300;
+  color:var(--text);line-height:1.75;
+  margin-bottom:1.25rem;
+}
+.about-body strong{color:var(--heading);font-weight:500}
+.about-body em{color:var(--gold);font-style:italic}
+.about-scholars{
+  margin-bottom:1.5rem;
+}
+.scholar-item{
+  padding:0.5rem 0 0.5rem 1rem;
+  border-left:2px solid var(--border);
+  margin-bottom:0.15rem;
+  transition:border-color 0.2s;
+}
+.scholar-item:hover{border-left-color:var(--gold)}
+.scholar-item a{
+  color:var(--heading);text-decoration:underline;
+  text-decoration-color:var(--gold);text-underline-offset:2px;
+}
+.scholar-item span{
+  font-family:'Source Serif 4',serif;
+  font-size:0.88rem;font-weight:300;color:var(--text2);
+}
+.scholar-item em{color:var(--gold);font-style:italic}
+
+.pullquote{
+  border-left:2px solid var(--gold);
+  padding:1rem 0 1rem 1.5rem;
+  margin:1.75rem 0;
+}
+.pullquote p{
+  font-family:'Playfair Display',serif;
+  font-style:italic;font-size:1.15rem;font-weight:400;
+  color:var(--heading);line-height:1.5;
+  margin-bottom:0.25rem !important;
+}
+.pullquote cite{
+  font-family:'Source Serif 4',serif;
+  font-style:normal;font-size:0.82rem;
+  color:var(--text3);
+}
+
+/* === BRACKET CTA === */
+.bracket-cta{
+  margin-top:2rem;
+  background:linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(201,168,76,0.02) 100%);
+  border:1px solid rgba(201,168,76,0.2);
+  border-radius:8px;padding:2rem;text-align:center;
+}
+.bracket-cta h3{
+  font-family:'Playfair Display',serif;
+  font-size:1.5rem;font-weight:500;
+  color:var(--heading);margin-bottom:0.3rem;
+}
+.bracket-cta p{font-size:0.82rem;color:var(--text2);margin-bottom:1rem}
+.bracket-cta .cta-badge{
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;
+  padding:0.5rem 1.5rem;
+  background:var(--gold);color:var(--bg);
+  border:none;border-radius:4px;cursor:pointer;
+  transition:all 0.2s;font-weight:500;
+}
+.bracket-cta .cta-badge:hover{background:var(--gold2)}
+
+/* === FOOTER === */
+.foot{
+  text-align:center;padding:2rem;
+  border-top:1px solid var(--border);
+}
+.foot p{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.55rem;letter-spacing:0.15em;
+  color:var(--text3);text-transform:uppercase;
+}
+
+/* === MASTHEAD BRACKET BUTTON === */
+.mast-bracket-btn{
+  display:inline-block;margin-top:1.25rem;
+  padding:0.65rem 1.8rem;
+  font-family:'Libre Franklin',sans-serif;
+  font-size:0.75rem;font-weight:500;
+  letter-spacing:0.04em;
+  background:linear-gradient(135deg, rgba(201,168,76,0.15) 0%, rgba(201,168,76,0.05) 100%);
+  border:1px solid rgba(201,168,76,0.35);
+  border-radius:100px;color:var(--gold2);
+  cursor:pointer;transition:all 0.25s;
+}
+.mast-bracket-btn:hover{
+  background:rgba(201,168,76,0.2);
+  border-color:var(--gold);
+  transform:translateY(-1px);
+  box-shadow:0 4px 20px rgba(201,168,76,0.15);
+}
+.mast-bracket-btn em{font-style:italic}
+
+/* === BRACKET TAB === */
+.tab-bracket{color:var(--gold) !important;font-weight:600 !important}
+.tab-bracket.active::after{background:var(--gold) !important}
+
+/* === BRACKET GAME === */
+.bk-intro{
+  text-align:center;padding:3rem 2rem;
+  background:linear-gradient(135deg, rgba(201,168,76,0.06) 0%, rgba(201,168,76,0.02) 100%);
+  border:1px solid var(--border);border-radius:10px;
+}
+.bk-intro-icon{font-size:3rem;margin-bottom:0.5rem}
+.bk-intro-title{
+  font-family:'Playfair Display',serif;
+  font-size:2.2rem;font-weight:400;
+  color:var(--heading);margin-bottom:0.15rem;
+}
+.bk-intro-title em{color:var(--gold)}
+.bk-intro-sub{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1rem;
+}
+.bk-intro-desc{
+  font-family:'Source Serif 4',serif;
+  font-size:0.9rem;font-weight:300;
+  color:var(--text2);max-width:500px;margin:0 auto 1.25rem;line-height:1.6;
+}
+.bk-regions{
+  display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;
+  margin-bottom:1.5rem;
+}
+.bk-region-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.55rem;letter-spacing:0.08em;text-transform:uppercase;
+}
+.bk-start-btn{
+  padding:0.7rem 2rem;
+  font-family:'Libre Franklin',sans-serif;
+  font-size:0.8rem;font-weight:600;
+  letter-spacing:0.04em;
+  background:var(--gold);color:var(--bg);
+  border:none;border-radius:5px;cursor:pointer;
+  transition:all 0.2s;
+}
+.bk-start-btn:hover{background:var(--gold2);transform:translateY(-1px)}
+.bk-start-btn.bk-reset{background:var(--surface2);color:var(--text2);margin-left:0.75rem}
+.bk-start-btn.bk-reset:hover{background:var(--border)}
+
+.bk-game{display:none;max-width:580px;margin:0 auto}
+.bk-game.on{display:block}
+.bk-round-hdr{text-align:center;margin-bottom:1.5rem}
+.bk-round-hdr h3{
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem;font-weight:500;color:var(--heading);
+}
+.bk-round-info{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.6rem;color:var(--text3);margin-top:0.2rem;
+}
+.bk-progress-track{
+  width:100%;max-width:320px;height:3px;
+  background:var(--surface);border-radius:2px;
+  margin:0.6rem auto 0;overflow:hidden;
+}
+.bk-progress-fill{
+  height:100%;background:var(--gold);border-radius:2px;
+  transition:width 0.4s ease;
+}
+
+.bk-matchup{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:8px;overflow:hidden;
+}
+.bk-vs{
+  text-align:center;padding:0.35rem;
+  background:var(--surface);
+  font-family:'Playfair Display',serif;
+  font-size:0.8rem;font-weight:600;
+  color:var(--text3);letter-spacing:0.15em;
+}
+.bk-option{
+  padding:1.25rem 1.5rem;cursor:pointer;
+  transition:all 0.2s;position:relative;
+}
+.bk-option:hover{background:var(--bg3)}
+.bk-option:active{background:var(--gold-dim)}
+.bk-seed{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.55rem;color:var(--gold);
+  letter-spacing:0.08em;text-transform:uppercase;
+  margin-bottom:0.15rem;
+}
+.bk-term{
+  font-family:'Playfair Display',serif;
+  font-size:1.25rem;font-weight:600;
+  color:var(--heading);margin-bottom:0.2rem;
+}
+.bk-meaning{
+  font-size:0.78rem;color:var(--text2);line-height:1.5;
+  margin-bottom:0.3rem;
+}
+.bk-snark{
+  font-family:'Source Serif 4',serif;
+  font-style:italic;font-size:0.75rem;
+  color:var(--red2);line-height:1.4;
+}
+
+@keyframes matchIn{
+  from{opacity:0;transform:translateX(20px)}
+  to{opacity:1;transform:translateX(0)}
+}
+.bk-matchup{animation:matchIn 0.3s ease}
+
+/* CHAMPION RESULTS CARD */
+.bk-champion{
+  display:none;max-width:500px;margin:0 auto;
+}
+.bk-champion.on{display:block;animation:fadeUp 0.5s ease}
+
+.bk-results-card{
+  background:linear-gradient(170deg, #141628 0%, #0f1118 40%, #161828 100%);
+  border:1px solid rgba(201,168,76,0.3);
+  border-radius:12px;overflow:hidden;
+  box-shadow:0 8px 40px rgba(0,0,0,0.4),0 0 80px rgba(201,168,76,0.06);
+  position:relative;
+}
+.bk-results-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,#c9a84c,#e8c868,#c9a84c,transparent);
+}
+.bk-results-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,#c9a84c,#e8c868,#c9a84c,transparent);
+}
+
+.bk-rc-header{
+  text-align:center;padding:1.5rem 1.5rem 1rem;
+}
+.bk-rc-museum{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.5rem;letter-spacing:0.3em;
+  color:rgba(142,146,168,0.6);display:block;margin-bottom:0.5rem;
+}
+.bk-rc-museum strong{font-weight:700;color:rgba(142,146,168,0.8)}
+.bk-rc-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.6rem;font-weight:500;color:var(--gold);
+}
+.bk-rc-title em{font-style:italic}
+.bk-rc-tagline{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.45rem;letter-spacing:0.25em;
+  color:rgba(201,168,76,0.5);display:block;margin-top:0.2rem;
+}
+
+.bk-rc-divider{
+  height:1px;margin:0 2rem;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,0.2),transparent);
+}
+
+.bk-rc-champion-section{
+  text-align:center;padding:1.5rem 1.5rem;
+}
+.bk-rc-my-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.55rem;letter-spacing:0.2em;
+  color:var(--gold);display:block;margin-bottom:0.75rem;
+}
+.bk-rc-my-label strong{font-weight:700}
+.bk-rc-term{
+  font-family:'Playfair Display',serif;
+  font-size:2.4rem;font-weight:700;
+  color:#fff;line-height:1.1;
+  margin-bottom:0.6rem;
+  text-shadow:0 2px 20px rgba(201,168,76,0.15);
+}
+.bk-rc-pips{
+  display:flex;justify-content:center;gap:6px;
+  margin-bottom:0.75rem;
+}
+.bk-rc-pip{
+  width:10px;height:10px;border-radius:50%;
+}
+.bk-rc-snark{
+  font-family:'Source Serif 4',serif;
+  font-style:italic;font-size:0.85rem;
+  color:var(--red2);line-height:1.5;
+  max-width:400px;margin:0 auto;
+}
+
+.bk-rc-ff{
+  padding:1rem 1.5rem;text-align:center;
+}
+.bk-rc-ff-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.5rem;letter-spacing:0.2em;font-weight:700;
+  color:rgba(201,168,76,0.6);display:block;margin-bottom:0.6rem;
+}
+.bk-rc-ff-label strong{font-weight:700;color:rgba(201,168,76,0.8)}
+.bk-rc-ff-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;
+}
+.bk-rc-ff-item{
+  padding:0.35rem 0.6rem 0.5rem;
+  border-radius:5px;
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.04);
+  text-align:center;position:relative;
+}
+.bk-rc-ff-item.is-champ{
+  background:rgba(201,168,76,0.08);
+  border-color:rgba(201,168,76,0.25);
+}
+.bk-rc-ff-div{
+  display:block;text-align:center;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.4rem;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--text2);font-weight:700;
+}
+.bk-rc-ff-div strong{font-weight:700}
+.bk-rc-ff-item.is-champ .bk-rc-ff-div{color:rgba(201,168,76,0.6)}
+.bk-rc-ff-seed-line{
+  display:block;text-align:center;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.38rem;letter-spacing:0.06em;
+  color:var(--text3);margin-bottom:0.15rem;
+}
+.bk-rc-ff-seed-line em{font-style:italic}
+.bk-rc-ff-item.is-champ .bk-rc-ff-seed-line{color:rgba(201,168,76,0.45)}
+.bk-rc-ff-term{
+  font-family:'Playfair Display',serif;
+  font-size:0.82rem;font-weight:600;
+  color:var(--text);line-height:1.2;
+  display:inline;
+}
+.bk-rc-ff-item.is-champ .bk-rc-ff-term{color:var(--gold2)}
+.bk-rc-ff-trophy{
+  font-size:0.8rem;margin-left:0.25rem;vertical-align:middle;
+}
+
+.bk-rc-cta{
+  padding:1.25rem 1.5rem;text-align:center;
+  background:rgba(201,168,76,0.04);
+}
+.bk-rc-cta-play{
+  font-family:'Libre Franklin',sans-serif;
+  font-size:0.72rem;font-weight:600;
+  color:var(--gold2);display:block;margin-bottom:0.3rem;
+}
+.bk-rc-cta-play em{font-style:italic}
+.bk-rc-cta-link{
+  font-family:'Libre Franklin',sans-serif;
+  font-size:0.7rem;color:var(--text2);display:block;
+}
+.bk-rc-cta-link strong{color:var(--heading)}
+
+.bk-rc-footer{
+  padding:0.75rem 1.5rem;text-align:center;
+}
+.bk-rc-footer span{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.42rem;letter-spacing:0.1em;
+  color:var(--text3);
+}
+.bk-rc-footer strong{color:var(--text2);font-weight:500}
+
+/* SHARE PROMPT */
+.bk-share-prompt{
+  text-align:center;padding:1.5rem 1rem;
+}
+.bk-share-icon{font-size:2rem;margin-bottom:0.25rem}
+.bk-share-prompt p{
+  font-family:'Libre Franklin',sans-serif;
+  font-size:0.85rem;color:var(--text);margin-bottom:0.15rem;
+}
+.bk-share-prompt .bk-share-sub{
+  font-size:0.75rem;color:var(--text3);
+}
+.bk-share-prompt strong{color:var(--gold)}
+
+.bk-champ-actions{
+  display:flex;justify-content:center;gap:0.75rem;
+  padding-bottom:1rem;
+}
+
+/* === RESPONSIVE === */
+@media(max-width:768px){
+  .grid{grid-template-columns:1fr}
+  .ribbon{flex-wrap:wrap}
+  .ribbon-stat{padding:0.75rem 1.5rem}
+  .tab{padding:0.7rem 1rem;font-size:0.62rem}
+  .hbar-label{width:90px;font-size:0.7rem}
+  .donut-wrap{flex-direction:column;align-items:flex-start}
+  .controls{gap:0.4rem}
+  .scatter-wrap{height:280px}
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.card{animation:fadeUp 0.35s ease both}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <p class="mast-eyebrow">Est. 1066 &middot; 100 Specimens &middot; Never Updated</p>
+  <h1 class="mast-title">The Grand Museum of <em>Legalese</em></h1>
+  <p class="mast-sub">
+    A comprehensive catalogue of the 100 most enduring examples of legal language in American &amp; English law.
+    Ranked by absurdity. Annotated with affectionate irreverence.
+  </p>
+  <p class="mast-attribution">
+    Inspired by <a href="https://www.linkedin.com/posts/nir-golan-019678b_activity-7441080997623881728-WLad" target="_blank" rel="noopener">Nir Golan</a>&rsquo;s observation: <strong style="color:var(--gold)">&ldquo;Legalese is the programming language for lawyers.&rdquo;</strong>
+    &mdash; This museum documents how antiquated that programming language truly is.
+  </p>
+  <button class="mast-bracket-btn" onclick="goToBracket()">&#9878;&#65039; Play <em>Res Ipsa Bracketur</em> &mdash; 32 Terms Enter, One Champion &rarr;</button>
+</header>
+
+<div class="ribbon">
+  <div class="ribbon-stat"><div class="ribbon-num">100</div><div class="ribbon-label">Specimens</div></div>
+  <div class="ribbon-stat"><div class="ribbon-num">960</div><div class="ribbon-label">Years of Cruft</div></div>
+  <div class="ribbon-stat"><div class="ribbon-num">3</div><div class="ribbon-label">Old Languages</div></div>
+</div>
+
+<nav class="tabs" id="tabs">
+  <button class="tab active" data-p="glossary">Glossary</button>
+  <button class="tab" data-p="dataviz">Analytics</button>
+  <button class="tab" data-p="timeline">Timeline</button>
+  <button class="tab tab-bracket" data-p="bracket">&#9878;&#65039; Res Ipsa Bracketur</button>
+  <button class="tab" data-p="about">About</button>
+</nav>
+
+<!-- ====== GLOSSARY ====== -->
+<div class="panel active" id="glossary">
+  <div class="controls">
+    <input class="search-input" id="q" placeholder="Search terms, meanings, commentary..." autocomplete="off">
+    <select class="sort-sel" id="srt">
+      <option value="rank">Rank</option>
+      <option value="az">A &ndash; Z</option>
+      <option value="abs">Absurdity &darr;</option>
+      <option value="nec">Necessity &darr;</option>
+    </select>
+  </div>
+  <div class="controls" id="pills"></div>
+  <div class="grid" id="G"></div>
+  <p class="grid-count" id="gc"></p>
+</div>
+
+<!-- ====== DATAVIZ ====== -->
+<div class="panel" id="dataviz">
+  <div class="viz-row">
+    <div class="viz-card">
+      <h3>Linguistic Origins</h3>
+      <p class="viz-sub">Where our 100 specimens come from &mdash; the legacy of three colliding languages</p>
+      <div class="donut-wrap"><svg class="donut-svg" id="donut" viewBox="0 0 200 200"></svg><div class="donut-legend" id="donut-leg"></div></div>
+    </div>
+    <div class="viz-card">
+      <h3>The Absurdity Index</h3>
+      <p class="viz-sub">Distribution across five tiers, from &ldquo;defensible&rdquo; to &ldquo;magnificently absurd&rdquo;</p>
+      <div class="hbar" id="abs-bars"></div>
+    </div>
+  </div>
+  <div class="viz-card">
+    <h3>Context of Use</h3>
+    <p class="viz-sub">Where legalese hides: contracts, courtrooms, statutes, deeds, and legal fictions</p>
+    <div class="hbar" id="ctx-bars"></div>
+  </div>
+  <div class="viz-card">
+    <h3>Necessity vs. Absurdity</h3>
+    <p class="viz-sub">Does usefulness correlate with ridiculousness? Hover to explore each specimen.</p>
+    <div class="scatter-wrap" id="scatter"></div>
+  </div>
+  <div id="scatter-tip" class="scatter-tooltip"></div>
+</div>
+
+<!-- ====== TIMELINE ====== -->
+<div class="panel" id="timeline">
+  <div class="viz-card">
+    <h3>960 Years of Linguistic Accumulation</h3>
+    <p class="viz-sub">A timeline of how English law became a trilingual marvel &mdash; and the modern effort to simplify it</p>
+    <div class="tl" id="tl"></div>
+  </div>
+</div>
+
+<!-- ====== ABOUT ====== -->
+<div class="panel" id="about">
+  <div class="about-body">
+    <p><strong>Legal English is one of the most remarkable linguistic achievements in human history.</strong></p>
+    <p>It has governed property, trials, and trillion-dollar markets across centuries and continents. This catalogue doesn&rsquo;t argue legalese has no value &mdash; it argues the profession deserves a language as modern as the tools now being built for it.</p>
+    <p>A <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10266064/" target="_blank" rel="noopener" style="color:var(--text);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:2px">2023 MIT study</a> found that lawyers themselves prefer plain English and rate it equally enforceable. The dominant explanation for legalese&rsquo;s persistence: pure tradition &mdash; the &ldquo;magic spell hypothesis,&rdquo; where convoluted language signals authority like archaic terms in ritual incantations.</p>
+    <div class="pullquote">
+      <p>&ldquo;After six hundred years of lawsuits caused by language atrocities, a terrible suspicion is born. Maybe the lawyers don&rsquo;t understand each other.&rdquo;</p>
+      <cite>&mdash; David Mellinkoff, <em>The Language of the Law</em> (1963)</cite>
+    </div>
+    <p>This project was sparked by <strong><a href="https://www.linkedin.com/posts/nir-golan-019678b_activity-7441080997623881728-WLad" target="_blank" rel="noopener" style="color:var(--heading);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:2px">Nir Golan</a></strong>&rsquo;s observation: <em>&ldquo;Legalese is the programming language for lawyers.&rdquo;</em> A brilliant framing &mdash; except this programming language hasn&rsquo;t been refactored since 1066, runs on three legacy compilers, and its documentation was written by monks paid by the word.</p>
+
+    <p style="margin-bottom:0.5rem"><strong>Scholars who led the case for modernization:</strong></p>
+    <div class="about-scholars">
+      <div class="scholar-item"><a href="https://nysba.org/thoughts-on-legal-writing-from-the-greatest-of-them-all-david-mellinkoff/" target="_blank" rel="noopener"><strong>David Mellinkoff</strong></a> <span>&mdash; UCLA. <em>The Language of the Law</em> (1963). The founding text.</span></div>
+      <div class="scholar-item"><a href="https://www.acrosstwoworlds.net/a-tribute-to-my-father-professor-richard-wydick-1937-2016/" target="_blank" rel="noopener"><strong>Richard Wydick</strong></a> <span>&mdash; UC Davis. <em>Plain English for Lawyers</em> (1979). The practical guide.</span></div>
+      <div class="scholar-item"><a href="https://lawprose.org/bryan-garner/" target="_blank" rel="noopener"><strong>Bryan Garner</strong></a> <span>&mdash; Editor of Black&rsquo;s Law Dictionary. Co-author with Justice Scalia.</span></div>
+      <div class="scholar-item"><a href="https://kimblewritingseminars.com/about-joseph-kimble/" target="_blank" rel="noopener"><strong>Joseph Kimble</strong></a> <span>&mdash; Western Michigan. 50+ empirical studies on plain language.</span></div>
+      <div class="scholar-item"><a href="https://www.linkedin.com/in/ross-guberman-1303915" target="_blank" rel="noopener"><strong>Ross Guberman</strong></a> <span>&mdash; <em>Point Made</em>, <em>Point Taken</em>, and the BriefCatch platform.</span></div>
+    </div>
+
+    <div class="pullquote">
+      <p>&ldquo;The language of the law should not be different without a reason.&rdquo;</p>
+      <cite>&mdash; David Mellinkoff</cite>
+    </div>
+  </div>
+
+  <div class="bracket-cta">
+    <h3>&#9878;&#65039; Res Ipsa Bracketur</h3>
+    <p>32 specimens enter. One is crowned the Most Absurd Term in Anglo-American Law. The bracket speaks for itself.</p>
+    <button class="cta-badge" onclick="goToBracket()">Play Now &rarr;</button>
+  </div>
+
+  <div class="about-build" style="margin-top:2rem;">
+    <div class="viz-card">
+      <h3>How This Was Built</h3>
+      <p class="viz-sub">A collaboration between lawyer and LLM</p>
+      <div class="about-body" style="max-width:100%">
+        <p>This wasn&rsquo;t one-shotted. The Grand Museum of Legalese was built through extended collaboration between <strong><a href="https://www.linkedin.com/in/kyle-bahr" target="_blank" rel="noopener" style="color:var(--heading);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:2px">Kyle Bahr</a></strong> (lawyer and legal tech builder) and <strong>Claude Opus 4.6</strong> by Anthropic.</p>
+        <p>The process began with a 75-minute deep research session in which Claude analyzed over 550 sources &mdash; law review articles, legal dictionaries, corpus linguistics studies, bar association publications, and historical records &mdash; to compile the initial catalogue of 100 specimens with accurate etymologies, case citations, and historical context.</p>
+        <p>From there, over a dozen iterative rounds of design, editorial refinement, tone calibration, source verification, and feature development produced the glossary, analytics, timeline, and <em>Res Ipsa Bracketur</em> bracket game. Every entry was reviewed for accuracy and voice. The snark was calibrated to honor the tradition while making the case for evolution. The bracket seeding follows authentic NCAA tournament structure.</p>
+        <p>The result is what happens when domain expertise meets AI capability &mdash; not replacement, but genuine collaboration. Neither the lawyer nor the LLM could have built this alone.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== RES IPSA BRACKETUR ====== -->
+<div class="panel" id="bracket">
+  <!-- INTRO -->
+  <div class="bk-intro" id="bk-intro">
+    <div class="bk-intro-icon">&#9878;&#65039;</div>
+    <h2 class="bk-intro-title"><em>Res Ipsa Bracketur</em></h2>
+    <p class="bk-intro-sub">The Bracket Speaks for Itself</p>
+    <p class="bk-intro-desc">32 of the most enduring specimens of legalese, seeded into four divisions and paired head-to-head. You vote on each matchup. Five rounds. One champion. <strong style="color:var(--gold2);font-style:italic"><em>Crown your Most Absurd Term in Anglo-American Law.</em></strong></p>
+    <div class="bk-regions">
+      <span class="bk-region-tag" style="color:var(--latin)">&#9670; Latin Division</span>
+      <span class="bk-region-tag" style="color:var(--french)">&#9670; French Division</span>
+      <span class="bk-region-tag" style="color:var(--english)">&#9670; English Division</span>
+      <span class="bk-region-tag" style="color:var(--mixed)">&#9670; Mixed Division</span>
+    </div>
+    <button class="bk-start-btn" id="bk-start">Commence Proceedings &#8594;</button>
+  </div>
+  <!-- GAME -->
+  <div class="bk-game" id="bk-game">
+    <div class="bk-round-hdr">
+      <h3 id="bk-round-name">Round of 64</h3>
+      <p class="bk-round-info" id="bk-round-info">Match 1 of 32 &middot; Latin Division</p>
+      <div class="bk-progress-track"><div class="bk-progress-fill" id="bk-progress"></div></div>
+    </div>
+    <div class="bk-matchup" id="bk-matchup">
+      <div class="bk-option" id="bk-opt-a" onclick="bkVote('a')">
+        <div class="bk-seed" id="bk-seed-a">#1</div>
+        <div class="bk-term" id="bk-term-a"></div>
+        <div class="bk-meaning" id="bk-meaning-a"></div>
+        <div class="bk-snark" id="bk-snark-a"></div>
+      </div>
+      <div class="bk-vs">VS</div>
+      <div class="bk-option" id="bk-opt-b" onclick="bkVote('b')">
+        <div class="bk-seed" id="bk-seed-b">#16</div>
+        <div class="bk-term" id="bk-term-b"></div>
+        <div class="bk-meaning" id="bk-meaning-b"></div>
+        <div class="bk-snark" id="bk-snark-b"></div>
+      </div>
+    </div>
+  </div>
+  <!-- CHAMPION RESULTS CARD (screenshot-optimized) -->
+  <div class="bk-champion" id="bk-champion">
+    <div class="bk-results-card" id="bk-results-card">
+      <div class="bk-rc-header">
+        <span class="bk-rc-museum"><strong>THE GRAND MUSEUM OF LEGALESE</strong></span>
+        <div class="bk-rc-title">&#9878;&#65039; <em>Res Ipsa Bracketur</em></div>
+        <span class="bk-rc-tagline">THE BRACKET SPEAKS FOR ITSELF</span>
+      </div>
+      <div class="bk-rc-divider"></div>
+      <div class="bk-rc-champion-section">
+        <span class="bk-rc-my-label"><strong>MY MOST ABSURD TERM IN ANGLO-AMERICAN LAW</strong></span>
+        <h2 class="bk-rc-term" id="bk-champ-term"></h2>
+        <div class="bk-rc-pips" id="bk-champ-pips"></div>
+        <p class="bk-rc-snark" id="bk-champ-snark"></p>
+      </div>
+      <div class="bk-rc-divider"></div>
+      <div class="bk-rc-ff" id="bk-ff-section">
+        <span class="bk-rc-ff-label"><strong>MY LEGALESE FINAL FOUR</strong></span>
+        <div class="bk-rc-ff-row" id="bk-ff-grid"></div>
+      </div>
+      <div class="bk-rc-divider"></div>
+      <div class="bk-rc-cta">
+        <span class="bk-rc-cta-play">CROWN YOUR OWN <em>RES IPSA BRACKETUR</em> CHAMPION</span>
+        <span class="bk-rc-cta-link">To play, visit <strong>Kyle Bahr</strong> at linkedin.com/in/kyle-bahr</span>
+      </div>
+      <div class="bk-rc-footer">
+        <span>Inspired by <strong>Nir Golan</strong> &middot; Built with Claude Opus 4.6 &middot; #ResIpsaBracketur</span>
+      </div>
+    </div>
+    <div class="bk-share-prompt">
+      <div class="bk-share-icon">&#128248;</div>
+      <p><strong>Screenshot this card</strong> and share on LinkedIn!</p>
+      <p class="bk-share-sub">Tag <a href="https://www.linkedin.com/in/kyle-bahr" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:underline;text-underline-offset:2px"><strong>Kyle Bahr</strong></a> and <a href="https://www.linkedin.com/in/nir-golan-019678b" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:underline;text-underline-offset:2px"><strong>Nir Golan</strong></a> &mdash; who&rsquo;s your champion?</p>
+    </div>
+    <div class="bk-champ-actions">
+      <button class="bk-start-btn bk-reset" onclick="bkReset()">&#8634; Play Again</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="overlay" id="ov"><div class="modal" id="modal"><button class="modal-close" id="mc">&times;</button><div id="md"></div></div></div>
+
+<footer class="foot">
+  <p>The Grand Museum of Legalese &middot; Glossary, Analytics &amp; <em>Res Ipsa Bracketur</em> &middot; &ldquo;Legalese is the programming language for lawyers&rdquo; &mdash; <a href="https://www.linkedin.com/posts/nir-golan-019678b_activity-7441080997623881728-WLad" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none">Nir Golan</a></p>
+</footer>
+
+<script>
+// ===========================
+// DATA
+// ===========================
+const D=[
+{r:1,t:"Witnesseth",m:"An archaic 3rd-person verb (-eth suffix) used as a standalone heading in contracts. Most lawyers don't know it's a verb.",o:"english",c:["contract"],a:5,n:1,s:"Bryan Garner: 'a traditional but worthless flourish.' The verbal equivalent of arriving at a Zoom call in a powdered wig.",h:"Middle English verb suffix. Survives in zero other professional contexts.",p:"[Delete it. Nothing replaces nothing.]",u:[{label:"LawProse: What's wrong with WITNESSETH?",url:"https://lawprose.org/lawprose-lesson-148-whats-wrong-with-witnesseth/"}]},
+{r:2,t:"Party of the First Part",m:"A circumlocution avoiding actual names, creating impenetrable multi-party agreements.",o:"english",c:["contract"],a:5,n:1,s:"The Marx Brothers destroyed this phrase in A Night at the Opera (1935). The legal profession didn't notice.",h:"Common law drafting convention. Defined terms solve this entirely.",p:"Use names: 'Seller,' 'Buyer.'",u:[{label:"Marx Brothers: Party of the First Part (YouTube)",url:"https://youtu.be/JUdvNkDA8_U"}]},
+{r:3,t:"Each and every",m:"Both words are English. Both mean 'all.' Possibly the purest redundancy in the English language.",o:"english",c:["contract","statute"],a:5,n:1,s:"Not even a cross-linguistic doublet. Just two English words meaning the same thing, holding hands for no reason.",h:"Pure pleonasm with no historical cross-linguistic excuse.",p:"All. Every. Each. Pick one."},
+{r:4,t:"Further affiant sayeth naught",m:"Third-person archaic closing in sworn statements. Means 'I have nothing more to say.'",o:"english",c:["litigation"],a:5,n:1,s:"The verbal equivalent of putting a wax seal on an email. A period at the end of the preceding sentence does the same work.",h:"Affidavit closing formula from medieval English court practice.",p:"[End the document. The period is free.]"},
+{r:5,t:"Know all men by these presents",m:"Medieval charter opening. 'Presents' means 'this document' (from Latin praesentes litterae).",o:"english",c:["contract"],a:5,n:1,s:"A gendered medieval proclamation that has survived remarkably intact since the age of charter documents. 'Presents' here means 'this document' — a detail most lawyers using this phrase couldn't tell you.",h:"Medieval English charter preamble derived from Latin epistolary conventions.",p:"[Delete. The document speaks for itself.]"},
+{r:6,t:"Comes now the plaintiff",m:"Opening formula in court pleadings meaning 'the plaintiff files this document.'",o:"french",c:["litigation"],a:5,n:1,s:"Wayne Schiess: 'Stop beginning pleadings with this archaic phrase. And drop the ALL-CAPS.' Grammatically violent when plural.",h:"Law French court procedure. Federal courts no longer require it.",p:"The plaintiff files this [motion].",u:[{label:"UT Austin: Ten Legal Words We Can Do Without",url:"https://law.utexas.edu/faculty/wschiess/legalwriting/2008/06/ten-legal-words-and-phrases-we-can-do.html"}]},
+{r:7,t:"Null and void",m:"Both words derive from French. Not even a cross-linguistic doublet — just two French words meaning 'invalid.'",o:"french",c:["contract"],a:4,n:1,s:"Two French words, zero additional meaning. The legal equivalent of ordering a coffee coffee.",h:"Latin via Old French: nullus (nothing) + voide (empty).",p:"Invalid. Void. Pick one."},
+{r:8,t:"Let or hindrance",m:"Both English, but 'let' preserves an extinct meaning: to obstruct (opposite of modern 'let' = permit).",o:"english",c:["contract","litigation"],a:5,n:1,s:"The only surviving doublet where one word now means the OPPOSITE of what it means in the phrase. Survives in tennis ('let serve').",h:"Old English lettan (to hinder). Meaning reversed in Middle English. The doublet fossilized the old sense.",p:"Obstruction. Interference.",u:[{label:"Legal Doublets — Wikipedia",url:"https://en.wikipedia.org/wiki/Legal_doublet"}]},
+{r:9,t:"Shall",m:"The most litigated word in legal English. Black's identifies 5+ contradictory meanings. 1,600+ appellate cases interpreting it.",o:"english",c:["statute","contract"],a:5,n:2,s:"Australia, Britain, and Canada have moved away. The Federal Rules eliminated it entirely. Yet it persists — perhaps because no other word quite sounds as 'legal.'",h:"Old English sceal. Plain Writing Act of 2010 replaced it with 'must.'",p:"Must. Will. May. (Context determines which.)",u:[{label:"SF Bar: Banish These Words and Phrases",url:"https://www.sfbar.org/blog/for-the-sake-of-writing-in-plain-english-at-the-very-least-banish-these-words-and-phrases/"},{label:"Kimble Writing Seminars",url:"https://kimblewritingseminars.com/about-joseph-kimble/"}]},
+{r:10,t:"Fertile octogenarian",m:"The legal presumption that any living person can have children, regardless of age, for the Rule Against Perpetuities.",o:"english",c:["property","fiction"],a:5,n:1,s:"Under this fiction, an 85-year-old could conceive and invalidate your property interest. Related: the 'precocious toddler' and 'unborn widow.'",h:"Jee v. Audley (1787). Satirized for over two centuries. Abolished in most jurisdictions.",p:"[Abolished. Belongs in a museum. This museum.]",u:[{label:"Rule Against Perpetuities — Wikipedia",url:"https://en.wikipedia.org/wiki/Rule_against_perpetuities"},{label:"LSD.Law: Fertile Octogenarian Rule",url:"https://lsd.law/define/fertile-octogenarian-rule"}]},
+{r:11,t:"Res ipsa loquitur",m:"'The thing speaks for itself.' Inference of negligence from the accident itself.",o:"latin",c:["litigation"],a:2,n:4,s:"Norton Rose Fulbright calls it 'the Latin equivalent of duh.' A barrel of flour fell on a pedestrian. Sometimes the thing speaks.",h:"Baron Pollock's exclamation in Byrne v. Boadle (1863) became doctrine.",p:"The accident itself proves negligence.",u:[{label:"Norton Rose Fulbright: A to Z of Latin",url:"https://www.nortonrosefulbright.com/en/about/re/latin-deconstructed/latin-issue-18"}]},
+{r:12,t:"Qui tam",m:"Short for the 13-word monster: qui tam pro domino rege quam pro se ipso in hac parte sequitur. Whistleblower suits.",o:"latin",c:["litigation"],a:4,n:3,s:"The longest Latin term of art in Anglo-American law, mercifully abbreviated to two syllables.",h:"False Claims Act (1863). The abbreviation is the only humane option.",p:"Whistleblower lawsuit."},
+{r:13,t:"Inter alia",m:"'Among other things.' Identical in meaning and length to its English translation.",o:"latin",c:["litigation","contract"],a:4,n:1,s:"Wayne Schiess notes he has 'never used it. Ever.' 'Among other things' is the same length and universally understood. A classic case of Latin lending gravitas to the mundane.",h:"Latin transitional phrase absorbed into legal writing for prestige.",p:"Among other things.",u:[{label:"UT Austin: Avoid Unnecessary Latin",url:"https://law.utexas.edu/faculty/wschiess/legalwriting/2005/06/avoid-unnecessary-latin.html"}]},
+{r:14,t:"Indemnify and hold harmless",m:"A doublet that is actively pernicious: a growing minority of courts now distinguish the two terms.",o:"mixed",c:["contract"],a:4,n:3,s:"Most courts say synonymous. California says 'indemnify' is a sword, 'hold harmless' is a shield. The doublet creates the litigation it was designed to prevent.",h:"Paired for centuries. The sword/shield distinction emerged in 20th-century case law.",p:"Indemnify. (Just the one word.)",u:[{label:"Morgan Lewis: Indemnify, Defend, and Hold Harmless",url:"https://www.morganlewis.com/blogs/sourcingatmorganlewis/2024/01/indemnify-defend-and-hold-harmless-what-does-it-really-mean"}]},
+{r:15,t:"Habeas corpus",m:"'You shall have the body.' Writ ordering government to bring a detained person before a judge.",o:"latin",c:["litigation"],a:1,n:5,s:"The Great Writ. Enshrined in the Constitution. Tracing to Magna Carta. If any Latin earns its keep, it's this.",h:"Magna Carta (1215). U.S. Constitution Art. I, §9.",p:"[No replacement. This one stays.]"},
+{r:16,t:"Force majeure",m:"French for 'superior force.' Excuses contract performance during extraordinary events.",o:"french",c:["contract"],a:3,n:4,s:"COVID was the reckoning: companies discovered 'pandemic' wasn't listed. The concept is essential. The French phrase? 'Extraordinary event clause' works.",h:"French civil law import. English common law has no native equivalent.",p:"Extraordinary event clause.",u:[{label:"Norton Rose Fulbright: COVID-19 Force Majeure Q&A",url:"https://www.nortonrosefulbright.com/en/knowledge/publications/849d7568/q-and-a-on-covid-19-related-force-majeure-claims"}]},
+{r:17,t:"Oyez, oyez, oyez",m:"'Hear ye!' Anglo-Norman French. The Supreme Court Marshal still opens sessions with it.",o:"french",c:["litigation"],a:4,n:1,s:"Americans say 'oh-YAY'; Brits say 'oh-YES.' Richard Barham (1840): 'When the Crier cried O Yes! the people cried O No!'",h:"Anglo-Norman court opening. Supreme Court tradition since 1789.",p:"The court is now in session."},
+{r:18,t:"Whereas",m:"Opens contract recitals despite serving no legal function. Kenneth Adams: 'this meaning is archaic.'",o:"english",c:["contract"],a:4,n:1,s:"The legal equivalent of 'once upon a time' — atmospheric but functionless. Just start saying what you mean.",h:"Middle English conjunction. Recital convention since early common law.",p:"[Delete. Use plain introductory language.]"},
+{r:19,t:"Your affiant",m:"The pronoun 'I,' dressed in French legal costume. Third-person self-reference in sworn statements.",o:"french",c:["litigation"],a:5,n:1,s:"A lawyer referring to themselves in the third person, in French, under oath. One of the more theatrical conventions in legal writing.",h:"French affier (to swear). Norman-influenced court convention.",p:"I."},
+{r:20,t:"Cease and desist",m:"'Stop.' Both derive from Latin via French. The world's most threatening redundancy.",o:"french",c:["litigation","contract"],a:4,n:2,s:"Two words meaning 'stop' feel more intimidating than one. Psychology, not law, explains its persistence.",h:"Legal doublet from Norman French. Standardized in threatening letters.",p:"Stop."},
+{r:21,t:"Said (as adjective)",m:"'The.' As in 'said property.' Its meaning has been litigated 30 times.",o:"english",c:["contract","litigation"],a:4,n:1,s:"Tina Stark: 'Replace with the, a, that, or those.' The definite article has worked for a millennium.",h:"Law French demonstrative convention adopted into English legal drafting.",p:"The. That. Those."},
+{r:22,t:"Same (as pronoun)",m:"'It.' As in 'deliver same to Buyer.' English has a perfectly good pronoun for this.",o:"english",c:["contract"],a:5,n:1,s:"English has had the pronoun 'it' for over a thousand years. 'Same' persists in legal drafting as a curious refusal to use it.",h:"Legal drafting convention, possibly from Germanic legal influence.",p:"It. Them."},
+{r:23,t:"Hereinafter",m:"'From this point forward in this document.' Five syllables where parenthetical definition would do.",o:"english",c:["contract"],a:3,n:2,s:"Part of the here-/there-/where- family — a linguistic security blanket for anxious drafters.",h:"Pronominal adverb compound. BYU study (2024): 'highly restricted to legal registers.'",p:"(Define in parentheses after first use.)",u:[{label:"BYU: Here-, There-, and Every Where- in Legal Language",url:"https://scholarsarchive.byu.edu/facpub/7861/"}]},
+{r:24,t:"Aforementioned",m:"'Previously mentioned.' Unnecessary if one item discussed; imprecise if more than one.",o:"english",c:["contract","litigation"],a:4,n:1,s:"Wydick: 'the useless big brother of said.' Guberman's BriefCatch flags this in drafts — one of the most common automated edits across thousands of firms.",h:"Legal adverb compounds from Middle English.",p:"Previously mentioned. Or just use the noun.",u:[{label:"BriefCatch: Legal Writing AI",url:"https://www.legalwritingpro.com/"}]},
+{r:25,t:"Stare decisis",m:"'To stand by things decided.' The doctrine of precedent — cornerstone of common law.",o:"latin",c:["litigation"],a:1,n:5,s:"Debated every time the Supreme Court considers overturning a holding. Encodes an entire philosophy in two words.",h:"English common law, 13th century. Foundational to Anglo-American jurisprudence.",p:"[The doctrine IS the phrase. Essential.]"},
+{r:26,t:"Rest, residue, and remainder",m:"'Whatever is left.' English + Latin/French + French. 'The rest' suffices.",o:"mixed",c:["property","contract"],a:4,n:1,s:"A triplet for a concept requiring one word. Wills lawyers treat this phrase as scripture.",h:"Testamentary drafting convention.",p:"The rest."},
+{r:27,t:"Will and testament",m:"The canonical English + French doublet. 'Last will and testament' is pure ceremony.",o:"mixed",c:["property"],a:3,n:2,s:"Will (OE willa) + testament (Latin via French). The phrase that launched a thousand doublets.",h:"Post-Conquest bilingual insurance. Perhaps the most famous legal doublet.",p:"Will."},
+{r:28,t:"Goods and chattels",m:"'Personal property.' English + French (chatel, related to 'cattle').",o:"mixed",c:["property","contract"],a:3,n:2,s:"'Chattels' is related to 'cattle' — in medieval England, cattle were your most important movable assets.",h:"Post-1066 English/French pairing from Norman land law.",p:"Personal property."},
+{r:29,t:"Mens rea / Actus reus",m:"'Guilty mind' / 'Guilty act.' Twin pillars of criminal liability.",o:"latin",c:["litigation"],a:1,n:5,s:"Two syllables each vs. paragraphs of explanation. Every criminal law textbook uses them. The rare Latin that earns its keep.",h:"Latin criminal law maxims. Foundational to Anglo-American criminal jurisprudence.",p:"[Essential. No replacement needed.]"},
+{r:30,t:"Prima facie",m:"'At first face.' Evidence sufficient to establish a fact unless rebutted.",o:"latin",c:["litigation"],a:1,n:5,s:"Central to burden-shifting. McDonnell Douglas (1973) built Title VII law on the 'prima facie case.'",h:"Roman law evidence doctrine.",p:"[Essential term of art.]"},
+{r:31,t:"Provided that",m:"Ambiguous connective meaning a condition ('if'), exception ('except'), or addition ('also').",o:"english",c:["statute","contract"],a:4,n:1,s:"Mellinkoff: 'one of the horrors of legal writing.' Using 'but,' 'except,' or 'if' eliminates all ambiguity. Guberman notes that the best brief-writers never reach for a proviso when a conjunction will do.",h:"Medieval statutory drafting convention.",p:"But. Except. If. (Whichever applies.)",u:[{label:"Legal Writing Pro Blog",url:"https://www.legalwritingpro.com/blog/"}]},
+{r:32,t:"By and between",m:"'Between.' 'This Agreement is by and between...' — 'by' adds exactly zero meaning.",o:"english",c:["contract"],a:5,n:1,s:"The opening of approximately 10 million contracts worldwide. Delete 'by and'; lose nothing.",h:"Contractual recital convention. Pure pleonasm.",p:"Between."},
+{r:33,t:"In the event that",m:"'If.' Five words where one will do.",o:"english",c:["contract","statute"],a:4,n:1,s:"'If' has been in English since the 8th century and does identical work in two letters. This five-word construction exists mainly to make conditionals sound more lawyerly.",h:"Legalese circumlocution for conditional clauses.",p:"If."},
+{r:34,t:"To the fullest extent permitted by law",m:"'As much as legally allowed.' A hedge courts view as boilerplate throat-clearing.",o:"english",c:["contract"],a:3,n:2,s:"Translation: 'Our lawyers told us to add this so it sounds like we really mean it.'",h:"20th-century contractual limitation boilerplate.",p:"To the maximum extent allowed."},
+{r:35,t:"Certiorari",m:"'To be made certain.' How the Supreme Court agrees to hear cases. Universally abbreviated to 'cert.'",o:"latin",c:["litigation"],a:2,n:5,s:"'The Court granted cert' is the most consequential sentence in American law. The abbreviation won.",h:"Royal English writ. U.S. Supreme Court's primary discretionary mechanism.",p:"[The abbreviation 'cert' has won.]"},
+{r:36,t:"Voir dire",m:"'To speak the truth.' Jury selection. Anglo-Norman French, not Latin.",o:"french",c:["litigation"],a:2,n:4,s:"Most lawyers think 'voir' means 'to see' (modern French). It comes from verus (true). A magnificent etymological trap.",h:"Anglo-Norman French procedure.",p:"Jury selection.",u:[{label:"Voir dire — Wikipedia",url:"https://en.wikipedia.org/wiki/Voir_dire"}]},
+{r:37,t:"In witness whereof",m:"Concluding clause before signatures. The signature itself is the witness.",o:"english",c:["contract"],a:4,n:1,s:"Announces what the signature already does. The verbal equivalent of a 'redundant backup' that backs up nothing.",h:"Medieval deed closing formula.",p:"[A signature line is sufficient.]"},
+{r:38,t:"Now, therefore",m:"The transition connecting WHEREAS recitals to operative provisions.",o:"english",c:["contract"],a:4,n:1,s:"Part of the WHEREAS...NOW THEREFORE ritual that Garner recommends abolishing wholesale. A contractual drum roll.",h:"Recital-to-operative clause transition convention.",p:"[Delete. Let the provisions speak.]"},
+{r:39,t:"Signed, sealed, and delivered",m:"Wax seals haven't been required for centuries. Many jurisdictions abolished the seal entirely.",o:"english",c:["contract"],a:4,n:1,s:"Stevie Wonder made it a love song. Neither function requires all three words.",h:"Common law deed execution. Seal abolished in most U.S. jurisdictions by 19th century.",p:"Executed. Signed.",u:[{label:"Stevie Wonder: Signed, Sealed, Delivered (Wikipedia)",url:"https://en.wikipedia.org/wiki/Signed,_Sealed,_Delivered_I%27m_Yours"}]},
+{r:40,t:"Right, title, and interest",m:"'All ownership claims.' English + French + Latin. A perfect trilingual specimen.",o:"mixed",c:["property","contract"],a:3,n:2,s:"One word from each of the three languages of English law. Lawyers love the rhythm.",h:"Trilingual property conveyance formula.",p:"All ownership interest."},
+{r:41,t:"Fee simple absolute",m:"Complete, unconditional ownership of land. Feudal vocabulary draped over modern ownership.",o:"mixed",c:["property"],a:3,n:3,s:"'I own this land outright' is what it means. But all other estates are defined in relation to it.",h:"Feudal tenure. Statute Quia Emptores (1290).",p:"Full ownership."},
+{r:42,t:"Quiet enjoyment",m:"Right to possess property without interference. 'Quiet' means 'free from legal challenge,' NOT 'silent.'",o:"english",c:["property","contract"],a:3,n:3,s:"Your landlord's covenant has nothing to do with noise. The concept is essential; the term is a trap.",h:"From Latin quietus (undisturbed). Implied in every lease.",p:"Undisturbed possession."},
+{r:43,t:"Reasonable person",m:"The hypothetical ordinary person whose behavior sets negligence standards. No such person exists.",o:"english",c:["litigation","fiction"],a:2,n:5,s:"Thomas Menlove built a haystack, was warned it would combust, said 'I'll chance it,' burned two cottages. Hence: a standard.",h:"Vaughan v. Menlove (1837).",p:"[The concept IS tort law.]",u:[{label:"Vaughan v. Menlove — Wikipedia",url:"https://en.wikipedia.org/wiki/Vaughan_v_Menlove"}]},
+{r:44,t:"Fruit of the poisonous tree",m:"Evidence from an illegal search is inadmissible. Frankfurter coined it in Nardone v. U.S. (1939).",o:"english",c:["litigation","fiction"],a:1,n:5,s:"Allowing derivative evidence would make the ban 'a dead letter.' One of law's most memorably effective metaphors.",h:"Nardone v. United States (1939). Exclusionary rule extension.",p:"[The metaphor IS the doctrine.]",u:[{label:"Cornell LII: Fruit of the Poisonous Tree",url:"https://www.law.cornell.edu/wex/fruit_of_the_poisonous_tree"}]},
+{r:45,t:"Piercing the corporate veil",m:"Holding shareholders personally liable when the corporate form is abused.",o:"english",c:["litigation","fiction"],a:2,n:4,s:"The 'veil' metaphor — violent enough to convey seriousness, vivid enough to remember.",h:"Early 20th-century American corporate law.",p:"Disregarding the corporate entity."},
+{r:46,t:"Eggshell skull rule",m:"You take your victim as you find them. If a tap breaks a fragile skull, full liability.",o:"english",c:["litigation","fiction"],a:2,n:4,s:"Every 1L remembers the eggshell skull. Nobody remembers the plain English equivalent. That's good design.",h:"Vosburg v. Putney (1891). Thin skull doctrine.",p:"Liable for all consequences, even unforeseeable fragility."},
+{r:47,t:"And/or",m:"'A or B or both.' Called a 'Janus-faced verbal monstrosity' and 'inexcusable barbarism.'",o:"english",c:["contract","statute"],a:4,n:2,s:"Write 'A or B or both' instead — three more words, zero ambiguity. Criticized by nearly every legal writing authority, yet universally deployed.",h:"20th-century shorthand. Criticized by every legal writing authority.",p:"A or B or both."},
+{r:48,t:"Ex parte",m:"'From one party.' A proceeding without notice to the other side.",o:"latin",c:["litigation"],a:2,n:4,s:"Prohibited in most judicial communications. Two words encoding fundamental due process. Compact and useful.",h:"Latin procedural term. Due process cornerstone.",p:"One-sided (without the other party)."},
+{r:49,t:"True and correct",m:"'Accurate.' English + French. Used in every affidavit certification. Either word alone works.",o:"mixed",c:["litigation"],a:4,n:1,s:"Using both implies one alone is insufficient — which undermines both.",h:"Affidavit certification formula. Post-Conquest doublet.",p:"True. Accurate."},
+{r:50,t:"Good and valuable consideration",m:"'Legally sufficient exchange.' Classical distinction (good = love; valuable = money) largely collapsed.",o:"mixed",c:["contract"],a:3,n:2,s:"The doublet survives as belt-and-suspenders against a distinction most courts abandoned.",h:"Classical contract law. Collapsed in modern practice.",p:"Sufficient consideration."},
+{r:51,t:"Subpoena",m:"'Under penalty.' So anglicized most don't realize it's Latin. The plural 'subpoenae' is hypercorrection.",o:"latin",c:["litigation"],a:2,n:4,s:"England replaced it with 'witness summons.' The hypercorrected plural is wrong — it was never a Latin noun.",h:"14th-century English Chancery innovation by Bishop John Waltham.",p:"Witness summons.",u:[{label:"Subpoena — Wikipedia",url:"https://en.wikipedia.org/wiki/Subpoena"}]},
+{r:52,t:"Amicus curiae",m:"'Friend of the court.' Non-party brief. 140+ filed in Obergefell v. Hodges alone.",o:"latin",c:["litigation"],a:2,n:4,s:"The abbreviated 'amicus brief' is standard. At least the abbreviation is humane.",h:"Roman law. Standard in Anglo-American appellate practice.",p:"Friend-of-the-court brief."},
+{r:53,t:"Nunc pro tunc",m:"'Now for then.' Retroactive court correction. The IRS fines misuse $5,000.",o:"latin",c:["litigation"],a:3,n:3,s:"Useful for clerical corrections. Dangerous when sovereign citizens stamp it on tax returns.",h:"Court of Chancery, 1388.",p:"Retroactive correction.",u:[{label:"Nunc pro tunc — Wikipedia",url:"https://en.wikipedia.org/wiki/Nunc_pro_tunc"}]},
+{r:54,t:"Forthwith",m:"'Immediately.' Lawyers believe it sounds more imperative. It doesn't.",o:"english",c:["contract","litigation"],a:3,n:1,s:"'Immediately' communicates the same urgency without the medieval garnish.",h:"Middle English. Persists in legal and police language.",p:"Immediately."},
+{r:55,t:"Notwithstanding",m:"'Despite.' A Middle English calque from Latin non obstante. Actually useful for exception-carving.",o:"english",c:["statute","contract"],a:2,n:3,s:"'Notwithstanding Section 4(b)' is genuinely more precise than alternatives. A defensible archaism.",h:"Middle English from Anglo-Norman / Latin non obstante.",p:"Despite. (But the original sometimes works better.)"},
+{r:56,t:"Including but not limited to",m:"In most jurisdictions, 'includes' is already non-exhaustive by definition.",o:"english",c:["contract","statute"],a:3,n:2,s:"Insurance against ejusdem generis. Garner says drop the extra phrase. Lawyers never trust one word to do a phrase's job.",h:"Response to restrictive statutory interpretation canons.",p:"Including."},
+{r:57,t:"Give, devise, and bequeath",m:"'Transfer at death.' Historically: devise = real property; bequeath = personal. Distinction largely dead.",o:"mixed",c:["property"],a:3,n:2,s:"Three words for a concept needing one. Wills lawyers treat it as gospel.",h:"Post-Conquest property law. Testamentary triplet.",p:"Leave. Transfer at death."},
+{r:58,t:"In rem / In personam",m:"'Against a thing' / 'Against a person.' Produces the most entertaining case captions in law.",o:"latin",c:["litigation"],a:2,n:4,s:"United States v. Approximately 64,695 Pounds of Shark Fins (2008). The fiction of suing a thing never gets old.",h:"Roman jurisdictional categories.",p:"Against property / Against a person.",u:[{label:"Legal doublets — Wikipedia",url:"https://en.wikipedia.org/wiki/Legal_doublet"}]},
+{r:59,t:"Sui generis",m:"'Of its own kind.' Means 'unique.' Two syllables of Latin doing one English word's job.",o:"latin",c:["litigation","contract"],a:3,n:2,s:"Lawyers love it because it sounds fancier than 'unique.' Wayne Schiess would call this pompous. He'd be right.",h:"Latin classification term.",p:"Unique."},
+{r:60,t:"Ipso facto",m:"'By the fact itself.' Means 'automatically.' So anglicized it barely feels Latin anymore.",o:"latin",c:["litigation","contract"],a:2,n:2,s:"Has leaked into general English so completely that using it feels almost normal. Almost.",h:"Common Latin phrase. Widely adopted since the 16th century.",p:"Automatically."},
+{r:61,t:"Time is of the essence",m:"Deadlines strictly enforceable; missing one = breach. Without it, courts may allow 'reasonable' delays.",o:"english",c:["contract"],a:3,n:4,s:"Sounds philosophical but has concrete legal force. Rare case where the archaic phrase does real work.",h:"English equity courts. Activates strict deadline enforcement.",p:"All deadlines are strict and binding."},
+{r:62,t:"Without prejudice",m:"Communication can't be used as evidence; rights preserved. Genuine term of art.",o:"english",c:["litigation","contract"],a:2,n:4,s:"Stamping these words on a letter creates a legal shield. One of the less unnecessary terms.",h:"English litigation convention. Codified in evidence rules.",p:"[Useful. The phrase does work.]"},
+{r:63,t:"Severability",m:"If one provision is invalid, the rest survives. Many courts do this anyway.",o:"english",c:["contract"],a:2,n:3,s:"The clause provides certainty, and certainty has value. Moderately useful boilerplate.",h:"Common law doctrine supplemented by express clauses.",p:"If any part is invalid, the rest stands."},
+{r:64,t:"Prayer for relief",m:"Section of a complaint requesting remedies. Originated when plaintiffs literally petitioned the sovereign.",o:"english",c:["litigation"],a:4,n:3,s:"The religious overtone is medieval artifact. Required by FRCP 8(a)(3). Could be 'request for remedies.' In Point Made, Ross Guberman shows how the best advocates make even these formulaic sections sing.",h:"13th-century English common law petition to the Crown.",p:"Request for remedies.",u:[{label:"Cornell LII: Prayer for Relief",url:"https://www.law.cornell.edu/wex/prayer_for_relief"},{label:"Ross Guberman (LinkedIn)",url:"https://www.linkedin.com/in/ross-guberman-1303915"}]},
+{r:65,t:"Caveat emptor",m:"'Let the buyer beware.' Once dominated commercial law. Eroded by consumer protection statutes.",o:"latin",c:["contract","property"],a:2,n:3,s:"Still alive in 'as-is' real estate sales but largely superseded elsewhere. Consumer protection legislation is the story of its gradual, necessary retreat.",h:"Roman commercial maxim.",p:"Buyer beware."},
+{r:66,t:"Ultra vires",m:"'Beyond the powers.' An act exceeding legal authority.",o:"latin",c:["litigation","contract"],a:2,n:3,s:"'Beyond its authority' works but is less compact. The Latin earns partial credit for brevity.",h:"Corporate and constitutional law doctrine.",p:"Beyond its authority."},
+{r:67,t:"Free and clear",m:"'Unencumbered.' English + French. So widely understood splitting it might cause more confusion.",o:"mixed",c:["property","contract"],a:3,n:2,s:"The doublet that survived by being too popular to kill.",h:"Property conveyance doublet.",p:"Unencumbered."},
+{r:68,t:"Quantum meruit",m:"'As much as deserved.' Recovery for services rendered without a valid contract.",o:"latin",c:["litigation"],a:2,n:3,s:"When you work without a contract and want paid, this is your doctrine. The Latin is standard.",h:"English equitable remedy.",p:"Fair value for services rendered."},
+{r:69,t:"Nolo contendere",m:"'I do not wish to contest.' Criminal plea: conviction without admission. Prevents civil use.",o:"latin",c:["litigation"],a:2,n:3,s:"'No contest' is winning. The plea's tactical value justifies its existence, if not its Latin.",h:"Criminal procedure.",p:"No contest."},
+{r:70,t:"In flagrante delicto",m:"'In blazing offense.' Caught in the act. Evolved into a euphemism for compromising situations.",o:"latin",c:["litigation"],a:3,n:2,s:"Its journey from criminal law to sexual euphemism is the most entertaining linguistic evolution of any legal phrase.",h:"Roman criminal law. Now mostly a cultural artifact.",p:"Caught in the act."},
+{r:71,t:"Demurrer",m:"Motion arguing even if all facts are true, there's no legal claim. Federal law replaced it with 12(b)(6).",o:"french",c:["litigation"],a:3,n:3,s:"California and Virginia still use the French term. The concept is essential; the Norman French label is quaint nostalgia.",h:"Norman French. Replaced in federal courts by FRCP 12(b)(6).",p:"Motion to dismiss."},
+{r:72,t:"Entire agreement clause",m:"The written contract is the complete deal. Won't exclude misrepresentation liability without express language.",o:"english",c:["contract"],a:2,n:4,s:"Bird & Bird (2025): a strict clause can invalidate 'critical side letters.' Important but poorly understood.",h:"Parol evidence rule supplement.",p:"This is the complete agreement.",u:[{label:"Bird & Bird: Boilerplate Clauses — Common Pitfalls",url:"https://www.twobirds.com/en/insights/2025/uk/boilerplate-clauses-in-english-law-governed-contracts-common-pitfalls-and-how-to-avoid-them"}]},
+{r:73,t:"Ejusdem generis",m:"'Of the same kind.' General terms following specific ones are limited to similar items.",o:"latin",c:["statute","litigation"],a:2,n:4,s:"Scalia and Garner devoted 15 pages to it. A genuinely useful interpretive canon. Compact.",h:"Roman law canon of statutory interpretation.",p:"General term limited to things like the specific ones.",u:[{label:"Boston College Law Review: Latin in Legal Writing",url:"https://bclawreview.bc.edu/articles/1265/files/63beb2c5c34ae.pdf"}]},
+{r:74,t:"Cy-près",m:"'As near as possible.' Redirect failed charitable gifts to similar purposes. Now used for class action leftovers.",o:"french",c:["property","litigation"],a:2,n:3,s:"Norman French surviving in the 21st century to redirect class action settlement checks. Functional anachronism.",h:"Norman French charitable trust doctrine.",p:"As close to original purpose as possible."},
+{r:75,t:"Profit à prendre",m:"Right to enter land and take something (timber, minerals, fish). The accent mark in U.S. law is delightful.",o:"french",c:["property"],a:3,n:3,s:"A French accent mark (à) surviving in American legal documents. Distinguished from an easement: use vs. removal.",h:"Norman French property law.",p:"Right to take resources from another's land."},
+{r:76,t:"Constructive notice",m:"Legal fiction: you 'knew' because it was publicly recorded, even if you never saw it.",o:"english",c:["property","fiction"],a:2,n:5,s:"'Constructive' is the legal fiction flag: treated as real even though it isn't. Without it, recording systems collapse.",h:"Property recording system foundation.",p:"Legally presumed knowledge.",u:[{label:"Cornell LII: Legal Fiction",url:"https://www.law.cornell.edu/wex/legal_fiction"}]},
+{r:77,t:"Clean hands doctrine",m:"Can't seek equitable relief if you've acted unethically. The most intuitive legal metaphor.",o:"english",c:["litigation","fiction"],a:2,n:4,s:"Every non-lawyer understands 'clean hands.' Perhaps the only legal metaphor needing no explanation.",h:"English Court of Chancery maxim.",p:"Can't seek fairness if you've been unfair."},
+{r:78,t:"Attractive nuisance",m:"Dangerous condition (pool, turntable) attracting children. Heightened duty of care for owner.",o:"english",c:["litigation","fiction"],a:2,n:4,s:"An oxymoronic name that is itself an attractive nuisance for law students.",h:"19th-century tort doctrine. Railroad turntable cases.",p:"Dangerous condition attracting children."},
+{r:79,t:"Liquidated damages",m:"Pre-agreed damages for breach. One company nearly faced $60K/day from a copied template clause.",o:"latin",c:["contract"],a:2,n:4,s:"A genuine term of art doing real work — and real damage when drafted carelessly from recycled templates.",h:"Contract mechanism. Must be reasonable estimate of anticipated harm.",p:"Pre-set breach damages."},
+{r:80,t:"Representations and warranties",m:"Statements of fact + promises. Historically distinct; largely collapsed in modern U.S. practice.",o:"mixed",c:["contract"],a:3,n:3,s:"In English law the distinction matters. In U.S. practice, belt and suspenders. Redundant but harmless.",h:"Common law distinction. Divergent U.S. vs. English treatment.",p:"Statements and promises."},
+{r:81,t:"Whatsoever / Whosoever",m:"The -soever suffix adds nothing. Lawyers fear 'whoever' is insufficiently comprehensive. It isn't.",o:"english",c:["contract","statute"],a:4,n:1,s:"The -soever suffix is a hedge born of professional caution — the drafter's equivalent of a nervous double-check. It adds no legal force.",h:"Middle English emphatic suffix. No additional legal force.",p:"Whatever. Whoever."},
+{r:82,t:"Waiver of jury trial",m:"Constitutional right waiver hidden in boilerplate. Most signatories never read it.",o:"english",c:["contract"],a:3,n:4,s:"The most consequential clause nobody reads. Substantively important; ethically questionable as boilerplate.",h:"Commercial contract provision. Constitutional right waiver.",p:"[Same concept — the danger is burial in boilerplate.]"},
+{r:83,t:"Best efforts",m:"Performance standard. 'Among the most litigated phrases in contract law.' Some courts: every effort regardless of cost.",o:"english",c:["contract"],a:3,n:3,s:"The difference between 'best efforts' and 'commercially reasonable efforts' can be millions of dollars. Guberman's Deal Struck catalogues how top drafters handle exactly this kind of high-stakes ambiguity.",h:"20th-century performance standards. Heavily litigated.",p:"[Necessary concept, terrible execution.]",u:[{label:"Ross Guberman (LinkedIn)",url:"https://www.linkedin.com/in/ross-guberman-1303915"}]},
+{r:84,t:"Motion in limine",m:"Pre-trial evidence exclusion request. Latin limen (threshold) — deciding what crosses into trial.",o:"latin",c:["litigation"],a:2,n:4,s:"The 'threshold' metaphor is apt. Genuine term of art.",h:"Latin procedural term.",p:"Pre-trial evidence exclusion motion."},
+{r:85,t:"Interrogatories",m:"Written discovery questions requiring sworn answers. Federal Rule 33.",o:"latin",c:["litigation"],a:2,n:4,s:"The Latin-derived name is standard. Functional jargon everyone in litigation understands.",h:"Codified in FRCP 33.",p:"Written discovery questions."},
+{r:86,t:"Unruly horse",m:"Justice Burrough (1824): 'Public policy is a very unruly horse.' Two centuries of equestrian counter-metaphors followed.",o:"english",c:["litigation","fiction"],a:3,n:2,s:"Winfield (1928): 'Some judges thought it more like a tiger.' Lord Denning: 'With a good man in the saddle...' Delightful.",h:"Richardson v. Mellish (1824).",p:"Public policy is unpredictable."},
+{r:87,t:"Officious bystander test",m:"Implied term passes if a nosy bystander suggesting it would be 'testily suppressed with Oh, of course!'",o:"english",c:["contract","fiction"],a:3,n:3,s:"MacKinnon LJ, Shirlaw v. Southern Foundries (1939). The image of testy dismissal as a legal test is unforgettable.",h:"English implied terms doctrine.",p:"Would both parties obviously agree to this term?",u:[{label:"Officious Bystander — Wikipedia",url:"https://en.wikipedia.org/wiki/Officious_bystander"}]},
+{r:88,t:"Livery of seisin",m:"Ceremonial land transfer by handing over a twig or clod of earth. Last performed: Scotland, 2002.",o:"french",c:["property"],a:5,n:1,s:"Illinois statute STILL says 'Livery of seisin shall in no case be necessary.' We define modern law in opposition to dirt-handing.",h:"Norman French ceremony. French livrer (deliver) + seisir (possess).",p:"[Abolished. Statutes still feel the need to say so.]",u:[{label:"Pleading in English Act 1362 — Wikipedia",url:"https://en.wikipedia.org/wiki/Pleading_in_English_Act_1362"}]},
+{r:89,t:"Fee tail",m:"Estate restricted to specific heirs. Created to build dynasties. Abolished nearly everywhere.",o:"french",c:["property"],a:4,n:1,s:"De Donis (1285). NY abolished it in 1786; England in 1925. Systematically destroyed by democratic legislatures. Yet 1Ls still learn it.",h:"Statute De Donis Conditionalibus (1285).",p:"[Abolished. A feudal relic.]"},
+{r:90,t:"Incorporeal hereditaments",m:"Intangible inheritable property rights. 'Intangible property rights' conveys the same without a Latin degree.",o:"latin",c:["property"],a:4,n:2,s:"Blackstone devoted extensive treatment. The modern reader needs a dictionary for every word in this phrase.",h:"Blackstone's Commentaries classification.",p:"Intangible property rights."},
+{r:91,t:"Mesne profits",m:"Income from property during wrongful occupation. Pronounced 'meen.' The pronunciation is a hazing ritual.",o:"french",c:["property","litigation"],a:4,n:3,s:"The concept is useful. The pronunciation ('meen,' not 'mez-nee') is an initiation rite for non-property lawyers.",h:"Norman French meien (intermediate).",p:"Profits during wrongful occupation."},
+{r:92,t:"Prior to / Subsequent to",m:"'Before' / 'After.' Latinate constructions replacing the most basic words in English.",o:"latin",c:["contract","statute","litigation"],a:4,n:1,s:"Columbia Law lists these as unnecessary legalese. 'Before' and 'after' do identical work — but somehow feel insufficiently formal to many drafters.",h:"Latinate formal register. No additional precision.",p:"Before. After.",u:[{label:"SEC Plain English Handbook (PDF)",url:"https://www.sec.gov/pdf/handbook.pdf"}]},
+{r:93,t:"Shall be deemed to be",m:"Creates a legal fiction in five words where two ('counts as') would do.",o:"english",c:["statute","contract"],a:3,n:3,s:"Deeming has genuine utility. The five-word construction where two would do is a miniature monument to verbosity.",h:"Statutory deeming provisions.",p:"Is treated as. Counts as."},
+{r:94,t:"Nominalizations",m:"'Make a determination' (3 words) instead of 'determine' (1 word). Legal English's zombie nouns.",o:"english",c:["statute","contract","litigation"],a:4,n:1,s:"ABA: 'Most of these vague nouns contain a hidden verb.' 'Give consideration to' = consider. 'Effect a modification' = modify. The verb is right there, waiting. Ross Guberman's BriefCatch flags these automatically — the machines have arrived to free the verbs.",h:"Bureaucratic drafting convention.",p:"Determine. Consider. Provide.",u:[{label:"BriefCatch: Legal Writing AI",url:"https://www.legalwritingpro.com/"},{label:"Ross Guberman (LinkedIn)",url:"https://www.linkedin.com/in/ross-guberman-1303915"}]},
+{r:95,t:"To wit / Viz.",m:"'Namely.' To wit from OE witan; viz. abbreviates Latin videlicet. A colon does the same work.",o:"mixed",c:["contract","litigation"],a:3,n:1,s:"The legal profession's way of saying 'specifically' while sounding like a crossword clue.",h:"Old English + Latin transitional expressions.",p:"Namely. [Or a colon.]"},
+{r:96,t:"Felo de se",m:"'Felon of himself.' When English law treated suicide as a felony permitting estate forfeiture.",o:"latin",c:["litigation"],a:5,n:1,s:"A term that reflects a thankfully abandoned legal doctrine as much as an archaic language. The law's evolution away from criminalizing suicide is one of its better chapters.",h:"English common law. Forfeiture abolished: Suicide Act 1961 (UK).",p:"[Obsolete.]",u:[{label:"Legal Fiction — Wikipedia",url:"https://en.wikipedia.org/wiki/Legal_fiction"}]},
+{r:97,t:"Curtesy and dower",m:"Gendered spousal property rights from coverture. Most states replaced with 'elective share.'",o:"french",c:["property"],a:4,n:1,s:"Relics of when a woman's legal identity merged into her husband's. Arkansas still retains modified forms.",h:"Feudal property law. Coverture doctrine. Largely abolished.",p:"Surviving spouse's share."},
+{r:98,t:"Warranty of merchantability",m:"Goods fit for ordinary use. UCC Art. 2. Must be conspicuously disclaimed.",o:"mixed",c:["contract"],a:2,n:4,s:"Ugly but functional — means 'fit for ordinary commercial use.' The one boilerplate that protects consumers.",h:"UCC § 2-314.",p:"Goods are fit for normal use."},
+{r:99,t:"May it please the court",m:"Polite opening to oral argument. Harmless courtesy.",o:"english",c:["litigation"],a:2,n:2,s:"Like 'Dear Sir/Madam' — persistence is social, not legal. As Ross Guberman has shown in Point Made, the best advocates know which conventions to keep and which to shed.",h:"English court courtesy convention.",p:"[Social convention. Harmless.]",u:[{label:"Ross Guberman (LinkedIn)",url:"https://www.linkedin.com/in/ross-guberman-1303915"}]},
+{r:100,t:"Governing law clause",m:"Which law applies, where disputes are heard. One of the most consequential — and least read — provisions.",o:"english",c:["contract"],a:2,n:5,s:"One owner was forced to litigate 'hundreds of miles away' from an overlooked venue clause. The most dangerous boilerplate.",h:"Choice-of-law provision.",p:"[Same concept — the danger is that nobody reads it.]"}
+];
+
+// ===========================
+// GLOSSARY
+// ===========================
+const G=document.getElementById('G'),q=document.getElementById('q'),srt=document.getElementById('srt'),gc=document.getElementById('gc');
+let filt='all';
+
+const filters=[
+  {k:'all',l:'All'},{k:'latin',l:'Latin'},{k:'french',l:'French'},{k:'english',l:'English'},
+  {k:'contract',l:'Contracts'},{k:'litigation',l:'Litigation'},{k:'property',l:'Property'},
+  {k:'statute',l:'Statutes'},{k:'fiction',l:'Fictions'}
+];
+const pillBox=document.getElementById('pills');
+pillBox.innerHTML=filters.map(f=>`<button class="pill ${f.k==='all'?'on':''}" data-f="${f.k}">${f.l}</button>`).join('');
+pillBox.querySelectorAll('.pill').forEach(b=>b.onclick=()=>{
+  pillBox.querySelectorAll('.pill').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');filt=b.dataset.f;render();
+});
+
+function matchF(e){
+  if(filt==='all')return true;
+  if(['latin','french','english','mixed'].includes(filt))return e.o===filt;
+  return e.c.includes(filt);
+}
+function render(){
+  const s=q.value.toLowerCase();
+  let f=D.filter(e=>matchF(e));
+  if(s)f=f.filter(e=>e.t.toLowerCase().includes(s)||e.m.toLowerCase().includes(s)||e.s.toLowerCase().includes(s)||e.p.toLowerCase().includes(s));
+  const sv=srt.value;
+  if(sv==='az')f.sort((a,b)=>a.t.localeCompare(b.t));
+  else if(sv==='abs')f.sort((a,b)=>b.a-a.a||a.r-b.r);
+  else if(sv==='nec')f.sort((a,b)=>b.n-a.n||a.r-b.r);
+  else f.sort((a,b)=>a.r-b.r);
+
+  G.innerHTML=f.map((e,i)=>{
+    const oc=e.o==='latin'?'tag-latin':e.o==='french'?'tag-french':e.o==='english'?'tag-english':'tag-mixed';
+    const ol=e.o==='latin'?'Latin':e.o==='french'?'French':e.o==='english'?'English':'Mixed';
+    const pipCols=['a1','a2','a3','a4','a5'];
+    const pips=Array.from({length:5},(_,j)=>`<div class="pip ${j<e.a?pipCols[e.a-1]:''}"></div>`).join('');
+    const cats=e.c.map(c=>`<span class="tag tag-ctx">${c}</span>`).join('');
+    return `<div class="card" data-origin="${e.o}" onclick="openM(${e.r})" style="animation-delay:${Math.min(i*0.02,0.3)}s">
+      <span class="card-rank">#${e.r}</span>
+      <div class="card-term">${e.t}</div>
+      <div class="card-tags"><span class="tag ${oc}">${ol}</span>${cats}</div>
+      <div class="card-meaning">${e.m}</div>
+      <div class="card-snark">${e.s}</div>
+      <div class="card-absurdity"><span class="abs-label">Absurdity</span><div class="abs-pips">${pips}</div></div>
+    </div>`;
+  }).join('');
+  gc.textContent=`${f.length} of ${D.length} specimens`;
+}
+q.oninput=render;srt.onchange=render;render();
+
+// MODAL
+const ov=document.getElementById('ov'),md=document.getElementById('md');
+function openM(r){
+  const e=D.find(x=>x.r===r);if(!e)return;
+  const oc=e.o==='latin'?'tag-latin':e.o==='french'?'tag-french':e.o==='english'?'tag-english':'tag-mixed';
+  const ol=e.o==='latin'?'Latin':e.o==='french'?'Norman French':e.o==='english'?'Old/Middle English':'Mixed Origins';
+  const cats=e.c.map(c=>`<span class="tag tag-ctx">${c}</span>`).join('');
+  const aPipCols=['on-a1','on-a2','on-a3','on-a4','on-a5'];
+  const aPips=Array.from({length:5},(_,i)=>`<div class="meter-pip ${i<e.a?aPipCols[e.a-1]:''}"></div>`).join('');
+  const nPips=Array.from({length:5},(_,i)=>`<div class="meter-pip ${i<e.n?'on-green':''}"></div>`).join('');
+  const srcHTML=e.u?`<div class="modal-section"><h4>Sources</h4><p>${e.u.map(s=>`<a href="${s.url}" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:underline;text-decoration-color:rgba(201,168,76,0.4);text-underline-offset:2px;font-size:0.82rem">${s.label}</a>`).join(' &nbsp;&middot;&nbsp; ')}</p></div>`:'';
+  md.innerHTML=`<button class="modal-close" onclick="closeM()">&times;</button>
+    <div class="modal-term">${e.t}</div>
+    <div class="modal-tags"><span class="tag ${oc}">${ol}</span>${cats}</div>
+    <div class="modal-section"><h4>Plain English Meaning</h4><p>${e.m}</p></div>
+    <div class="modal-section"><h4>Modern Replacement</h4><p>${e.p}</p></div>
+    <div class="modal-section"><h4>Historical Context</h4><p>${e.h}</p></div>
+    <div class="modal-section modal-snark"><h4>Editorial Commentary</h4><p>${e.s}</p></div>${srcHTML}
+    <div class="modal-meters">
+      <div class="meter"><span class="meter-label">Absurdity</span><div class="meter-pips">${aPips}</div></div>
+      <div class="meter"><span class="meter-label">Necessity</span><div class="meter-pips">${nPips}</div></div>
+    </div>`;
+  ov.classList.add('open');
+}
+window.openM=openM;
+function closeM(){ov.classList.remove('open')}
+window.closeM=closeM;
+ov.onclick=e=>{if(e.target===ov)closeM()};
+document.onkeydown=e=>{if(e.key==='Escape')closeM()};
+
+// ===========================
+// TABS
+// ===========================
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  document.getElementById(t.dataset.p).classList.add('active');
+  if(t.dataset.p==='dataviz')renderViz();
+  if(t.dataset.p==='timeline')renderTL();
+});
+
+// ===========================
+// DATAVIZ
+// ===========================
+let vizDone=false;
+function renderViz(){
+  if(vizDone)return;vizDone=true;
+
+  // Donut - origins
+  const oc={latin:0,french:0,english:0,mixed:0};
+  D.forEach(e=>oc[e.o]++);
+  const oData=[
+    {k:'Latin',v:oc.latin,col:'#b58a5a'},
+    {k:'Norman French',v:oc.french,col:'#6a8ab5'},
+    {k:'Old/Middle English',v:oc.english,col:'#6aaa7a'},
+    {k:'Mixed Origins',v:oc.mixed,col:'#aa8a6a'}
+  ];
+  const total=oData.reduce((s,d)=>s+d.v,0);
+  let cum=0;const R=90,r2=55,cx=100,cy=100;
+  const svg=document.getElementById('donut');
+  let paths='';
+  oData.forEach(d=>{
+    const start=cum/total*Math.PI*2-Math.PI/2;
+    cum+=d.v;
+    const end=cum/total*Math.PI*2-Math.PI/2;
+    const la=d.v/total>0.5?1:0;
+    const x1=cx+R*Math.cos(start),y1=cy+R*Math.sin(start);
+    const x2=cx+R*Math.cos(end),y2=cy+R*Math.sin(end);
+    const x3=cx+r2*Math.cos(end),y3=cy+r2*Math.sin(end);
+    const x4=cx+r2*Math.cos(start),y4=cy+r2*Math.sin(start);
+    paths+=`<path d="M${x1},${y1} A${R},${R} 0 ${la} 1 ${x2},${y2} L${x3},${y3} A${r2},${r2} 0 ${la} 0 ${x4},${y4}Z" fill="${d.col}" opacity="0.85"><title>${d.k}: ${d.v}</title></path>`;
+  });
+  paths+=`<text x="${cx}" y="${cy-4}" text-anchor="middle" fill="#c8cad8" font-family="'Playfair Display',serif" font-size="28" font-weight="700">${total}</text>`;
+  paths+=`<text x="${cx}" y="${cy+14}" text-anchor="middle" fill="#5e6278" font-family="'JetBrains Mono',monospace" font-size="8" letter-spacing="0.1em">SPECIMENS</text>`;
+  svg.innerHTML=paths;
+  document.getElementById('donut-leg').innerHTML=oData.map(d=>`<div class="donut-leg-item"><div class="donut-swatch" style="background:${d.col}"></div><span class="donut-leg-label">${d.k}</span><span class="donut-leg-num">${d.v}</span></div>`).join('');
+
+  // Absurdity bars
+  const aLvl=[0,0,0,0,0];D.forEach(e=>aLvl[e.a-1]++);
+  const aLabels=['1 — Defensible','2 — Tolerable','3 — Questionable','4 — Ridiculous','5 — Magnificently Absurd'];
+  const aCols=['#5a8a6a','#7a9a5a','#b8860b','#a55a2a','#8b1a1a'];
+  const mxA=Math.max(...aLvl);
+  document.getElementById('abs-bars').innerHTML=aLvl.map((v,i)=>`<div class="hbar-row"><div class="hbar-label">${aLabels[i]}</div><div class="hbar-track"><div class="hbar-fill" style="width:${v/mxA*100}%;background:${aCols[i]}"><span>${v}</span></div></div></div>`).join('');
+
+  // Context bars
+  const cc={};D.forEach(e=>e.c.forEach(c=>cc[c]=(cc[c]||0)+1));
+  const cArr=Object.entries(cc).sort((a,b)=>b[1]-a[1]);
+  const mxC=cArr[0][1];
+  const cCols={contract:'#b58a5a',litigation:'#6a8ab5',property:'#6aaa7a',statute:'#7a6aaa',fiction:'#aa8a6a'};
+  document.getElementById('ctx-bars').innerHTML=cArr.map(([k,v])=>`<div class="hbar-row"><div class="hbar-label" style="text-transform:capitalize">${k}</div><div class="hbar-track"><div class="hbar-fill" style="width:${v/mxC*100}%;background:${cCols[k]||'#888'}"><span>${v}</span></div></div></div>`).join('');
+
+  // Scatter
+  const sc=document.getElementById('scatter');
+  const pw=sc.offsetWidth,ph=sc.offsetHeight;
+  const pad={t:25,r:25,b:45,l:55};
+  // Grid lines
+  let gridHTML='';
+  for(let i=1;i<=5;i++){
+    const x=pad.l+((i-1)/4)*(pw-pad.l-pad.r);
+    const y=pad.t+((5-i)/4)*(ph-pad.t-pad.b);
+    gridHTML+=`<div style="position:absolute;left:${x}px;top:${pad.t}px;bottom:${pad.b}px;width:1px;background:rgba(255,255,255,0.04)"></div>`;
+    gridHTML+=`<div style="position:absolute;left:${pad.l}px;right:${pad.r}px;top:${y}px;height:1px;background:rgba(255,255,255,0.04)"></div>`;
+    gridHTML+=`<div style="position:absolute;left:${x-4}px;bottom:${pad.b-18}px;font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--text3)">${i}</div>`;
+    gridHTML+=`<div style="position:absolute;left:${pad.l-18}px;top:${y-5}px;font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--text3)">${i}</div>`;
+  }
+  gridHTML+=`<div class="scatter-axis" style="bottom:8px;left:50%;transform:translateX(-50%)">Necessity →</div>`;
+  gridHTML+=`<div class="scatter-axis" style="left:6px;top:50%;transform:translateY(-50%) rotate(-90deg);white-space:nowrap">Absurdity →</div>`;
+
+  D.forEach(e=>{
+    const jx=(Math.random()-0.5)*12, jy=(Math.random()-0.5)*12;
+    const x=pad.l+((e.n-1)/4)*(pw-pad.l-pad.r)+jx;
+    const y=pad.t+((5-e.a)/4)*(ph-pad.t-pad.b)+jy;
+    const col=e.o==='latin'?'var(--latin)':e.o==='french'?'var(--french)':e.o==='english'?'var(--english)':'var(--mixed)';
+    gridHTML+=`<div class="scatter-dot" style="left:${x-5}px;top:${y-5}px;background:${col}" data-r="${e.r}" onmouseenter="showTip(event,${e.r})" onmouseleave="hideTip()" onclick="openM(${e.r})"></div>`;
+  });
+  sc.innerHTML=gridHTML;
+}
+
+const tip=document.getElementById('scatter-tip');
+window.showTip=function(ev,r){
+  const e=D.find(x=>x.r===r);if(!e)return;
+  tip.innerHTML=`<strong>#${e.r} ${e.t}</strong><br>Absurdity: ${e.a}/5 · Necessity: ${e.n}/5`;
+  tip.classList.add('show');
+  tip.style.left=(ev.clientX+12)+'px';
+  tip.style.top=(ev.clientY-10)+'px';
+};
+window.hideTip=function(){tip.classList.remove('show')};
+document.addEventListener('mousemove',e=>{if(tip.classList.contains('show')){tip.style.left=(e.clientX+12)+'px';tip.style.top=(e.clientY-10)+'px'}});
+
+// ===========================
+// TIMELINE
+// ===========================
+let tlDone=false;
+function renderTL(){
+  if(tlDone)return;tlDone=true;
+  const events=[
+    {y:'1066',t:'<strong>Norman Conquest.</strong> William I replaces the Anglo-Saxon aristocracy. French becomes the language of English courts, Latin dominates written records, and English remains the tongue of common people &mdash; who understand nothing said in their own courts.',u:'https://en.wikipedia.org/wiki/Norman_Conquest'},
+    {y:'1215',t:'<strong>Magna Carta.</strong> <em>Habeas corpus</em> takes root. The Great Writ begins its 800-year journey into constitutional law.',u:'https://www.law.cornell.edu/wex/habeas_corpus'},
+    {y:'1285',t:'<strong>Statute <em>De Donis</em></strong> creates the <strong>fee tail</strong> &mdash; restricting land inheritance to specific bloodlines to preserve aristocratic dynasties. Will take five centuries to abolish.',u:'https://en.wikipedia.org/wiki/Rule_against_perpetuities'},
+    {y:'1362',t:'<strong>Statute of Pleading</strong> orders courts to use English because French is &ldquo;too unknown.&rdquo; The statute itself is written in French. Implementation fails spectacularly.',u:'https://en.wikipedia.org/wiki/Pleading_in_English_Act_1362'},
+    {y:'1631',t:'<strong>Last known Law French court report:</strong> a judge assaulted by a prisoner with a brickbat, recorded in corrupt French-Latin-English pidgin. The death rattle of Law French.',u:'https://en.wikipedia.org/wiki/Law_French'},
+    {y:'1731',t:'<strong>Proceedings in Courts of Justice Act.</strong> English finally mandatory in courts. But the vocabulary of three languages is already embedded in every doctrine, statute, and form.',u:'https://en.wikipedia.org/wiki/Proceedings_in_Courts_of_Justice_Act_1730'},
+    {y:'1787',t:'<em>Jee v. Audley:</em> the <strong>&ldquo;fertile octogenarian&rdquo;</strong> is born &mdash; the legal presumption that an 85-year-old can conceive a child. Property law&rsquo;s most absurd fiction.',u:'https://lsd.law/define/fertile-octogenarian-rule'},
+    {y:'1837',t:'<em>Vaughan v. Menlove:</em> the <strong>&ldquo;reasonable person&rdquo;</strong> standard emerges after a man stacks hay near cottages, says &ldquo;I&rsquo;ll chance it,&rdquo; and burns down two buildings.',u:'https://en.wikipedia.org/wiki/Vaughan_v_Menlove'},
+    {y:'1939',t:'Justice <strong>Frankfurter</strong> coins <strong>&ldquo;fruit of the poisonous tree&rdquo;</strong> in <em>Nardone v. United States.</em> The exclusionary rule gets its most memorable metaphor.',u:'https://www.law.cornell.edu/wex/fruit_of_the_poisonous_tree'},
+    {y:'1963',t:'<strong>David Mellinkoff</strong> publishes <em>The Language of the Law.</em> The founding text of the plain language movement. &ldquo;Maybe the lawyers don&rsquo;t understand each other.&rdquo;',u:'https://nysba.org/thoughts-on-legal-writing-from-the-greatest-of-them-all-david-mellinkoff/'},
+    {y:'1975',t:'<strong>Citibank</strong> publishes a <strong>plain-English promissory note</strong> &mdash; the &ldquo;coming of age&rdquo; of the plain language movement. Senator Proxmire reads it into the Congressional Record.',u:'https://ir.lawnet.fordham.edu/faculty_scholarship/476/'},
+    {y:'1998',t:'<strong>SEC</strong> mandates <strong>plain English in prospectuses.</strong> Warren Buffett writes the foreword to the <em>Plain English Handbook.</em>',u:'https://www.sec.gov/pdf/handbook.pdf'},
+    {y:'1999',t:'<strong>Lord Chancellor</strong> banishes Latin and legal jargon from English civil courts. <strong>Bryan Garner</strong> becomes editor-in-chief of <em>Black&rsquo;s Law Dictionary.</em>',u:'https://lawprose.org/bryan-garner/'},
+    {y:'2010',t:'President Obama signs the <strong>Plain Writing Act.</strong> Federal agencies must use clear language. &ldquo;Shall&rdquo; officially replaced by &ldquo;must.&rdquo; Legalese barely notices.',u:'https://www.govinfo.gov/content/pkg/PLAW-111publ274/html/PLAW-111publ274.htm'},
+    {y:'2023',t:'<strong>MIT/<em>PNAS</em> study:</strong> lawyers themselves prefer plain English and rate it equally enforceable. The dominant explanation for legalese: pure tradition. The &ldquo;magic spell hypothesis.&rdquo;',u:'https://pmc.ncbi.nlm.nih.gov/articles/PMC10266064/'}
+  ];
+  document.getElementById('tl').innerHTML=events.map(e=>{
+    const linkHTML=e.u?` <a href="${e.u}" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--gold);opacity:0.6;text-decoration:none;margin-left:0.3rem" title="Source">[source]</a>`:'';
+    return `<div class="tl-item"><div class="tl-year">${e.y}</div><div class="tl-text">${e.t}${linkHTML}</div></div>`;
+  }).join('');
+}
+
+// ===========================
+// BRACKET: RES IPSA BRACKETUR
+// ===========================
+function goToBracket(){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  document.querySelector('[data-p="bracket"]').classList.add('active');
+  document.getElementById('bracket').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+window.goToBracket=goToBracket;
+
+let bkState=null;
+const regionNames=['Latin Division','French Division','English Division','Mixed Division'];
+
+function bkInit(){
+  const sorted=[...D].sort((a,b)=>b.a-a.a||a.r-b.r).slice(0,32);
+  sorted.forEach((e,i)=>{
+    e._seed=(i%8)+1;
+    e._region=regionNames[Math.floor(i/8)];
+    e._regionIdx=Math.floor(i/8);
+  });
+  const r1=[];
+  for(let ri=0;ri<4;ri++){
+    const reg=sorted.filter(e=>e._regionIdx===ri).sort((a,b)=>a._seed-b._seed);
+    r1.push({a:reg[0],b:reg[7],region:regionNames[ri]});
+    r1.push({a:reg[3],b:reg[4],region:regionNames[ri]});
+    r1.push({a:reg[2],b:reg[5],region:regionNames[ri]});
+    r1.push({a:reg[1],b:reg[6],region:regionNames[ri]});
+  }
+  bkState={
+    allRounds:[r1],
+    currentRound:0,
+    matchIdx:0,
+    roundNames:['Round of 32','Sweet Sixteen','Elite Eight','Final Four','Championship'],
+    winners:[],
+    finalFour:[],
+    champion:null
+  };
+}
+
+function bkCurrentMatchups(){return bkState.allRounds[bkState.currentRound]}
+
+function bkShowMatch(){
+  const s=bkState;if(!s||s.champion)return;
+  const matchups=bkCurrentMatchups();
+  const m=matchups[s.matchIdx];if(!m)return;
+  document.getElementById('bk-round-name').textContent=s.roundNames[Math.min(s.currentRound,4)];
+  const regionLabel=m.region||(m.a._region===m.b._region?m.a._region:'Cross-Division');
+  document.getElementById('bk-round-info').textContent=`Match ${s.matchIdx+1} of ${matchups.length} · ${regionLabel}`;
+  document.getElementById('bk-progress').style.width=`${(s.matchIdx/matchups.length)*100}%`;
+  document.getElementById('bk-seed-a').textContent=`#${m.a._seed} seed · ${m.a._region}`;
+  document.getElementById('bk-term-a').textContent=m.a.t;
+  const ma=m.a.m;document.getElementById('bk-meaning-a').textContent=ma.length>110?ma.slice(0,110)+'...':ma;
+  const sa=m.a.s;document.getElementById('bk-snark-a').textContent=sa.length>110?sa.slice(0,110)+'...':sa;
+  document.getElementById('bk-seed-b').textContent=`#${m.b._seed} seed · ${m.b._region}`;
+  document.getElementById('bk-term-b').textContent=m.b.t;
+  const mb=m.b.m;document.getElementById('bk-meaning-b').textContent=mb.length>110?mb.slice(0,110)+'...':mb;
+  const sb=m.b.s;document.getElementById('bk-snark-b').textContent=sb.length>110?sb.slice(0,110)+'...':sb;
+  const mc=document.getElementById('bk-matchup');
+  mc.style.animation='none';mc.offsetHeight;mc.style.animation='matchIn 0.3s ease';
+}
+
+window.bkVote=function(choice){
+  const s=bkState;if(!s||s.champion)return;
+  const matchups=bkCurrentMatchups();
+  const m=matchups[s.matchIdx];
+  const winner=choice==='a'?m.a:m.b;
+  const el=document.getElementById(choice==='a'?'bk-opt-a':'bk-opt-b');
+  el.style.background='var(--gold-dim)';
+  setTimeout(()=>{el.style.background=''},250);
+  s.winners.push(winner);
+  s.matchIdx++;
+  if(s.matchIdx>=matchups.length){
+    if(s.winners.length===1){
+      s.champion=s.winners[0];
+      document.getElementById('bk-game').classList.remove('on');
+      const chPanel=document.getElementById('bk-champion');
+      chPanel.classList.add('on');
+      document.getElementById('bk-champ-term').textContent=s.champion.t;
+      document.getElementById('bk-champ-snark').textContent=s.champion.s;
+      // Absurdity pips
+      const dotCols=['#5a8a6a','#7a9a5a','#b8860b','#c06030','#b54545'];
+      const pc=dotCols[Math.min(s.champion.a-1,4)];
+      document.getElementById('bk-champ-pips').innerHTML=Array.from({length:5},(_,i)=>
+        `<div class="bk-rc-pip" style="background:${i<s.champion.a?pc:'rgba(255,255,255,0.06)'}"></div>`
+      ).join('');
+      // Final Four with seeds
+      const ff=s.finalFour||[];
+      if(ff.length>=2){
+        document.getElementById('bk-ff-grid').innerHTML=ff.map(e=>{
+          const isC=e.t===s.champion.t;
+          return `<div class="bk-rc-ff-item ${isC?'is-champ':''}">
+            <span class="bk-rc-ff-div"><strong>${e._region}</strong></span>
+            <span class="bk-rc-ff-seed-line"><em>#${e._seed} Seed</em></span>
+            <span class="bk-rc-ff-term">${e.t}</span>
+            ${isC?'<span class="bk-rc-ff-trophy">\uD83C\uDFC6</span>':''}
+          </div>`;
+        }).join('');
+      }
+      return;
+    }
+    // Capture Final Four
+    if(s.winners.length===4){s.finalFour=[...s.winners]}
+    const nextMatchups=[];
+    for(let i=0;i<s.winners.length;i+=2){
+      const wa=s.winners[i],wb=s.winners[i+1];
+      nextMatchups.push({a:wa,b:wb,region:(wa._region===wb._region)?wa._region:null});
+    }
+    s.allRounds.push(nextMatchups);
+    s.currentRound++;s.matchIdx=0;s.winners=[];
+  }
+  bkShowMatch();
+};
+
+document.getElementById('bk-start').addEventListener('click',()=>{
+  bkInit();
+  document.getElementById('bk-intro').style.display='none';
+  document.getElementById('bk-game').classList.add('on');
+  document.getElementById('bk-champion').classList.remove('on');
+  bkShowMatch();
+});
+
+function bkReset(){
+  bkState=null;
+  document.getElementById('bk-intro').style.display='';
+  document.getElementById('bk-game').classList.remove('on');
+  document.getElementById('bk-champion').classList.remove('on');
+}
+window.bkReset=bkReset;
+</script>
+</body>
+</html>

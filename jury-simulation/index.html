@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Jurors for the AI Trial — Musk v. Altman</title>
+
+<!-- ============================================================
+     SHARING METADATA  (LinkedIn / Open Graph / Twitter)
+     Deployed at https://kylebahr.tiiny.site/
+     ============================================================ -->
+<meta name="description" content="Can trial lawyers use AI to identify trial inflection points before they happen? An experiment using Claude Cowork to walk nine simulated jurors through the entire Musk v. Altman trial record, day by day." />
+<meta name="author" content="Kyle Bahr" />
+
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kylebahr.tiiny.site/" />
+<meta property="og:title" content="AI Jurors for the AI Trial — a Claude Cowork experiment on Musk v. Altman" />
+<meta property="og:description" content="Can trial lawyers use AI to identify trial inflection points before they happen? An experiment using Claude Cowork to walk nine simulated jurors through the entire Musk v. Altman trial record, day by day." />
+<meta name="image" property="og:image" content="https://kylebahr.tiiny.site/preview.png" />
+<meta property="og:image:secure_url" content="https://kylebahr.tiiny.site/preview.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="627" />
+<meta property="og:image:alt" content="AI Jurors for the AI Trial — nine juror profile dots and the showcase title on a dark background." />
+<meta property="og:site_name" content="Kyle Bahr · Claude Cowork experiments" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="AI Jurors for the AI Trial" />
+<meta name="twitter:description" content="A simulated jury walks through the entire Musk v. Altman record — a Claude Cowork experiment." />
+<meta name="twitter:image" content="https://kylebahr.tiiny.site/preview.png" />
+<!-- ============================================================ -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #08080b;
+    --bg-2: #0f0f14;
+    --line: #1f1f29;
+    --line-2: #2c2c3a;
+    --ink: #ebe9e3;
+    --ink-2: #a4a097;
+    --ink-3: #6b6859;
+    --pl: #6ee7a0;
+    --df: #f4a949;
+    --vd: #b9a4ff;
+    --gd: #e8c87a;       /* warm gilt accent */
+    --rs: #e09a8e;       /* dusty rose */
+    --tl: #7fd1c4;       /* faded teal */
+    --hl: #f5f1e8;
+  }
+  html, body { background: var(--bg); color: var(--ink); }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 17px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .serif { font-family: 'Fraunces', Georgia, serif; font-feature-settings: 'ss01' on; }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; font-feature-settings: 'tnum'; }
+  .prose-col { max-width: 680px; margin-left: auto; margin-right: auto; }
+  .wide-col { max-width: 1100px; margin-left: auto; margin-right: auto; }
+  .drop::first-letter {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 4.2em;
+    line-height: 0.85;
+    float: left;
+    padding: 0.05em 0.1em 0 0;
+    color: var(--gd);
+  }
+  .accent-vd { color: var(--vd); }
+  .accent-gd { color: var(--gd); }
+  .accent-rs { color: var(--rs); }
+  .accent-tl { color: var(--tl); }
+  .accent-pl { color: var(--pl); }
+  .accent-df { color: var(--df); }
+  .eyebrow-vd { color: var(--vd); }
+  .eyebrow-gd { color: var(--gd); }
+  .eyebrow-rs { color: var(--rs); }
+  .eyebrow-tl { color: var(--tl); }
+  .section-tick {
+    width: 36px; height: 2px; border-radius: 2px;
+    margin-bottom: 18px;
+  }
+  /* Numbered offset paragraphs for emphasis lists */
+  .offset-list { list-style: none; padding-left: 0; }
+  .offset-list > li {
+    position: relative;
+    padding-left: 3.2em;
+    margin-top: 1.6em;
+    color: var(--ink);
+  }
+  .offset-list > li:first-child { margin-top: 0; }
+  .offset-list > li > .marker {
+    position: absolute;
+    left: 0;
+    top: -0.05em;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.7em;
+    color: var(--vd);
+    line-height: 1;
+  }
+  /* Verdict-is-in update strip in hero */
+  .verdict-strip {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 2.5em;
+    padding: 14px 22px;
+    background: rgba(232, 200, 122, 0.07);
+    border: 1px solid rgba(232, 200, 122, 0.35);
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+    max-width: 720px;
+  }
+  .verdict-strip:hover {
+    background: rgba(232, 200, 122, 0.12);
+    border-color: rgba(232, 200, 122, 0.55);
+  }
+  .verdict-strip .vs-label {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gd);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .verdict-strip .vs-text {
+    color: var(--ink);
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.4;
+  }
+  .verdict-strip .vs-arrow {
+    color: var(--gd);
+    font-size: 18px;
+    margin-left: auto;
+  }
+  @media (max-width: 640px) {
+    .verdict-strip { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .verdict-strip .vs-arrow { margin-left: 0; }
+  }
+  /* Legend row for verdict table */
+  .verdict-legend {
+    display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-3);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 12px 0;
+    margin-bottom: 4px;
+  }
+  .verdict-legend .lg-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    margin-right: 7px; vertical-align: middle;
+  }
+  p { color: var(--ink); }
+  p + p { margin-top: 1.2em; }
+  .lede { font-size: 1.18em; color: var(--ink); line-height: 1.65; }
+  .small-cap { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-3); }
+  .h-section { font-family: 'Fraunces', serif; font-weight: 600; letter-spacing: -0.01em; line-height: 1.15; }
+  a.inline-link { color: var(--ink); border-bottom: 1px solid var(--line-2); transition: border-color 0.2s; }
+  a.inline-link:hover { border-bottom-color: var(--hl); }
+  .pull-quote {
+    font-family: 'Fraunces', serif;
+    font-size: 1.35em;
+    line-height: 1.35;
+    color: var(--hl);
+    border-left: 2px solid var(--vd);
+    padding-left: 1.4em;
+    margin: 1.8em 0;
+  }
+  .pull-quote-attr {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7em;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-top: 0.6em;
+  }
+  hr.divider { border: 0; border-top: 1px solid var(--line); margin: 5em auto; max-width: 680px; }
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 1.1s cubic-bezier(.2,.7,.2,1), transform 1.1s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  /* Scrubber + Panel viz */
+  .panel-stage {
+    position: relative;
+    background: linear-gradient(180deg, #0d0d12 0%, #08080b 100%);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  .panel-stage::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 50% 0%, rgba(185,164,255,0.06), transparent 60%);
+    pointer-events: none;
+  }
+  .juror-node {
+    transition: fill 0.5s, r 0.5s, opacity 0.3s;
+    cursor: pointer;
+  }
+  .juror-label {
+    fill: var(--ink-3);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    pointer-events: none;
+    transition: fill 0.3s;
+  }
+  .juror-name {
+    fill: var(--ink-2);
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    pointer-events: none;
+  }
+  .question-pill {
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    color: var(--ink-2);
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .question-pill:hover { border-color: var(--line-2); color: var(--ink); }
+  .question-pill.active {
+    border-color: var(--vd);
+    background: rgba(185,164,255,0.08);
+    color: var(--hl);
+  }
+  .scrubber-track {
+    position: relative;
+    height: 4px;
+    background: var(--line);
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .scrubber-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--vd), #d4c5ff);
+    border-radius: 999px;
+    transition: width 0.25s;
+  }
+  .scrubber-handle {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 18px; height: 18px;
+    background: var(--hl);
+    border: 3px solid var(--vd);
+    border-radius: 50%;
+    cursor: grab;
+    transition: left 0.25s, transform 0.2s;
+    box-shadow: 0 0 0 8px rgba(185,164,255,0.08);
+  }
+  .scrubber-handle:active { cursor: grabbing; transform: translate(-50%, -50%) scale(1.15); }
+  .day-marker {
+    position: absolute;
+    top: -3px;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 10px;
+    background: var(--line-2);
+  }
+  .day-marker.key { background: var(--vd); }
+  .day-tick {
+    position: absolute;
+    top: 14px;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: var(--ink-3);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .play-btn {
+    background: var(--bg-2);
+    border: 1px solid var(--line-2);
+    color: var(--ink);
+    transition: all 0.2s;
+  }
+  .play-btn:hover { background: rgba(185,164,255,0.1); border-color: var(--vd); color: var(--hl); }
+  .vote-bar {
+    display: flex;
+    height: 32px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .vote-bar-seg {
+    transition: width 0.5s cubic-bezier(.2,.7,.2,1);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(0,0,0,0.7); font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 600;
+  }
+  /* Cards */
+  .moment-card {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 28px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .moment-card:hover {
+    border-color: var(--line-2);
+    transform: translateY(-2px);
+  }
+  /* Verdict reveal */
+  .verdict-row {
+    border-bottom: 1px solid var(--line);
+    padding: 18px 0;
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 18px;
+    align-items: center;
+  }
+  .verdict-row:last-child { border-bottom: 0; }
+  .verdict-answer {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 18px;
+  }
+  .verdict-answer.win-pl { color: var(--pl); }
+  .verdict-answer.win-df { color: var(--df); }
+  .headline-row { background: linear-gradient(90deg, rgba(110,231,160,0.05), transparent); margin: 0 -16px; padding-left: 16px; padding-right: 16px; border-radius: 10px; }
+  /* Counterfactual */
+  .cf-card {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px 24px;
+    transition: all 0.2s;
+  }
+  .cf-card[open] { border-color: var(--vd); }
+  .cf-summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .cf-summary::-webkit-details-marker { display: none; }
+  .cf-card .indicator { transition: transform 0.25s, color 0.25s; color: var(--ink-3); }
+  .cf-card[open] .indicator { transform: rotate(45deg); color: var(--vd); }
+  .cf-body { color: var(--ink-2); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+  /* Stats */
+  .stat-cluster {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  @media (min-width: 640px) {
+    .stat-cluster { grid-template-columns: repeat(4, 1fr); }
+  }
+  .stat-cell {
+    background: var(--bg);
+    padding: 22px 24px;
+  }
+  /* Tooltip */
+  .ttip {
+    position: absolute; z-index: 60; pointer-events: none;
+    opacity: 0; transition: opacity 0.15s;
+    background: #16161d; border: 1px solid var(--line-2);
+    border-radius: 10px; padding: 14px 16px; max-width: 320px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    font-size: 13px;
+  }
+  .ttip.show { opacity: 1; }
+  /* Color legend dots */
+  .swatch { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+  /* Mobile */
+  @media (max-width: 768px) {
+    body { font-size: 16px; }
+    .scrubber-handle { width: 22px; height: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<header class="px-6 pt-20 pb-12 wide-col">
+  <div class="reveal">
+    <div class="small-cap eyebrow-gd mb-8">A Claude Cowork experiment · May 16, 2026</div>
+    <h1 class="serif text-5xl md:text-7xl font-bold leading-[1.02] tracking-tight mb-8 max-w-4xl">
+      <span class="accent-gd">AI</span> Jurors for the <span class="accent-vd">AI</span> Trial.
+    </h1>
+    <p class="lede max-w-2xl text-[var(--ink-2)]">
+      <em>Musk v. Altman</em> is one of this decade&rsquo;s high-profile AI lawsuits. We built a second jury inside Claude Cowork &mdash; nine fictional but rigorously calibrated profiles &mdash; and walked it through the trial record one day at a time. This is the story of how it made up its mind.
+    </p>
+    <a href="#after-verdict" class="verdict-strip">
+      <span class="vs-label">UPDATE &middot; MAY 18, 2026</span>
+      <span class="vs-text">The real jury came back &mdash; in under two hours, all defense. Read what that means for this analysis.</span>
+      <span class="vs-arrow">&rarr;</span>
+    </a>
+  </div>
+</header>
+
+<!-- Hero stats -->
+<section class="px-6 pb-16 wide-col reveal">
+  <div class="stat-cluster">
+    <div class="stat-cell">
+      <div class="mono text-3xl font-medium accent-gd num-counter" data-count="1490">0</div>
+      <div class="small-cap mt-2">documents in corpus</div>
+    </div>
+    <div class="stat-cell">
+      <div class="mono text-3xl font-medium accent-vd num-counter" data-count="254">0</div>
+      <div class="small-cap mt-2">trial-admitted exhibits</div>
+    </div>
+    <div class="stat-cell">
+      <div class="mono text-3xl font-medium accent-tl num-counter" data-count="9">0</div>
+      <div class="small-cap mt-2">simulated jurors</div>
+    </div>
+    <div class="stat-cell">
+      <div class="mono text-3xl font-medium accent-rs num-counter" data-count="13">0</div>
+      <div class="small-cap mt-2">trial days</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ============================================================
+     THE CASE (background)
+     ============================================================ -->
+<section class="px-6 reveal">
+  <div class="prose-col">
+    <div class="section-tick" style="background:var(--gd)"></div>
+    <div class="small-cap eyebrow-gd mb-4">The case, in 90 seconds</div>
+    <h2 class="h-section text-3xl md:text-4xl mb-8">The 2026 federal civil trial between huge AI personalities hinged on trust.</h2>
+    <p class="drop">
+      In December 2015, Elon Musk and Sam Altman launched OpenAI as a Delaware non-profit. The Charter said the organization&rsquo;s &ldquo;primary fiduciary duty is to humanity.&rdquo; Musk pledged a billion dollars; he eventually delivered roughly $38 million.
+    </p>
+    <p>
+      By 2018 the founders had broken; by 2019 OpenAI had spun up a &ldquo;capped-profit&rdquo; subsidiary and taken a billion-dollar check from Microsoft; by 2023 Microsoft was in for tens of billions and the OpenAI nonprofit board had fired Altman and rehired him in a single weekend.
+    </p>
+    <p>
+      In February 2024 Musk sued, and eventually got to the federal courthouse in Oakland &mdash; to Judge Yvonne Gonzalez Rogers, a nine-person jury, three weeks of testimony, and a verdict form with five claims pleaded against three named defendants and twenty corporate affiliates. The trial closed on May 14, 2026.
+    </p>
+    <p>
+      The jury is, as of this writing, deliberating.
+    </p>
+    <p>
+      The plaintiffs&rsquo; theory is simple and biblical: <em class="accent-gd">they stole a charity.</em> The defendants&rsquo; theory is the inverse: Musk got into a power struggle, lost, started his own AI company, and is now <em class="accent-gd">using the federal court as a competitive weapon.</em>
+    </p>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ============================================================
+     THE EXPERIMENT
+     ============================================================ -->
+<section class="px-6 reveal">
+  <div class="prose-col">
+    <div class="section-tick" style="background:var(--vd)"></div>
+    <div class="small-cap eyebrow-vd mb-4">The experiment</div>
+    <h2 class="h-section text-3xl md:text-4xl mb-8">Watch a simulated jury make up its mind in slow motion.</h2>
+    <p>
+      In trial work, you only see the verdict, not the deliberation. The jury arrives at a number, the lawyers walk out into the hallway with theories about what mattered and what didn&rsquo;t, but <em class="accent-gd">no one outside the jury room actually knows.</em> The verdict is a single event; the trial that produced it was three weeks of pivotal inflection points and strategic recalibrations.
+    </p>
+    <p>
+      The premise of this experiment is to use Claude Cowork &mdash; an AI workspace with file access, browser access, and structured reasoning &mdash; to make those inflection points visible and understand their impact on the decision-makers: the jurors.
+    </p>
+    <p>
+      We built nine fictional-but-rigorously-calibrated juror profiles, informed by voir dire reporting and Bay Area demographics (each carrying a parameter vector covering mission integrity, commercial necessity, Musk-motive penalty, Altman-trust penalty, document weight, demeanor weight, and remedy aversion).
+    </p>
+    <p>
+      We assembled the actual trial corpus &mdash; 1,225 docket filings via <a class="inline-link" target="_blank" href="https://www.courtlistener.com/docket/69013420/musk-v-altman/">CourtListener</a>, the 254 trial-admitted exhibits from the parties&rsquo; <a class="inline-link" target="_blank" href="https://app.box.com/s/d8dxew0n3g2xg13y5812lioqa9hxyoo4">public Box folder</a> via <a class="inline-link" target="_blank" href="https://evidence.mts.now/">evidence.mts.now</a>, and the 12 daily trial pages (digests for Days 2&ndash;12 plus the Day 13 live transcript) from <a class="inline-link" target="_blank" href="https://trial.mts.now/">trial.mts.now</a>.
+    </p>
+    <p>
+      Then we ran the trial &mdash; day by day &mdash; through each juror&rsquo;s profile, recording where every belief moved and why.
+    </p>
+    <p>
+      Below is what came out. <strong class="accent-gd">This is not a prediction of the actual jury&rsquo;s verdict.</strong> Nor is it a substitute for jury research.
+    </p>
+    <p>
+      It&rsquo;s a demonstration that an AI workspace can, with appropriate inputs, illuminate the structure of how a particular evidence record will land on a particular kind of panel &mdash; the kind of analysis that, before Gen AI, was the exclusive province of high-end trial consultants.
+    </p>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ============================================================
+     CENTERPIECE: THE PANEL IN MOTION
+     ============================================================ -->
+<section class="px-6 reveal">
+  <div class="wide-col">
+    <div class="section-tick" style="background:var(--tl)"></div>
+    <div class="small-cap eyebrow-tl mb-4">The simulation</div>
+    <h2 class="h-section text-3xl md:text-4xl mb-4">Watch the nine jurors recalibrate across the timeline.</h2>
+    <p class="text-[var(--ink-2)] max-w-2xl mb-10 text-base">
+      Each circle is one juror. Color shows their current lean on the selected verdict question &mdash; <span class="accent-pl" style="font-weight:600">green for plaintiff</span>, <span class="accent-df" style="font-weight:600">amber for defense</span>. Drag the timeline to advance through the trial, or hit play. Click any juror to see why they&rsquo;re sitting where they are.
+    </p>
+
+    <div class="panel-stage p-6 md:p-10 mb-6">
+      <!-- Question selector -->
+      <div class="flex flex-wrap gap-2 mb-6" id="qPills"></div>
+
+      <!-- Stage -->
+      <div class="grid md:grid-cols-[1fr,auto] gap-8 items-center">
+        <!-- SVG -->
+        <div class="relative">
+          <svg id="panelSvg" viewBox="0 0 520 360" class="w-full max-w-[520px] mx-auto block">
+            <!-- nodes added by JS -->
+          </svg>
+        </div>
+        <!-- Vote tally -->
+        <div class="md:w-[260px] space-y-4">
+          <div>
+            <div class="small-cap mb-2">current question</div>
+            <div id="qTitle" class="serif text-xl text-[var(--hl)] leading-snug"></div>
+            <div id="qSub" class="text-[var(--ink-3)] text-xs mt-1 mono"></div>
+          </div>
+          <div>
+            <div class="small-cap mb-2">panel vote, if taken now</div>
+            <div class="vote-bar">
+              <div id="vbY" class="vote-bar-seg" style="background:var(--pl); width:0%"></div>
+              <div id="vbN" class="vote-bar-seg" style="background:var(--df); width:0%"></div>
+            </div>
+            <div class="flex justify-between mt-2 mono text-xs text-[var(--ink-3)]">
+              <span><span class="swatch" style="background:var(--pl)"></span><span id="vbYL">— YES</span></span>
+              <span id="vbNL" class="text-right"><span class="swatch" style="background:var(--df)"></span>— NO</span>
+            </div>
+          </div>
+          <div>
+            <div class="small-cap mb-2">panel mean p(YES)</div>
+            <div id="panelMean" class="mono text-3xl text-[var(--hl)]">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrubber -->
+      <div class="mt-10">
+        <div class="flex items-center justify-between mb-5">
+          <button id="playBtn" class="play-btn rounded-full px-5 py-2 text-sm font-medium flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <span id="playLabel">Play the trial</span>
+          </button>
+          <div id="phaseLabel" class="text-right">
+            <div class="small-cap text-[var(--vd)]">currently showing</div>
+            <div class="serif text-xl text-[var(--hl)]" id="phaseTitle">Before trial · Cold read</div>
+            <div class="text-xs text-[var(--ink-3)] mt-1" id="phaseDate"></div>
+          </div>
+        </div>
+        <div class="relative pb-8">
+          <div class="scrubber-track" id="track">
+            <div class="scrubber-fill" id="fill"></div>
+            <div class="scrubber-handle" id="handle" style="left:0%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Juror detail panel -->
+    <div id="jurorDetail" class="hidden bg-[var(--bg-2)] border border-[var(--line-2)] rounded-2xl p-6 md:p-8 mt-6">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ============================================================
+     HINGE MOMENTS
+     ============================================================ -->
+<section class="px-6 reveal">
+  <div class="wide-col">
+    <div class="section-tick" style="background:var(--rs)"></div>
+    <div class="small-cap eyebrow-rs mb-4">Hinge moments</div>
+    <h2 class="h-section text-3xl md:text-4xl mb-4">Four days that did almost all the work.</h2>
+    <p class="text-[var(--ink-2)] max-w-2xl mb-10 text-base">
+      A jury trial is not a continuous wash of testimony. It&rsquo;s a small number of moments where the evidence is so anchored &mdash; to a phrase, an exhibit, a witness&rsquo;s demeanor &mdash; that it permanently moves where the panel is willing to land. These were the four.
+    </p>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <article class="moment-card">
+        <div class="flex items-baseline justify-between mb-3">
+          <div class="mono text-xs accent-vd">DAY 5 · MAY 1, 2026</div>
+          <div class="small-cap accent-pl">+0.10 plaintiff</div>
+        </div>
+        <h3 class="serif text-2xl mb-3 leading-tight accent-gd">&ldquo;It was a lie.&rdquo;</h3>
+        <p class="text-[var(--ink-2)] text-[15px] leading-relaxed mb-4">
+          When plaintiffs called Greg Brockman to the stand and walked him through his own contemporaneous laptop journal &mdash; six handwritten passages from August and November 2017 &mdash; they were betting on the staying power of a single phrase. They got it. <a class="inline-link" target="_blank" href="https://evidence.mts.now/catalog?ex=PX-161">PX-161</a> reads, in the OpenAI co-founder&rsquo;s own voice: <em>&ldquo;if three months later we&rsquo;re doing b corp then it was a lie.&rdquo;</em> No defense rehab could fully undo it. For the three mission-integrity jurors on the panel, this is the day plaintiff&rsquo;s case became real.
+        </p>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="text-xs text-[var(--ink-3)] mono">moved: J3 · J4 · J6 · J7 · J8 · J9</div>
+          <a class="text-xs mono accent-vd inline-link" target="_blank" href="https://trial.mts.now/day/5">trial.mts.now/day/5 →</a>
+        </div>
+      </article>
+
+      <article class="moment-card">
+        <div class="flex items-baseline justify-between mb-3">
+          <div class="mono text-xs accent-vd">DAY 7 · MAY 5, 2026</div>
+          <div class="small-cap accent-pl">+0.10 plaintiff</div>
+        </div>
+        <h3 class="serif text-2xl mb-3 leading-tight accent-gd">Five words.</h3>
+        <p class="text-[var(--ink-2)] text-[15px] leading-relaxed mb-4">
+          Mira Murati &mdash; OpenAI&rsquo;s former CTO, the interim CEO during the November 2023 firing weekend &mdash; took the stand on Day 7 and said it calmly: <em>&ldquo;Sam was not always candid.&rdquo;</em> Five words from a former insider who has nothing visible to gain. By the end of Day 8, two more former-board members (Toner via video, McCauley via video) had echoed her. The cumulative effect is what gave plaintiff&rsquo;s case the leverage it later traded away.
+        </p>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="text-xs text-[var(--ink-3)] mono">moved: J1 · J3 · J4 · J6 · J7 · J9</div>
+          <a class="text-xs mono accent-vd inline-link" target="_blank" href="https://trial.mts.now/day/7">trial.mts.now/day/7 →</a>
+        </div>
+      </article>
+
+      <article class="moment-card">
+        <div class="flex items-baseline justify-between mb-3">
+          <div class="mono text-xs accent-vd">DAY 9 · MAY 7, 2026</div>
+          <div class="small-cap accent-df">−0.06 defense</div>
+        </div>
+        <h3 class="serif text-2xl mb-3 leading-tight accent-gd">The $200 billion problem.</h3>
+        <p class="text-[var(--ink-2)] text-[15px] leading-relaxed mb-4">
+          Plaintiff&rsquo;s charity-law expert David Schizer was on cross when defense counsel made him concede the number: the OpenAI nonprofit&rsquo;s assets, post-Watershed, are approaching $200 billion. The line did real damage. For unjust-enrichment specifically &mdash; a claim that asks how the defendants got rich at the plaintiff&rsquo;s expense &mdash; the rebut is simple and devastating. The nonprofit got richer than anyone imagined. UE is now structurally hard to argue.
+        </p>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="text-xs text-[var(--ink-3)] mono">moved: J1 · J2 · J5 · J7 · J8 (against plaintiff on UE)</div>
+          <a class="text-xs mono accent-vd inline-link" target="_blank" href="https://trial.mts.now/day/9">trial.mts.now/day/9 →</a>
+        </div>
+      </article>
+
+      <article class="moment-card">
+        <div class="flex items-baseline justify-between mb-3">
+          <div class="mono text-xs accent-vd">DAY 12 · MAY 13, 2026</div>
+          <div class="small-cap accent-pl">+0.08 plaintiff</div>
+        </div>
+        <h3 class="serif text-2xl mb-3 leading-tight accent-gd">&ldquo;I don&rsquo;t recall.&rdquo;</h3>
+        <p class="text-[var(--ink-2)] text-[15px] leading-relaxed mb-4">
+          The Altman cross was the entire trial in microcosm. Musk attorney Steven Molo walked Altman through his own contemporaneous documents &mdash; the 2015 founding emails, the 2017 &ldquo;I remain enthusiastic about the nonprofit structure&rdquo; reply, the 2022 &ldquo;bait and switch&rdquo; text from Musk &mdash; and Altman, again and again, retreated to <em>I don&rsquo;t recall</em> or <em>that&rsquo;s not how I would characterize it.</em> For jurors who&rsquo;d already heard Murati and McCauley call him uncandid, the cross didn&rsquo;t reveal new facts. It confirmed a pattern.
+        </p>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="text-xs text-[var(--ink-3)] mono">moved: J1 · J3 · J4 · J6 · J7 · J8 · J9</div>
+          <a class="text-xs mono accent-vd inline-link" target="_blank" href="https://trial.mts.now/day/12">trial.mts.now/day/12 →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ============================================================
+     THE DELIBERATION
+     ============================================================ -->
+<section class="px-6 reveal">
+  <div class="prose-col">
+    <div class="section-tick" style="background:var(--pl)"></div>
+    <div class="small-cap eyebrow-vd mb-4" style="color:var(--pl)">The deliberation</div>
+    <h2 class="h-section text-3xl md:text-4xl mb-8">How a polarized panel found its compromise.</h2>
+    <p>
+      Walking into deliberation, the simulated panel was split: seven jurors leaned toward finding OpenAI Inc. corporately liable for breach of charitable trust, but only six were willing to extend that liability to Altman personally, and two &mdash; the firmly defense-anchored software engineer (J5) and the retired aerospace operations manager (J2) &mdash; were locked at refusal on both.
+    </p>
+    <p>
+      Unanimity required movement. The trial had produced anchors strong enough that no juror was going to abandon them without a counterweight.
+    </p>
+    <p>
+      What broke the stalemate was the foreperson &mdash; J1, the Santa Clara product operations manager &mdash; putting an explicit trade on the table. The plaintiff anchors (J3, J4, J6, J9) would vote NO on Altman individual liability if the defense anchors (J2, J5) would vote YES on the corporation.
+    </p>
+    <p>
+      Both sides got what they cared most about. The plaintiff side got the institutional finding &mdash; the corporation breached its trust, the public is the beneficiary, the judge can fashion equitable relief. The defense side got the personal-liability NOs that protected the named individuals from money judgments, and the clean defense win on Unjust Enrichment.
+    </p>
+    <p>
+      That is what charitable-trust doctrine permits and what fraud doctrine does not. In a charitable-trust theory, the corporation is the trustee; the credibility hits taken by individual officers can be absorbed into corporate liability without requiring proof that any specific officer committed the specific misrepresentation.
+    </p>
+    <p>
+      <em class="accent-gd">The biggest insight</em> is that Plaintiff&rsquo;s decision to lead with breach of charitable trust &mdash; rather than with fraud or with the more controversial claims &mdash; was the doctrinal choice that made the trial-craft work. At least it did so in this simulation.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     VERDICT REVEAL
+     ============================================================ -->
+<section class="px-6 mt-16 reveal">
+  <div class="wide-col">
+    <div class="panel-stage p-8 md:p-12">
+      <div class="flex items-baseline justify-between mb-8 flex-wrap gap-4">
+        <div>
+          <div class="small-cap mb-2 accent-gd">Predicted verdict</div>
+          <h3 class="serif text-3xl text-[var(--hl)]">Plaintiff wins one claim &mdash; and <span class="accent-gd">only one</span>.</h3>
+        </div>
+        <div class="text-right">
+          <div class="text-[var(--ink-3)] text-xs mono uppercase tracking-widest">single-best outcome</div>
+          <div class="mono text-3xl text-[var(--hl)]">~40%</div>
+          <div class="text-[var(--ink-3)] text-xs mono uppercase tracking-widest mt-1">probability for Pattern B</div>
+        </div>
+      </div>
+
+      <div class="verdict-legend">
+        <span><span class="lg-dot" style="background:var(--pl)"></span>green &mdash; plaintiff prevails</span>
+        <span><span class="lg-dot" style="background:var(--df)"></span>amber &mdash; defense prevails</span>
+      </div>
+
+      <div id="verdictRows"></div>
+
+      <div class="mt-10 pt-8 border-t border-[var(--line)]">
+        <div class="small-cap mb-4">Distribution over realistic outcomes</div>
+        <div id="probBars" class="space-y-2"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ============================================================
+     AFTER THE VERDICT  (added after real jury came back)
+     ============================================================ -->
+<section id="after-verdict" class="px-6 reveal">
+  <div class="prose-col">
+    <div class="section-tick" style="background:var(--gd)"></div>
+    <div class="small-cap eyebrow-gd mb-4">After the verdict &middot; May 18, 2026</div>
+    <h2 class="h-section text-3xl md:text-4xl mb-8">What the real jury decided in under two hours.</h2>
+    <p>
+      In less than two hours, the real jury came back unanimously for the defense &mdash; entirely on statute-of-limitations grounds. The breach-of-charitable-trust claim was time-barred under a three-year statute; unjust enrichment under a two-year statute; the Microsoft aiding-and-abetting claim fell the same way. Judge Gonzalez Rogers accepted the advisory verdict and dismissed all of Musk&rsquo;s claims as untimely. Musk has said he will appeal.
+    </p>
+    <p>
+      Our simulation predicted differently. Pattern B &mdash; a corporate breach-of-charitable-trust win &mdash; was our most probable outcome at roughly forty percent. The actual verdict looks closest to Pattern C, our full-defense scenario at fifteen percent.
+    </p>
+    <p>
+      But the sensitivity analysis flagged the continuous-accrual jury instruction as the single most outcome-determinative element of the case, with a roughly eighty-percent verdict-flip rating. The real case turned on exactly that point. The simulation called the wrong winner on the gate &mdash; it called the gate itself, and the single hinge on it, correctly.
+    </p>
+    <p>
+      We were never trying to predict the verdict. We were trying to see whether an AI workspace can help a litigator identify the inflection points before they happen &mdash; and decide where to spend her best advocacy. <em class="accent-gd">The simulation can be wrong on the verdict and still be right on the strategy.</em>
+    </p>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ============================================================
+     LIMITS  (moved up — appears right after verdict)
+     ============================================================ -->
+<section class="px-6 reveal">
+  <div class="prose-col">
+    <div class="section-tick" style="background:var(--rs)"></div>
+    <div class="small-cap eyebrow-rs mb-4">Honest limits</div>
+    <h2 class="h-section text-3xl md:text-4xl mb-8">Five things this simulation cannot do.</h2>
+    <ol class="space-y-6 text-[var(--ink-2)] list-none pl-0">
+      <li class="pl-10 relative">
+        <span class="serif text-[var(--vd)] absolute left-0 top-0 text-2xl">1.</span>
+        <strong class="text-[var(--hl)] font-semibold">It cannot predict the actual jury&rsquo;s verdict.</strong> The jurors are fictional. The evidence record is real, but the testimony is reconstructed from secondary sources (Trial Sheets + MTS digests) rather than from official transcripts. The deliberation simulation is a model of how a panel <em>composed this way</em> would resolve a case <em>structured this way</em>, not a forecast.
+      </li>
+      <li class="pl-10 relative">
+        <span class="serif text-[var(--vd)] absolute left-0 top-0 text-2xl">2.</span>
+        <strong class="text-[var(--hl)] font-semibold">It cannot replace empirical jury research.</strong> Mock juries, shadow juries, and post-verdict interviews remain the gold standard for understanding lay juror behavior. AI-as-juror is a thinking aid, not an empirical method, and it does not solve the LLM-projection problem.
+      </li>
+      <li class="pl-10 relative">
+        <span class="serif text-[var(--vd)] absolute left-0 top-0 text-2xl">3.</span>
+        <strong class="text-[var(--hl)] font-semibold">It cannot model courtroom demeanor in any rigorous way.</strong> Witness credibility is a function of tone, hesitation, eye contact, sweat. We captured &ldquo;Sam was not always candid&rdquo; as a moment, but we could not see how Murati delivered it. Real jurors are watching live theater.
+      </li>
+      <li class="pl-10 relative">
+        <span class="serif text-[var(--vd)] absolute left-0 top-0 text-2xl">4.</span>
+        <strong class="text-[var(--hl)] font-semibold">It cannot account for the randomness of real deliberation.</strong> Real juries deadlock for reasons that have nothing to do with the evidence &mdash; personality conflicts, fatigue, life circumstances. The simulation produces a tidy compromise because the simulated jurors are tidy actors.
+      </li>
+      <li class="pl-10 relative">
+        <span class="serif text-[var(--vd)] absolute left-0 top-0 text-2xl">5.</span>
+        <strong class="text-[var(--hl)] font-semibold">It cannot validate itself.</strong> The convergence between the simulation&rsquo;s Pattern B verdict and the a priori prediction of the original juror profile document is coherence, not evidence. The framework predicts what it was set up to predict.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ============================================================
+     COUNTERFACTUALS
+     ============================================================ -->
+<section class="px-6 reveal">
+  <div class="wide-col">
+    <div class="section-tick" style="background:var(--df)"></div>
+    <div class="small-cap mb-4 accent-df">Sensitivity</div>
+    <h2 class="h-section text-3xl md:text-4xl mb-4">What if any one of these hadn&rsquo;t happened?</h2>
+    <p class="text-[var(--ink-2)] max-w-2xl mb-10 text-base">
+      A core use of this kind of simulation is counterfactual reasoning: not what is the verdict, but what&rsquo;s the marginal contribution of a specific piece of evidence to the verdict. Click each one to see how the case would have shifted in its absence.
+    </p>
+
+    <div class="space-y-3" id="cfList"></div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ============================================================
+     STRATEGIC INSIGHTS
+     ============================================================ -->
+<section class="px-6 reveal">
+  <div class="prose-col">
+    <div class="section-tick" style="background:var(--vd)"></div>
+    <div class="small-cap eyebrow-vd mb-4">For trial lawyers</div>
+    <h2 class="h-section text-3xl md:text-4xl mb-8">What this kind of analysis is actually good for.</h2>
+    <p>
+      The temptation, looking at an exercise like this, is to ask whether the AI got the verdict right. That is the wrong question, and the wrong test. <em class="accent-gd">The actual question is</em> whether the analysis surfaces things a litigator wouldn&rsquo;t otherwise see &mdash; and surfaces them <em>before</em> they become irreversible at trial.
+    </p>
+    <p>
+      Consider three things this run made visible:
+    </p>
+    <ol class="offset-list" style="margin-top: 1.6em;">
+      <li>
+        <span class="marker">1.</span>
+        <strong class="text-[var(--hl)] font-semibold">The witness order.</strong> Plaintiff&rsquo;s witness order functioned as a prosecutorial impeachment ladder against Altman: Murati, then Toner, then McCauley, then Sutskever, all <em>before</em> Altman took the stand. By the time Altman testified, the panel already had a four-witness prior on his credibility; his Day 12 &ldquo;I don&rsquo;t recall&rdquo; cross then confirmed the prior rather than establishing it. That&rsquo;s a textbook trial-craft choice &mdash; but it&rsquo;s the kind of choice a junior associate could miss if they were charting witnesses by topic instead of by impeachment strategy.
+      </li>
+      <li>
+        <span class="marker">2.</span>
+        <strong class="text-[var(--hl)] font-semibold">The doctrine choice.</strong> Plaintiff led with breach of charitable trust, not with fraud. In charitable-trust doctrine, the corporation is the trustee and individual officers&rsquo; credibility hits can be absorbed into institutional liability without specific-intent proof. In fraud, you can&rsquo;t make that transfer &mdash; you&rsquo;d need to prove a specific actor made a specific knowing misrepresentation to a specific recipient who reasonably relied. The compromise verdict the simulation produced is only available under breach of charitable trust, not under fraud. The doctrinal architecture is what made the verdict shape possible.
+      </li>
+      <li>
+        <span class="marker">3.</span>
+        <strong class="text-[var(--hl)] font-semibold">The continuous-accrual jury instruction.</strong> Defense had a clean statute-of-limitations bar on the evidence &mdash; Musk&rsquo;s September 2020 &ldquo;captured by Microsoft&rdquo; tweet plainly put him on notice more than four years before the operative complaint. But the continuous-accrual instruction, applied through the October 2025 Watershed PBC conversion as a fresh breach within the limitations window, undid the bar for the rule-disciplined jurors. The case dies at the gate without that instruction. Defense almost certainly should have fought it harder than the record suggests they did.
+      </li>
+    </ol>
+    <p class="mt-10">
+      None of these are verdict predictions. <em class="accent-gd">They are structural observations about how this evidence record interacts with this panel composition under this doctrine.</em> That kind of observation, generated overnight by an AI workspace from a set of structured inputs, is the use case worth taking seriously. It&rsquo;s not the work of a trial consultant. It&rsquo;s the work that lets a trial consultant focus on the work that requires human judgment.
+    </p>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ============================================================
+     HOW IT WAS BUILT
+     ============================================================ -->
+<section class="px-6 reveal">
+  <div class="prose-col">
+    <div class="section-tick" style="background:var(--tl)"></div>
+    <div class="small-cap eyebrow-tl mb-4">Under the hood</div>
+    <h2 class="h-section text-3xl md:text-4xl mb-8">How the corpus was assembled.</h2>
+    <p>
+      The entire pipeline ran inside one <a class="inline-link" target="_blank" href="https://claude.ai/">Claude Cowork</a> project. The docket was pulled from <a class="inline-link" target="_blank" href="https://www.courtlistener.com/docket/69013420/musk-v-altman/">CourtListener</a> via its REST API. The 254 trial exhibits came from the parties&rsquo; <a class="inline-link" target="_blank" href="https://app.box.com/s/d8dxew0n3g2xg13y5812lioqa9hxyoo4">public Box folder</a> per Pretrial Order No. 1 (Dkt. 446 and Dkt. 505-1), then were reconciled with the curated catalog at <a class="inline-link" target="_blank" href="https://evidence.mts.now/">evidence.mts.now</a>. The 12 daily trial pages from <a class="inline-link" target="_blank" href="https://trial.mts.now/">trial.mts.now</a> were captured via headless Chromium because the wiki is a React SPA that doesn&rsquo;t render to plain HTML.
+    </p>
+    <p>
+      The simulation itself ran in five phases: cold-read priors per juror per question, day-by-day evidence updates with witness-credibility tracking, closings and jury instructions, multi-round deliberation with foreperson brokering, and a final sensitivity pass. Every phase persisted structured state to disk so any phase could be re-run with different assumptions without rebuilding the prior phases.
+    </p>
+    <p>
+      The complete set of working files &mdash; pipeline scripts, phase reports, state JSONs, and the original juror-profile document &mdash; sits in a single project folder, reproducible by any user with the same Cowork project setup.
+    </p>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="px-6 pt-10 pb-20 wide-col">
+  <div class="border-t border-[var(--line)] pt-12">
+    <div class="text-[var(--ink-3)] text-xs mono text-center">
+      Built by Kyle Bahr and Claude Cowork Opus 4.7 &middot; Simulation run May 16, 2026 &middot; Verdict rendered May 18, 2026
+    </div>
+  </div>
+</footer>
+
+<div id="tip" class="ttip mono"></div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const jurors = [
+  {id:"J1", label:"Product Operations Manager", region:"Santa Clara County", age:42, role:"Health-tech product ops",
+   tag:"swing · foreperson",
+   bio:"MBA-trained, governance-fluent, organized. Operates from a decision-tree habit of mind that’s wary of personality-driven founder mythologies. The kind of juror who could become the room’s natural foreperson because she’s swing-positioned and credible to both factions.",
+   stance:"She found Brockman’s journal hard to dismiss but kept Musk’s $1B/$38M gap and Tesla-AGI tweet in view. By deliberation she was willing to broker the compromise that produced unanimity."},
+  {id:"J2", label:"Retired Aerospace Ops Manager", region:"Marin County", age:59, role:"Former Lockheed Martin",
+   tag:"swing · defense-leaning",
+   bio:"Engineer’s pragmatist. Respects Musk’s products, not his politics. Defaults to ‘what was the viable alternative’ as the dispositive question for complex technical organizations. Strong commercial-necessity priors.",
+   stance:"Stayed defense-leaning across the trial. Conceded the SOL gate after the continuous-accrual instruction overrode his pragmatic ‘Musk-knew-in-2020’ read. Took the corporate-liability finding only as part of the deliberation trade."},
+  {id:"J3", label:"Painter / Small Contractor", region:"Contra Costa County", age:38, role:"Self-employed",
+   tag:"plaintiff anchor",
+   bio:"Practical-fairness lens. Treats public promises as binding the way she treats client contracts. Non-tech perspective: when a fancy organization changes the deal after taking money on the old deal, that’s the heart of the case.",
+   stance:"Anchored hard on mission-integrity. Brockman’s journal and Murati’s testimony both spoke her language. Conceded UE in deliberation only after the DAF standing argument landed."},
+  {id:"J4", label:"Public-Sector Psychiatrist", region:"Alameda County", age:51, role:"Community behavioral health",
+   tag:"both-sides skeptic",
+   bio:"Trained to evaluate narrative consistency, defensiveness, rationalization. The kind of juror who hears ‘I don’t recall’ and reads it as a pattern, not a memory failure. Skeptical of celebrity founders generally.",
+   stance:"Read Altman’s cross as confirmation of the credibility cascade that Murati and McCauley had set up. Moved most on the trial’s hinge days."},
+  {id:"J5", label:"Senior Software Engineer", region:"San Francisco", age:29, role:"Fintech infrastructure",
+   tag:"defense anchor · foreperson",
+   bio:"Anti-hype technical mind. Reads mission language as aspirational, not contractual. Believes frontier AI required commercialization and that the structural shifts were operationally forced rather than morally chosen. Remedy aversion at its ceiling.",
+   stance:"Stayed firm on defense across all questions. Took the BCT-OpenAI YES vote only as part of the compromise — and only because the alternative was retrial."},
+  {id:"J6", label:"Retired Foundation Grants Officer", region:"Napa County", age:64, role:"Museum board volunteer",
+   tag:"plaintiff anchor · swing on individuals",
+   bio:"Stewardship lens from a career in nonprofit governance. Distinguishes sharply between ‘a nonprofit may use business tools’ and ‘a nonprofit may abandon the donor-facing mission.’ The juror plaintiff most prayed for.",
+   stance:"Mission integrity at maximum. Moved fastest on Brockman’s journal and Schizer’s expert math. Held Altman individual liability above 0.85 throughout deliberation, but accepted the trade-down to NO on individual liability."},
+  {id:"J7", label:"Healthcare IT Analyst", region:"San Mateo County", age:45, role:"Vendor governance",
+   tag:"bridge swing",
+   bio:"Lives in the world where vendor dependency turns into practical control whether or not the contract says so. Highly responsive to Microsoft-capture evidence; suspicious of cloud lock-in.",
+   stance:"Decisively moved by Nadella’s own ‘I don’t want to be IBM’ email. The kind of bridge vote whose movement on BCT-OpenAI Inc. settled the corporate-liability question."},
+  {id:"J8", label:"Legal Operations Coordinator", region:"Alameda County", age:33, role:"Biotech in-house",
+   tag:"doc-checker",
+   bio:"Not a lawyer, but lives among them. Document-disciplined. ‘Where in the record is that?’ is her trial mode. Rule-following on jury instructions to a degree most jurors aren’t.",
+   stance:"Stayed defense-leaning on the merits until the Microsoft Board Memo trio gave her a tight documentary chain to anchor on. The continuous-accrual instruction moved her decisively on SOL."},
+  {id:"J9", label:"Retired Public-School Principal", region:"Contra Costa County", age:68, role:"K-12 administration",
+   tag:"plaintiff stewardship anchor",
+   bio:"Evaluates leaders by candor. AI’s effects on students, teachers, learning, and credentials sit close to him. Public missions, in his lens, are promises.",
+   stance:"Moved with J3, J4, J6 on the Altman-credibility cascade. Took comfort from the institutional-only verdict as protecting the public mission without enriching Musk personally."}
+];
+
+// 8 verdict questions with full per-juror per-phase data
+// Phases: 0=Cold, 1-12=D2-D13, 13=Post-Instructions
+const phaseLabels = [
+  {short:"Cold", title:"Before trial · Cold read", date:"based on profile parameters only"},
+  {short:"D2",  title:"Day 2 of trial", date:"Apr 28 · Openings + Musk direct begins"},
+  {short:"D3",  title:"Day 3", date:"Apr 29 · Musk cross by Savitt — credibility takedown"},
+  {short:"D4",  title:"Day 4", date:"Apr 30 · Birchall + Russell expert begins"},
+  {short:"D5",  title:"Day 5", date:"May 1 · Brockman journal day"},
+  {short:"D6",  title:"Day 6", date:"May 4 · Brockman defense rehab + Wu deposition"},
+  {short:"D7",  title:"Day 7", date:"May 5 · Murati live · ‘Sam was not always candid’"},
+  {short:"D8",  title:"Day 8", date:"May 6 · Toner + McCauley + Schizer math"},
+  {short:"D9",  title:"Day 9", date:"May 7 · Schizer cross · $200B concession"},
+  {short:"D10", title:"Day 10", date:"May 11 · Microsoft day · Nadella + Sutskever"},
+  {short:"D11", title:"Day 11", date:"May 12 · Altman direct"},
+  {short:"D12", title:"Day 12", date:"May 13 · Altman cross · ‘I don’t recall’"},
+  {short:"D13", title:"Day 13", date:"May 14 · Wazzan damages expert"},
+  {short:"Inst", title:"After closings + jury instructions", date:"continuous-accrual instruction in play"}
+];
+
+const trajectories = {
+  "q2a": {
+    title: "Did OpenAI, Inc. breach the charitable trust?",
+    sub: "Q2a · the load-bearing corporate-liability question",
+    data: {
+      J1:[0.45,0.45,0.38,0.38,0.45,0.44,0.46,0.47,0.42,0.43,0.43,0.50,0.50,0.53],
+      J2:[0.30,0.30,0.27,0.27,0.30,0.31,0.31,0.31,0.29,0.27,0.27,0.27,0.27,0.27],
+      J3:[0.65,0.68,0.62,0.62,0.72,0.70,0.72,0.74,0.72,0.75,0.74,0.75,0.75,0.75],
+      J4:[0.55,0.55,0.55,0.55,0.62,0.60,0.60,0.62,0.60,0.62,0.61,0.62,0.62,0.62],
+      J5:[0.20,0.20,0.18,0.18,0.21,0.20,0.20,0.20,0.20,0.21,0.21,0.21,0.21,0.21],
+      J6:[0.70,0.73,0.73,0.73,0.80,0.80,0.81,0.83,0.82,0.86,0.85,0.86,0.86,0.88],
+      J7:[0.50,0.50,0.45,0.45,0.52,0.52,0.52,0.52,0.49,0.60,0.60,0.63,0.60,0.63],
+      J8:[0.40,0.37,0.34,0.34,0.40,0.38,0.38,0.46,0.46,0.47,0.47,0.52,0.52,0.55],
+      J9:[0.65,0.68,0.62,0.62,0.74,0.73,0.74,0.76,0.75,0.78,0.77,0.78,0.78,0.78]
+    }
+  },
+  "q2b": {
+    title: "Is Sam Altman personally liable for breach of charitable trust?",
+    sub: "Q2b · The trial’s biggest mover",
+    data: {
+      J1:[0.35,0.35,0.32,0.32,0.42,0.42,0.50,0.58,0.58,0.58,0.55,0.62,0.62,0.62],
+      J2:[0.25,0.25,0.22,0.22,0.25,0.25,0.30,0.33,0.32,0.32,0.28,0.32,0.32,0.32],
+      J3:[0.60,0.62,0.58,0.58,0.65,0.64,0.74,0.80,0.78,0.80,0.80,0.86,0.86,0.88],
+      J4:[0.55,0.55,0.55,0.55,0.60,0.60,0.70,0.78,0.78,0.82,0.78,0.88,0.88,0.90],
+      J5:[0.15,0.15,0.15,0.15,0.17,0.18,0.18,0.20,0.20,0.22,0.22,0.25,0.25,0.25],
+      J6:[0.60,0.60,0.60,0.60,0.72,0.74,0.80,0.85,0.85,0.87,0.85,0.90,0.90,0.92],
+      J7:[0.45,0.45,0.42,0.42,0.48,0.48,0.55,0.62,0.60,0.62,0.55,0.65,0.65,0.67],
+      J8:[0.35,0.35,0.32,0.32,0.40,0.38,0.42,0.46,0.46,0.47,0.45,0.48,0.48,0.48],
+      J9:[0.60,0.60,0.58,0.58,0.68,0.68,0.78,0.85,0.84,0.86,0.82,0.90,0.90,0.92]
+    }
+  },
+  "q1": {
+    title: "Is the Breach of Charitable Trust claim barred by the statute of limitations?",
+    sub: "Q1 · The gate. YES = defense win.",
+    data: {
+      J1:[0.45,0.45,0.50,0.50,0.50,0.50,0.52,0.55,0.55,0.55,0.55,0.55,0.55,0.32],
+      J2:[0.60,0.62,0.70,0.72,0.72,0.72,0.75,0.75,0.75,0.75,0.75,0.75,0.75,0.55],
+      J3:[0.30,0.30,0.30,0.30,0.30,0.30,0.30,0.30,0.30,0.30,0.30,0.30,0.30,0.18],
+      J4:[0.40,0.40,0.40,0.40,0.40,0.40,0.40,0.40,0.40,0.40,0.40,0.40,0.40,0.22],
+      J5:[0.65,0.65,0.72,0.74,0.74,0.74,0.75,0.74,0.76,0.76,0.78,0.78,0.78,0.58],
+      J6:[0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.14],
+      J7:[0.50,0.50,0.55,0.55,0.55,0.55,0.55,0.55,0.58,0.58,0.58,0.58,0.58,0.30],
+      J8:[0.60,0.60,0.65,0.65,0.65,0.65,0.66,0.66,0.68,0.68,0.68,0.68,0.68,0.32],
+      J9:[0.30,0.30,0.30,0.30,0.30,0.30,0.30,0.30,0.30,0.30,0.30,0.30,0.30,0.17]
+    }
+  },
+  "q4a": {
+    title: "Did OpenAI, Inc. unjustly enrich itself at Musk’s expense?",
+    sub: "Q4a · The unjust-enrichment headline. The $200B problem.",
+    data: {
+      J1:[0.35,0.35,0.32,0.32,0.35,0.34,0.34,0.36,0.30,0.30,0.30,0.30,0.30,0.27],
+      J2:[0.20,0.20,0.20,0.20,0.20,0.20,0.20,0.20,0.18,0.18,0.18,0.18,0.18,0.18],
+      J3:[0.60,0.60,0.58,0.58,0.62,0.60,0.62,0.65,0.60,0.60,0.58,0.58,0.57,0.57],
+      J4:[0.45,0.45,0.45,0.45,0.50,0.48,0.50,0.55,0.52,0.52,0.50,0.52,0.52,0.52],
+      J5:[0.15,0.15,0.13,0.13,0.15,0.15,0.15,0.16,0.13,0.13,0.13,0.13,0.13,0.13],
+      J6:[0.50,0.50,0.50,0.46,0.55,0.55,0.55,0.66,0.62,0.62,0.60,0.62,0.62,0.58],
+      J7:[0.40,0.40,0.40,0.40,0.42,0.42,0.42,0.45,0.38,0.40,0.38,0.38,0.38,0.35],
+      J8:[0.30,0.30,0.30,0.27,0.30,0.30,0.30,0.33,0.26,0.26,0.26,0.26,0.26,0.25],
+      J9:[0.50,0.50,0.50,0.50,0.52,0.52,0.55,0.58,0.55,0.55,0.55,0.55,0.55,0.55]
+    }
+  }
+};
+
+const verdictRows = [
+  {q:"Q1", text:"Breach of Charitable Trust — statute-of-limitations bar?",                answer:"NO (not barred)", vote:"9-0", side:"pl", note:"Continuous-accrual instruction + Oct 2025 Watershed PBC conversion as fresh breach"},
+  {q:"Q2a", text:"OpenAI, Inc. liable for Breach of Charitable Trust?", answer:"YES — LIABLE", vote:"9-0", side:"pl", headline:true, note:"The plaintiff’s headline win. Defense holdouts conceded corporate liability in exchange for individual NOs."},
+  {q:"Q2b", text:"Sam Altman personally liable for Breach of Charitable Trust?",          answer:"NO", vote:"9-0", side:"df", note:"Plaintiff anchors traded individual liability for corporate liability. Doctrinal nexus to officer-trustee liability not made."},
+  {q:"Q2c", text:"Greg Brockman personally liable for Breach of Charitable Trust?",       answer:"NO", vote:"9-0", side:"df", note:"Journal was personal anxiety, not officer-fiduciary breach. Cleanest defense question."},
+  {q:"Q3",  text:"Unjust Enrichment — statute-of-limitations bar?",                 answer:"NO (not barred)", vote:"9-0", side:"pl", note:"Same continuous-accrual analysis"},
+  {q:"Q4a", text:"OpenAI, Inc. liable for Unjust Enrichment?",     answer:"NO", vote:"9-0", side:"df", note:"$200B valuation + DAF standing + duplicative-remedy concern"},
+  {q:"Q4b", text:"Sam Altman liable for Unjust Enrichment?",                      answer:"NO", vote:"9-0", side:"df", note:"DAF standing + $0 historical compensation"},
+  {q:"Q4c", text:"Greg Brockman liable for Unjust Enrichment?",                   answer:"NO", vote:"9-0", side:"df", note:"Same plus individual-liability skepticism"}
+];
+
+const outcomes = [
+  {label:"Pattern B — corporate BCT only", prob:40, color:"var(--vd)", headline:true},
+  {label:"Pattern D-1 — hung on BCT-OpenAI", prob:25, color:"#5e5e6e"},
+  {label:"Pattern C — full defense verdict", prob:15, color:"var(--df)"},
+  {label:"Pattern D-2 — hung on Q2a + Q2b", prob:10, color:"#4a4a58"},
+  {label:"Plaintiff multi-win (BCT-OpenAI + Altman)", prob:5, color:"var(--pl)"},
+  {label:"Full plaintiff verdict incl. UE", prob:3, color:"#3a8f63"},
+  {label:"Total mistrial", prob:2, color:"#2e2e38"}
+];
+
+const counterfactuals = [
+  {item:"What if the continuous-accrual jury instruction were narrower?",
+   pct:"~80% verdict flip",
+   body:"The continuous-accrual instruction is the single most outcome-determinative element in the simulation. The defense’s clean statute-of-limitations bar at end of evidence — 0.51 panel mean toward bar — flipped to 0.45 against bar under the instruction, reaching the disciplined bridge jurors (J1, J7, J8). Without the instruction, J5 + J2 + J8 lock in YES on the gate; J7 and J1 likely drift toward YES; the case dies at the gate without ever reaching liability."},
+  {item:"What if Mira Murati had not testified live?",
+   pct:"~70% verdict flip",
+   body:"Murati’s calm, reluctant ‘Sam was not always candid’ anchored the BCT-Altman credibility cascade. Without it, the four-witness prior on Altman’s credibility never forms; the Altman cross on Day 12 reads as just-another-cross instead of pattern confirmation; plaintiff anchors don’t reach 0.85+ on Q2b, which means they have nothing to trade for unanimous corporate liability. Most likely outcome shifts toward Pattern D-1 (hung on Q2a)."},
+  {item:"What if Schizer hadn’t conceded the $200B nonprofit valuation?",
+   pct:"~65% verdict flip on UE",
+   body:"Plaintiff might have salvaged a UE finding. The valuation concession compounded through closings (Savitt repeated it) and through deliberation (jurors cited it explicitly when discussing UE-OpenAI). Without it, J3, J4, and J6 stay closer to 0.65 on UE-OpenAI; plaintiff anchors don’t concede UE in deliberation. Most likely shift: plaintiff also wins UE-OpenAI (9-0 YES on Q4a), changing the verdict shape from corporate-BCT-only to corporate-BCT-plus-corporate-UE."},
+  {item:"What if the Brockman journal hadn’t been admitted?",
+   pct:"~60% verdict flip",
+   body:"Plaintiff loses its most emotionally powerful documentary evidence. J3, J6, and J9 lean BCT-OpenAI at 0.55–0.60 instead of 0.75–0.86. Plaintiff has a case but the documentary chain is weaker, and the trade-down leverage at the deliberation compromise stage is reduced. Most likely outcome: hung on Q2a, or possibly full defense verdict (Pattern C)."},
+  {item:"What if Altman’s cross had been less damaging?",
+   pct:"~55% verdict flip",
+   body:"BCT-Altman ends at ~0.55 panel mean instead of 0.68. Plaintiff anchors don’t have a high-value position to trade. The compromise has less leverage. More likely outcome: Pattern D-2 (hung on both Q2a and Q2b) or Pattern C (full defense). The Day 11 direct rehab partially offset Day 12 in the actual record, so this is the most fragile of the five counterfactuals."}
+];
+
+// ============================================================
+// HERO STATS COUNTERS
+// ============================================================
+function animateCounter(el, target){
+  const dur = 1500;
+  const start = performance.now();
+  function tick(now){
+    const t = Math.min(1, (now - start) / dur);
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.textContent = Math.floor(target * eased).toLocaleString();
+    if (t < 1) requestAnimationFrame(tick);
+    else el.textContent = target.toLocaleString();
+  }
+  requestAnimationFrame(tick);
+}
+
+// ============================================================
+// PANEL VIZ
+// ============================================================
+let currentQ = "q1";
+let currentPhase = 0;
+let playInterval = null;
+let isPlaying = false;
+
+// Build question pills
+const qPills = document.getElementById('qPills');
+[
+  {id:"q1",  short:"Statute-of-limitations bar"},
+  {id:"q2a", short:"OpenAI Inc. — Breach of Charitable Trust"},
+  {id:"q2b", short:"Altman individually — Breach of Charitable Trust"},
+  {id:"q4a", short:"Unjust Enrichment"}
+].forEach((q, i) => {
+  const pill = document.createElement('button');
+  pill.className = 'question-pill rounded-full px-4 py-2 text-sm';
+  pill.textContent = q.short;
+  pill.dataset.q = q.id;
+  if (i === 0) pill.classList.add('active');
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.question-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    currentQ = q.id;
+    render();
+  });
+  qPills.appendChild(pill);
+});
+
+// Build SVG nodes
+const svg = document.getElementById('panelSvg');
+// 3x3 grid arrangement
+const positions = [
+  [110, 75], [260, 60], [410, 75],
+  [110, 180], [260, 165], [410, 180],
+  [110, 285], [260, 270], [410, 285]
+];
+jurors.forEach((j, i) => {
+  const [x, y] = positions[i];
+  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  g.dataset.id = j.id;
+
+  // Halo
+  const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  halo.setAttribute('cx', x); halo.setAttribute('cy', y);
+  halo.setAttribute('r', 38); halo.setAttribute('fill', 'rgba(185,164,255,0.04)');
+  halo.classList.add('juror-halo');
+  g.appendChild(halo);
+
+  // Main node
+  const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  c.setAttribute('cx', x); c.setAttribute('cy', y);
+  c.setAttribute('r', 26); c.classList.add('juror-node');
+  c.dataset.juror = j.id;
+  g.appendChild(c);
+
+  // ID label
+  const idT = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  idT.setAttribute('x', x); idT.setAttribute('y', y + 4);
+  idT.setAttribute('text-anchor', 'middle');
+  idT.classList.add('juror-label');
+  idT.style.fontSize = '12px';
+  idT.style.fontWeight = '600';
+  idT.style.fill = '#08080b';
+  idT.textContent = j.id;
+  g.appendChild(idT);
+
+  // Name below
+  const nT = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  nT.setAttribute('x', x); nT.setAttribute('y', y + 50);
+  nT.setAttribute('text-anchor', 'middle');
+  nT.classList.add('juror-name');
+  nT.textContent = j.label;
+  g.appendChild(nT);
+
+  g.addEventListener('click', () => showJurorDetail(j));
+  g.addEventListener('mousemove', (e) => showTip(e, jurorTip(j)));
+  g.addEventListener('mouseleave', hideTip);
+  svg.appendChild(g);
+});
+
+function colorFor(p){
+  // p in [0,1]. 0 = full defense (amber), 0.5 = neutral (slate), 1 = full plaintiff (green)
+  // Use HSL interpolation
+  if (p < 0.5) {
+    // amber to slate
+    const t = p / 0.5;
+    return interpolateColor('#f4a949', '#5e5e6e', t);
+  } else {
+    const t = (p - 0.5) / 0.5;
+    return interpolateColor('#5e5e6e', '#6ee7a0', t);
+  }
+}
+
+function interpolateColor(a, b, t){
+  const pa = parseInt(a.slice(1), 16);
+  const pb = parseInt(b.slice(1), 16);
+  const ar = (pa >> 16) & 255, ag = (pa >> 8) & 255, ab = pa & 255;
+  const br = (pb >> 16) & 255, bg = (pb >> 8) & 255, bb = pb & 255;
+  const r = Math.round(ar + (br - ar) * t);
+  const g = Math.round(ag + (bg - ag) * t);
+  const bl = Math.round(ab + (bb - ab) * t);
+  return `rgb(${r},${g},${bl})`;
+}
+
+function render(){
+  const q = trajectories[currentQ];
+  const isSOL = currentQ === 'q1';
+  // For SOL: YES = defense win. For all others: YES = plaintiff win.
+  // Color always maps "plaintiff lean = green, defense lean = amber".
+  const plLeanFor = (p) => isSOL ? (1 - p) : p;
+  document.getElementById('qTitle').textContent = q.title;
+  document.getElementById('qSub').textContent = q.sub;
+
+  // Update phase label
+  const ph = phaseLabels[currentPhase];
+  document.getElementById('phaseTitle').textContent = ph.title;
+  document.getElementById('phaseDate').textContent = ph.date;
+
+  // Update scrubber fill
+  const pct = (currentPhase / (phaseLabels.length - 1)) * 100;
+  document.getElementById('fill').style.width = pct + '%';
+  document.getElementById('handle').style.left = pct + '%';
+
+  // Update nodes
+  let sum = 0, yesCount = 0;
+  jurors.forEach(j => {
+    const p = q.data[j.id][currentPhase];
+    sum += p;
+    if (p >= 0.5) yesCount++;
+    const node = svg.querySelector(`circle.juror-node[data-juror="${j.id}"]`);
+    if (node) {
+      node.setAttribute('fill', colorFor(plLeanFor(p)));
+      const r = 22 + Math.abs(p - 0.5) * 10;
+      node.setAttribute('r', r);
+    }
+  });
+  const mean = sum / 9;
+  document.getElementById('panelMean').textContent = mean.toFixed(2);
+
+  // Update vote bar: always show plaintiff-leaning count in green on left,
+  // defense-leaning count in amber on right, regardless of YES/NO semantics.
+  const plCount = isSOL ? (9 - yesCount) : yesCount;
+  const dfCount = 9 - plCount;
+  const plPct = (plCount / 9) * 100;
+  const dfPct = 100 - plPct;
+  document.getElementById('vbY').style.width = plPct + '%';
+  document.getElementById('vbN').style.width = dfPct + '%';
+  document.getElementById('vbY').textContent = plCount > 0 ? plCount : '';
+  document.getElementById('vbN').textContent = dfCount > 0 ? dfCount : '';
+  const plVerdict = isSOL ? 'NO — plaintiff' : 'YES — plaintiff';
+  const dfVerdict = isSOL ? 'YES — defense' : 'NO — defense';
+  document.getElementById('vbYL').innerHTML = `<span class="swatch" style="background:var(--pl)"></span>${plCount} · ${plVerdict}`;
+  document.getElementById('vbNL').innerHTML = `<span class="swatch" style="background:var(--df)"></span>${dfCount} · ${dfVerdict}`;
+}
+
+function showJurorDetail(j){
+  const q = trajectories[currentQ];
+  const trajData = q.data[j.id];
+  const cold = trajData[0];
+  const post = trajData[trajData.length - 1];
+  const delta = post - cold;
+  const deltaStr = (delta >= 0 ? '+' : '') + delta.toFixed(2);
+
+  const el = document.getElementById('jurorDetail');
+  el.classList.remove('hidden');
+  el.innerHTML = `
+    <div class="flex items-start justify-between gap-6 mb-5 flex-wrap">
+      <div>
+        <div class="mono text-xs text-[var(--vd)] mb-1">${j.id} · ${j.tag}</div>
+        <h4 class="serif text-2xl text-[var(--hl)]">${j.label}</h4>
+        <div class="text-[var(--ink-3)] text-sm mt-1">${j.region} · age ${j.age} · ${j.role}</div>
+      </div>
+      <button onclick="document.getElementById('jurorDetail').classList.add('hidden')" class="text-[var(--ink-3)] hover:text-[var(--hl)] text-sm">close ×</button>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div>
+        <div class="small-cap mb-2">profile snapshot</div>
+        <p class="text-[var(--ink-2)] text-[15px] leading-relaxed">${j.bio}</p>
+      </div>
+      <div>
+        <div class="small-cap mb-2">how they moved over the trial</div>
+        <p class="text-[var(--ink-2)] text-[15px] leading-relaxed">${j.stance}</p>
+        <div class="mt-4 pt-4 border-t border-[var(--line)] flex items-baseline gap-4 mono text-sm">
+          <div><span class="text-[var(--ink-3)]">cold:</span> <span class="text-[var(--ink)]">${cold.toFixed(2)}</span></div>
+          <div><span class="text-[var(--ink-3)]">final:</span> <span class="text-[var(--ink)]">${post.toFixed(2)}</span></div>
+          <div><span class="text-[var(--ink-3)]">Δ:</span> <span style="color:${delta >= 0.05 ? 'var(--pl)' : delta <= -0.05 ? 'var(--df)' : 'var(--ink-2)'}">${deltaStr}</span></div>
+        </div>
+      </div>
+    </div>
+  `;
+  el.scrollIntoView({behavior: 'smooth', block: 'center'});
+}
+
+function jurorTip(j){
+  const p = trajectories[currentQ].data[j.id][currentPhase];
+  return `<div>
+    <div class="text-[var(--hl)] font-medium text-sm" style="font-family:Inter">${j.id} · ${j.label}</div>
+    <div class="text-[var(--ink-3)] text-[11px] mt-0.5">${j.tag}</div>
+    <div class="mt-2.5 pt-2.5 border-t border-[var(--line)]">
+      <div class="text-[var(--ink-3)] text-[10px] uppercase tracking-wider">p(YES) at this point</div>
+      <div class="mono text-lg text-[var(--hl)]">${p.toFixed(2)}</div>
+    </div>
+    <div class="text-[var(--ink-3)] text-[11px] mt-2 italic">click for full profile →</div>
+  </div>`;
+}
+
+// Tooltip
+const tip = document.getElementById('tip');
+function showTip(e, html){
+  tip.innerHTML = html;
+  tip.classList.add('show');
+  const rect = tip.getBoundingClientRect();
+  const x = Math.min(e.pageX + 18, window.scrollX + window.innerWidth - rect.width - 16);
+  const y = e.pageY + 18;
+  tip.style.left = x + 'px';
+  tip.style.top = y + 'px';
+}
+function hideTip(){ tip.classList.remove('show'); }
+
+// Scrubber
+const track = document.getElementById('track');
+const handle = document.getElementById('handle');
+let dragging = false;
+
+function setPhaseFromX(clientX){
+  const rect = track.getBoundingClientRect();
+  const pct = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+  currentPhase = Math.round(pct * (phaseLabels.length - 1));
+  render();
+}
+
+track.addEventListener('click', (e) => {
+  if (e.target === handle) return;
+  setPhaseFromX(e.clientX);
+});
+handle.addEventListener('mousedown', () => dragging = true);
+window.addEventListener('mouseup', () => dragging = false);
+window.addEventListener('mousemove', (e) => { if (dragging) setPhaseFromX(e.clientX); });
+handle.addEventListener('touchstart', () => dragging = true, {passive:true});
+window.addEventListener('touchend', () => dragging = false);
+window.addEventListener('touchmove', (e) => {
+  if (dragging && e.touches[0]) setPhaseFromX(e.touches[0].clientX);
+}, {passive:true});
+
+// Play button
+document.getElementById('playBtn').addEventListener('click', () => {
+  if (isPlaying) {
+    clearInterval(playInterval);
+    isPlaying = false;
+    document.getElementById('playLabel').textContent = 'Play the trial';
+  } else {
+    if (currentPhase >= phaseLabels.length - 1) currentPhase = 0;
+    isPlaying = true;
+    document.getElementById('playLabel').textContent = 'Pause';
+    playInterval = setInterval(() => {
+      currentPhase++;
+      if (currentPhase >= phaseLabels.length) {
+        clearInterval(playInterval);
+        isPlaying = false;
+        document.getElementById('playLabel').textContent = 'Play again';
+        currentPhase = phaseLabels.length - 1;
+      }
+      render();
+    }, 1200);
+  }
+});
+
+render();
+
+// ============================================================
+// VERDICT
+// ============================================================
+const vRows = document.getElementById('verdictRows');
+verdictRows.forEach(v => {
+  const row = document.createElement('div');
+  row.className = 'verdict-row' + (v.headline ? ' headline-row' : '');
+  row.innerHTML = `
+    <div class="mono text-sm text-[var(--ink-3)]">${v.q}</div>
+    <div>
+      <div class="text-[var(--ink)] text-[15px] leading-snug">${v.text}</div>
+      <div class="text-[var(--ink-3)] text-[13px] mt-1 italic">${v.note}</div>
+    </div>
+    <div class="text-right">
+      <div class="verdict-answer ${v.side === 'pl' ? 'win-pl' : 'win-df'}">${v.answer}</div>
+      <div class="mono text-xs text-[var(--ink-3)] mt-0.5">${v.vote}</div>
+    </div>
+  `;
+  vRows.appendChild(row);
+});
+
+// Probability bars
+const pBars = document.getElementById('probBars');
+const maxProb = Math.max(...outcomes.map(o => o.prob));
+outcomes.forEach(o => {
+  const row = document.createElement('div');
+  row.className = 'grid grid-cols-[1fr,80px,60px] gap-4 items-center';
+  row.innerHTML = `
+    <div class="text-[14px] ${o.headline ? 'text-[var(--hl)] font-medium' : 'text-[var(--ink-2)]'}">${o.label}</div>
+    <div class="relative h-5 bg-[var(--line)] rounded overflow-hidden">
+      <div class="absolute top-0 left-0 h-full prob-bar transition-all duration-1500" style="width:0%;background:${o.color};" data-target="${(o.prob/maxProb)*100}"></div>
+    </div>
+    <div class="mono text-sm text-right ${o.headline ? 'text-[var(--hl)]' : 'text-[var(--ink-2)]'}">${o.prob}%</div>
+  `;
+  pBars.appendChild(row);
+});
+
+// ============================================================
+// COUNTERFACTUALS
+// ============================================================
+const cfList = document.getElementById('cfList');
+counterfactuals.forEach(cf => {
+  const det = document.createElement('details');
+  det.className = 'cf-card';
+  det.innerHTML = `
+    <summary class="cf-summary">
+      <div class="flex-1">
+        <div class="text-[var(--hl)] text-[16px] font-medium">${cf.item}</div>
+        <div class="mono text-xs text-[var(--vd)] mt-1">${cf.pct}</div>
+      </div>
+      <div class="indicator text-2xl font-light">+</div>
+    </summary>
+    <div class="cf-body text-[15px] leading-relaxed">${cf.body}</div>
+  `;
+  cfList.appendChild(det);
+});
+
+// ============================================================
+// SCROLL REVEALS
+// ============================================================
+const animated = new WeakSet();
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !animated.has(entry.target)) {
+      animated.add(entry.target);
+      entry.target.classList.add('in');
+      // Trigger counters
+      entry.target.querySelectorAll('.num-counter').forEach(el => {
+        animateCounter(el, +el.dataset.count);
+      });
+      // Trigger probability bars
+      entry.target.querySelectorAll('.prob-bar').forEach(b => {
+        b.style.width = b.dataset.target + '%';
+      });
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+// First section visible immediately
+const first = document.querySelector('header');
+if (first) {
+  first.classList.add('in');
+  first.querySelectorAll('.num-counter').forEach(el => animateCounter(el, +el.dataset.count));
+}
+</script>
+</body>
+</html>

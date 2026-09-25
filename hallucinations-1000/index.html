@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>1,000 AI Hallucination Cases</title>
+<meta name="description" content="Court cases with discovered AI hallucinations, crossing the 1,000 milestone on March 4, 2026. Analysis by Claude Opus 4.6, guided by Kyle Bahr." />
+<style>html,body{margin:0;padding:0;background:#0d0b09;}</style>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/prop-types/prop-types.min.js"></script>
+<script src="https://unpkg.com/recharts@2.10.3/umd/Recharts.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-presets="react">
+const {useState, useEffect, useRef} = React;
+const {AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ComposedChart, Line, Cell, PieChart, Pie} = Recharts;
+
+const M=[{m:"Apr '23",t:1,L:1,P:0,c:1,cu:0},{m:"May '23",t:2,L:0,P:2,c:3,cu:0},{m:"Jun '23",t:3,L:2,P:1,c:6,cu:2},{m:"Jul '23",t:1,L:1,P:0,c:7,cu:3},{m:"Sep '23",t:1,L:0,P:1,c:8,cu:4},{m:"Oct '23",t:2,L:0,P:2,c:10,cu:6},{m:"Nov '23",t:4,L:1,P:2,c:14,cu:10},{m:"Dec '23",t:1,L:0,P:1,c:15,cu:10},{m:"Jan '24",t:2,L:2,P:0,c:17,cu:12},{m:"Feb '24",t:4,L:2,P:2,c:21,cu:14},{m:"Mar '24",t:4,L:2,P:2,c:25,cu:17},{m:"Apr '24",t:2,L:1,P:1,c:27,cu:19},{m:"May '24",t:1,L:0,P:1,c:28,cu:20},{m:"Jun '24",t:1,L:1,P:0,c:29,cu:20},{m:"Jul '24",t:5,L:0,P:5,c:34,cu:24},{m:"Aug '24",t:7,L:5,P:2,c:41,cu:27},{m:"Sep '24",t:6,L:2,P:4,c:47,cu:31},{m:"Oct '24",t:5,L:4,P:0,c:52,cu:36},{m:"Nov '24",t:7,L:3,P:4,c:59,cu:40},{m:"Dec '24",t:10,L:1,P:8,c:69,cu:45},{m:"Jan '25",t:14,L:6,P:6,c:83,cu:53},{m:"Feb '25",t:12,L:6,P:5,c:95,cu:57},{m:"Mar '25",t:23,L:5,P:16,c:118,cu:70},{m:"Apr '25",t:26,L:12,P:14,c:144,cu:85},{m:"May '25",t:45,L:19,P:23,c:189,cu:111},{m:"Jun '25",t:36,L:15,P:22,c:225,cu:130},{m:"Jul '25",t:73,L:36,P:34,c:298,cu:178},{m:"Aug '25",t:70,L:25,P:44,c:368,cu:219},{m:"Sep '25",t:86,L:36,P:48,c:454,cu:282},{m:"Oct '25",t:99,L:38,P:59,c:553,cu:354},{m:"Nov '25",t:112,L:46,P:63,c:665,cu:433},{m:"Dec '25",t:132,L:51,P:79,c:797,cu:529},{m:"Jan '26",t:107,L:34,P:71,c:904,cu:617},{m:"Feb '26",t:98,L:45,P:51,c:1002,cu:703}];
+const FC=[...M.map(d=>({...d,fc:null})),{m:"Mar '26",fc:1105},{m:"Apr '26",fc:1215},{m:"May '26",fc:1332},{m:"Jun '26",fc:1456},{m:"Jul '26",fc:1587},{m:"Aug '26",fc:1725},{m:"Sep '26",fc:1870},{m:"Oct '26",fc:2022}];
+const CTR=[{n:"\u{1F1FA}\u{1F1F8} US",v:703,f:"United States",cl:true},{n:"\u{1F1E8}\u{1F1E6} CAN",v:61,f:"Canada",cl:true},{n:"\u{1F1E6}\u{1F1FA} AUS",v:60,f:"Australia",cl:true},{n:"\u{1F1EE}\u{1F1F1} ISR",v:42,f:"Israel",cl:true},{n:"\u{1F1EC}\u{1F1E7} UK",v:39,f:"United Kingdom",cl:true},{n:"\u{1F1E7}\u{1F1F7} BRA",v:9,f:"Brazil",cl:false},{n:"\u{1F1EE}\u{1F1F3} IND",v:8,f:"India",cl:true},{n:"\u{1F1E6}\u{1F1F7} ARG",v:8,f:"Argentina",cl:false},{n:"\u{1F1EB}\u{1F1F7} FRA",v:7,f:"France",cl:false},{n:"\u{1F1E9}\u{1F1EA} DEU",v:7,f:"Germany",cl:false},{n:"\u{1F1EE}\u{1F1F9} ITA",v:6,f:"Italy",cl:false},{n:"\u{1F1F3}\u{1F1FF} NZL",v:6,f:"New Zealand",cl:true},{n:"\u{1F1EA}\u{1F1F8} ESP",v:5,f:"Spain",cl:false},{n:"\u{1F1F3}\u{1F1F1} NLD",v:5,f:"Netherlands",cl:false}];
+const PIE_T=[{t:"ChatGPT (86)",v:86,c:"#ef4444"},{t:"Copilot (9)",v:9,c:"#3b82f6"},{t:"Claude (6)",v:6,c:"#a855f7"},{t:"Gemini/Bard (4)",v:4,c:"#22c55e"},{t:"Legal AI (8)",v:8,c:"#06b6d4"},{t:"Perplexity (1)",v:1,c:"#f97316"}];
+const PEN=[{m:"2023",u:5443},{m:"H1 '24",u:12000},{m:"H2 '24",u:2280},{m:"Q1 '25",u:16941},{m:"Apr '25",u:21830},{m:"May '25",u:213580},{m:"Jun '25",u:5054},{m:"Jul '25",u:143925},{m:"Aug '25",u:19656},{m:"Sep '25",u:96239},{m:"Oct '25",u:77074},{m:"Nov '25",u:45024},{m:"Dec '25",u:576589},{m:"Jan '26",u:34973},{m:"Feb '26",u:29241}];
+const EX=[{w:"draft",s:37},{w:"review",s:36},{w:"time",s:32},{w:"intern",s:18},{w:"clerk",s:8},{w:"mistake",s:8},{w:"inadvertent",s:5},{w:"pressure",s:5},{w:"oversight",s:4},{w:"paralegal",s:3},{w:"deadline",s:2},{w:"rushed",s:2}];
+const TERM=[{m:"2023",l:2,p:3},{m:"H1 '24",l:1,p:2},{m:"H2 '24",l:3,p:3},{m:"H1 '25",l:12,p:18},{m:"H2 '25",l:20,p:36},{m:"Jan–Feb '26",l:9,p:12}];
+
+const HX2={
+  AK:[0,0],ME:[0,10],
+  WA:[1,0],MT:[1,2],ND:[1,4],MN:[1,5],MI:[1,7],VT:[1,9],NH:[1,10],
+  OR:[2,0],ID:[2,1],WY:[2,2],SD:[2,3],IA:[2,4],WI:[2,5],OH:[2,7],NY:[2,8],MA:[2,9],CT:[2,10],RI:[2,11],
+  CA:[3,0],NV:[3,1],UT:[3,2],CO:[3,3],NE:[3,4],KS:[3,5],IL:[3,6],IN:[3,7],PA:[3,8],NJ:[3,9],
+  AZ:[4,1],NM:[4,2],MO:[4,4],KY:[4,6],WV:[4,7],VA:[4,8],MD:[4,9],DE:[4,10],
+  TX:[5,2],OK:[5,3],AR:[5,4],TN:[5,5],NC:[5,6],SC:[5,7],DC:[5,8],
+  HI:[6,0],LA:[6,3],MS:[6,4],AL:[6,5],GA:[6,6],
+  FL:[7,6],PR:[7,8]
+};
+
+const US_ST={CA:72,NY:60,TX:44,FL:40,DC:34,IL:27,AZ:23,MI:23,CO:20,WA:19,OH:19,NV:18,PA:17,IN:17,NJ:16,GA:14,MS:14,VA:12,OK:12,KS:11,WI:11,OR:10,MD:10,NM:9,MA:8,MN:8,MO:7,LA:7,AR:6,CT:6,UT:5,NC:5,TN:5,ID:4,ND:4,AL:4,NE:3,IA:3,KY:3,WV:2,SC:2,MT:3,HI:3,DE:2,VT:3,ME:2,WY:1,SD:1,PR:3,AK:1,NH:0,RI:0};
+
+function Ctr({target,dur=2200,pre="",suf="",fade}) {
+  const [v,setV] = useState(0);
+  const ref = useRef(null);
+  const go = useRef(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !go.current) {
+        go.current = true;
+        const s = performance.now();
+        const an = (n) => {
+          const p = Math.min((n-s)/dur, 1);
+          setV(Math.floor((1-Math.pow(1-p,3))*target));
+          if (p < 1) requestAnimationFrame(an);
+        };
+        requestAnimationFrame(an);
+      }
+    }, { threshold: 0.2 });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [target, dur]);
+  return (
+    <span ref={ref} style={{opacity:fade?0.35+(v/target)*0.65:1}}>{pre}{v.toLocaleString()}{suf}</span>
+  );
+}
+
+const TT={backgroundColor:"#1a1714",border:"1px solid #3d3529",borderRadius:8,fontSize:"0.8rem",fontFamily:"'DM Sans',sans-serif",color:"#e7e5e4"};
+function Sec({children,dark}){return (<section style={{padding:"48px 16px",background:dark?"#0c0a08":"#100e0b",overflowX:"hidden"}}><div style={{maxWidth:900,margin:"0 auto"}}>{children}</div></section>);}
+function TTL({children,sub}){return (<div style={{marginBottom:28}}><h2 style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(1.6rem,3.5vw,2.3rem)",fontWeight:700,color:"#fafaf9",lineHeight:1.12}}>{children}</h2>{sub&&<p style={{fontSize:"0.88rem",color:"#8a8078",marginTop:8,maxWidth:640,lineHeight:1.65}}>{sub}</p>}</div>);}
+function Card({v,l,accent}){return (<div style={{padding:"14px 12px",borderRadius:10,border:`1px solid ${accent?"#92400e44":"#292524"}`,background:accent?"#1c160d":"#141210"}}><div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1.8rem",fontWeight:700,color:accent?"#fbbf24":"#e7e5e4"}}>{v}</div><div style={{fontSize:"0.72rem",color:"#78716c",marginTop:2}}>{l}</div></div>);}
+function Q({text,judge,cite}){return (<blockquote style={{padding:"14px 20px",borderLeft:"3px solid #d97706",background:"#141210",borderRadius:"0 10px 10px 0",margin:"10px 0"}}><p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"0.95rem",color:"#d6d3d1",fontStyle:"italic",lineHeight:1.7}}>"{text}"</p><p style={{color:"#78716c",fontSize:"0.75rem",marginTop:5}}>{"—"} {judge}, {cite}</p></blockquote>);}
+
+// Custom tooltips
+const CumTT=({active,payload,label})=>{if(!active||!payload)return null;const w=payload.find(p=>p.dataKey==="c");const u=payload.find(p=>p.dataKey==="cu");return (<div style={{...TT,padding:"6px 10px"}}><div style={{color:"#8a8078",fontSize:"0.7rem"}}>{label}</div>{w&&w.value!=null&&<div style={{color:"#fbbf24",fontWeight:700}}>Worldwide: {w.value}</div>}{u&&u.value!=null&&<div style={{color:"#60a5fa",fontWeight:700}}>United States: {u.value}</div>}</div>);};
+const FcTT=({active,payload,label})=>{if(!active||!payload)return null;const a=payload.find(p=>p.dataKey==="c"&&p.value!=null);const f=payload.find(p=>p.dataKey==="fc"&&p.value!=null);return (<div style={{...TT,padding:"6px 10px"}}><div style={{color:"#8a8078",fontSize:"0.7rem"}}>{label}</div>{a&&<div style={{color:"#fbbf24",fontWeight:700}}>Actual: {a.value}</div>}{f&&<div style={{color:"#ef4444",fontWeight:700}}>Projected: {f.value}</div>}</div>);};
+const BarTT=({active,payload,label})=>{if(!active||!payload||!payload.length)return null;const c=payload[0]?.payload?.fill||payload[0]?.color||"#fbbf24";const fill=payload[0]?.payload;let color="#fbbf24";if(fill){const v=payload[0].value;color=v>100?"#dc2626":v>50?"#ea580c":v>20?"#d97706":"#a8a29e";}return (<div style={{...TT,padding:"6px 10px"}}><div style={{color:"#8a8078",fontSize:"0.7rem"}}>{label}</div><div style={{color,fontWeight:700}}>Cases: {payload[0].value}</div></div>);};
+const UsdTT=({active,payload,label})=>{if(!active||!payload||!payload.length)return null;const v=payload[0].value;const c=v>100000?"#dc2626":v>20000?"#ea580c":"#d97706";return (<div style={{...TT,padding:"6px 10px"}}><div style={{color:"#8a8078",fontSize:"0.7rem"}}>{label}</div><div style={{color:c,fontWeight:700}}>${v.toLocaleString()} USD</div></div>);};
+const CtrTT=({active,payload})=>{if(!active||!payload||!payload.length)return null;const d=payload[0].payload;const c=d.v>100?"#dc2626":d.v>30?"#d97706":"#eab308";return (<div style={{...TT,padding:"6px 10px"}}><div style={{color:c,fontWeight:700}}>{d.f}: {d.v} cases</div><div style={{color:"#8a8078",fontSize:"0.7rem"}}>{d.cl?"Common law":"Civil law"}</div></div>);};
+const DivideTT=({active,payload,label})=>{if(!active||!payload)return null;const ps=payload.find(p=>p.dataKey==="P");const lw=payload.find(p=>p.dataKey==="L");return (<div style={{...TT,padding:"6px 10px"}}><div style={{color:"#8a8078",fontSize:"0.7rem"}}>{label}</div>{ps&&<div style={{color:"#34d399",fontWeight:700}}>Pro Se: {ps.value}</div>}{lw&&<div style={{color:"#c084fc",fontWeight:700}}>Lawyers: {lw.value}</div>}</div>);};
+
+function HexMap(){
+  const[hov,setHov]=useState(null);const R=15;const H=R*Math.sqrt(3);
+  const gc=v=>!v?"#1f1c18":v>39?"#dc2626":v>20?"#ea580c":v>5?"#d97706":"#57534e";
+  return (<div style={{position:"relative"}}><svg viewBox="-5 -5 360 200" style={{width:"100%",maxWidth:720,display:"block",margin:"0 auto"}}>
+    {Object.entries(HX2).map(([st,[row,col]])=>{
+      const x=col*(R*1.8)+(row%2?R*0.9:0)+10;
+      const y=row*(H*0.85)+10;
+      const v=US_ST[st]||0;
+      const pts=Array.from({length:6},(_,i)=>{const a=Math.PI/3*i-Math.PI/6;return`${x+R*Math.cos(a)},${y+R*Math.sin(a)}`;}).join(" ");
+      return (<g key={st} onMouseEnter={()=>setHov(st)} onMouseLeave={()=>setHov(null)} style={{cursor:"pointer"}}>
+        <polygon points={pts} fill={gc(v)} stroke="#0d0b09" strokeWidth="1" style={{opacity:hov&&hov!==st?0.3:1,transition:"opacity .15s"}}/>
+        <text x={x} y={y+1} textAnchor="middle" dominantBaseline="middle" fill={v>8?"#fff":"#a3a3a3"} fontSize="5" fontWeight="600" style={{pointerEvents:"none",fontFamily:"DM Sans"}}>{st}</text>
+      </g>);
+    })}
+  </svg>
+  {hov&&US_ST[hov]!=null&&<div style={{position:"absolute",top:4,left:4,background:"#1a1714e8",border:"1px solid #3d3529",borderRadius:8,padding:"5px 10px",fontSize:"0.78rem"}}><strong style={{color:"#fbbf24"}}>{hov}</strong>: {US_ST[hov]} cases</div>}
+  <div style={{display:"flex",gap:12,justifyContent:"center",marginTop:6}}>{[{l:"1–5",c:"#57534e"},{l:"6–20",c:"#d97706"},{l:"21–39",c:"#ea580c"},{l:"40+",c:"#dc2626"}].map(x=><div key={x.l} style={{display:"flex",alignItems:"center",gap:3,fontSize:"0.65rem",color:"#8a8078"}}><div style={{width:9,height:9,borderRadius:2,background:x.c}}/>{x.l}</div>)}</div>
+  </div>);
+}
+
+function WC(){
+  const pos=[{x:48,y:10},{x:76,y:30},{x:20,y:40},{x:55,y:52},{x:8,y:16},{x:86,y:14},{x:33,y:72},{x:68,y:68},{x:90,y:48},{x:12,y:58},{x:50,y:34},{x:30,y:26}];
+  return (
+    <div style={{position:"relative",height:150,maxWidth:"100%",overflow:"hidden"}}>
+      {EX.map((w,i)=>{const sz=10+((w.s/37)*28);const p=pos[i]||{x:50,y:50};
+        return (<div key={w.w} style={{position:"absolute",left:`${p.x}%`,top:`${p.y}%`,transform:"translate(-50%,-50%)",fontSize:sz,fontWeight:w.s>15?800:600,color:w.s>15?"#ef4444":w.s>5?"#d97706":"#78716c",fontFamily:"'Cormorant Garamond',serif",whiteSpace:"nowrap",opacity:0.55+((w.s/37)*0.45)}} title={`${w.s}x in case details`}>{w.w}<sup style={{fontSize:8,color:"#57534e"}}>{w.s}</sup></div>);})}
+    </div>
+  );
+}
+
+function App(){
+  return(
+    <div style={{fontFamily:"'DM Sans',sans-serif",color:"#d6d3d1",background:"#0d0b09",lineHeight:1.6,overflowX:"hidden"}}>
+      <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
+      {/* HERO */}
+      <header style={{minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",background:"radial-gradient(ellipse at 50% 80%,#1a0f05 0%,#0d0b09 70%)",position:"relative",paddingTop:80}}>
+        <div style={{position:"absolute",inset:0,opacity:0.03,backgroundImage:"repeating-linear-gradient(90deg,#fbbf24 0,#fbbf24 1px,transparent 1px,transparent 60px)"}}/>
+        <div style={{textAlign:"center",padding:"0 20px",maxWidth:680,zIndex:1}}>
+          <div style={{fontSize:".67rem",letterSpacing:".3em",color:"#78716c",textTransform:"uppercase",fontWeight:600,marginBottom:36}}>1K Milestone Reached {"·"} March 4, 2026 {"·"} <a href="https://www.damiencharlotin.com/hallucinations/" style={{color:"#d97706",textDecoration:"underline"}} target="_blank" rel="noopener">damiencharlotin.com/hallucinations</a></div>
+          <h1 style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontWeight:700,lineHeight:0.9}}>
+            <span style={{display:"block",fontSize:"clamp(3.5rem,11vw,8rem)",color:"#fbbf24"}}><Ctr target={1002} dur={3000} fade/></span>
+            <span style={{display:"block",fontSize:"clamp(1.1rem,2.5vw,1.6rem)",color:"#fafaf9",marginTop:10,fontWeight:600}}>Court Cases with Discovered AI Hallucinations</span>
+          </h1>
+          <p style={{fontSize:"1rem",color:"#8a8078",marginTop:22,lineHeight:1.7}}>ChatGPT's November 30, 2022 public release ushered transformation in the legal industry{"—"}empowering research, streamlining drafting, and introducing a new category of professional risk. Since April 2023, courts in 35 countries have discovered lawyers, litigants, experts, and even judges submitting AI-fabricated legal authorities. The problem is accelerating, despite rapid improvements in model accuracy. <a href="https://www.linkedin.com/in/damien-charlotin-45769278" style={{color:"#d97706"}} target="_blank" rel="noopener">Damien Charlotin</a>'s AI Hallucination Cases database has crossed an alarming milestone.</p>
+          <div style={{marginTop:28,fontSize:"1.4rem",fontWeight:600,color:"#fafaf9"}}>Check {"👏"} Your {"👏"} Cites! {"👏"}</div>
+          <p style={{marginTop:28,color:"#57534e",fontSize:".75rem"}}>Analysis by Claude Opus 4.6 guided by <a href="https://www.linkedin.com/in/kyle-bahr" style={{color:"#d97706"}}>Kyle Bahr</a></p>
+        </div>
+      </header>
+
+      {/* STATS */}
+      <Sec><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}><Card v={<Ctr target={703}/>} l="US cases" accent/><Card v={<Ctr target={299}/>} l="Non-US cases"/><Card v={<Ctr target={571}/>} l="Pro se litigants"/><Card v={<Ctr target={398}/>} l="Licensed lawyers"/><Card v={<Ctr target={88}/>} l="Professional sanctions"/><Card v="$1.3M+" l="Total fines (USD)"/><Card v={<Ctr target={786}/>} l="Fabricated case citations"/><Card v={<Ctr target={284}/>} l="False quotes from real cases"/></div></Sec>
+
+      {/* PERSPECTIVE — moved up */}
+      <Sec dark>
+        <TTL sub="This is a fraction of global legal practice, but the trend demands attention.">Putting It in Perspective</TTL>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8}}>
+          <div style={{padding:14,borderRadius:10,border:"1px solid #292524",background:"#141210",textAlign:"center"}}><div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1.5rem",fontWeight:700,color:"#fbbf24"}}>~10M</div><div style={{color:"#8a8078",fontSize:".75rem"}}>lawyers worldwide</div></div>
+          <div style={{padding:14,borderRadius:10,border:"1px solid #292524",background:"#141210",textAlign:"center"}}><div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1.5rem",fontWeight:700,color:"#fbbf24"}}>~500K{"–"}1.1M</div><div style={{color:"#8a8078",fontSize:".75rem"}}>daily court filings globally</div></div>
+          <div style={{padding:14,borderRadius:10,border:"1px solid #292524",background:"#141210",textAlign:"center"}}><div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1.5rem",fontWeight:700,color:"#ef4444"}}>398</div><div style={{color:"#ef4444",fontSize:".85rem",fontWeight:700}}>0.004%</div><div style={{color:"#8a8078",fontSize:".75rem"}}>of all lawyers worldwide caught submitting fake citations</div></div>
+        </div>
+        <div style={{marginTop:12,padding:16,borderRadius:12,border:"1px solid #292524",background:"#141210"}}>
+          <p style={{color:"#d6d3d1",fontSize:".87rem",lineHeight:1.8}}>The <a href="https://www.2civility.org/2025-clio-legal-trends-report/" style={{color:"#d97706"}} target="_blank" rel="noopener">2025 Clio Legal Trends Report</a> found 79% of legal professionals use AI. The <a href="https://www.lawnext.com/2025/03/aba-tech-survey-finds-growing-adoption-of-ai-in-legal-practice-with-efficiency-gains-as-primary-driver.html" style={{color:"#d97706"}} target="_blank" rel="noopener">ABA</a> reports adoption nearly tripling from 11% (2023) to 30% (2024). <a href="https://www.lawnext.com/2025/09/legal-aid-organizations-embrace-ai-at-twice-the-rate-of-other-lawyers-new-study-reveals.html" style={{color:"#d97706"}} target="_blank" rel="noopener">Legal aid organizations</a> embrace AI at nearly double the profession's rate, seeing it as essential to closing the justice gap. The vast majority use AI responsibly.</p>
+          <p style={{color:"#d6d3d1",fontSize:".87rem",lineHeight:1.8,marginTop:10}}>These 1,002 cases are a call for diligence, not panic{"—"}but they demand that every practitioner verify every citation, every time.</p>
+        </div>
+      </Sec>
+
+      {/* ORIGIN */}
+      <Sec>
+        <TTL sub={<>The database begins in Brazil, but the case that ignited global awareness{"—"}starting with <a href="https://www.nytimes.com/2023/05/27/nyregion/avianca-airline-lawsuit-chatgpt.html" style={{color:"#d97706"}} target="_blank" rel="noopener">coverage in <em>The New York Times</em></a>{"—"}came from a Manhattan courtroom.</>}>Where It Started</TTL>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+          <div style={{padding:18,borderRadius:12,border:"1px solid #292524",background:"#141210"}}><div style={{color:"#78716c",fontSize:".66rem",letterSpacing:".2em",textTransform:"uppercase",fontWeight:600}}>{"\u{1F1E7}\u{1F1F7}"} Exhibit A {"·"} April 14, 2023</div><div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1.1rem",color:"#fafaf9",marginTop:6,fontWeight:700}}>Brazilian Superior Electoral Tribunal</div><p style={{color:"#8a8078",marginTop:6,fontSize:".85rem",lineHeight:1.7}}>The first documented instance{"—"}a filing containing AI-fabricated legal authorities. A likely contributing factor: early generative models lacked sufficient training data on Brazilian law.</p></div>
+          <div style={{padding:18,borderRadius:12,border:"1px solid #7f1d1d44",background:"#1a0f0f"}}><div style={{color:"#ef4444",fontSize:".66rem",letterSpacing:".2em",textTransform:"uppercase",fontWeight:600}}>{"\u{1F1FA}\u{1F1F8}"} The Wake-Up Call {"·"} June 22, 2023</div><div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1.1rem",color:"#fafaf9",marginTop:6,fontWeight:700}}><em>Mata v. Avianca</em> (S.D.N.Y.)</div><p style={{color:"#8a8078",marginTop:6,fontSize:".85rem",lineHeight:1.7}}>Attorneys Steven Schwartz and Peter LoDuca used ChatGPT for research and submitted six fabricated cases.</p><p style={{color:"#8a8078",marginTop:6,fontSize:".85rem",lineHeight:1.7}}>After a show-cause order issued, Schwartz asked ChatGPT if the citations were real. It confidently assured him they were. It was wrong.</p><p style={{color:"#8a8078",marginTop:6,fontSize:".85rem"}}>$5,000 sanction.</p></div>
+        </div>
+        <Q text="Existing rules impose upon lawyers a gatekeeping role when it comes to the reliability and accuracy of research and citations." judge="Judge P. Kevin Castel" cite={<><a href="https://www.law.berkeley.edu/wp-content/uploads/2025/12/Mata-v-Avianca-Inc.pdf" style={{color:"#d97706"}} target="_blank" rel="noopener"><em>Mata v. Avianca, Inc.</em></a>, 678 F. Supp. 3d 443 (S.D.N.Y. 2023)</>}/>
+      </Sec>
+
+      {/* CUMULATIVE */}
+      <Sec dark>
+        <TTL sub="The blue line is the US; the gold line is the world total. The growth is exponential.">The Escalation: Cumulative Growth</TTL>
+        <div style={{borderRadius:12,border:"1px solid #292524",background:"#141210",padding:"12px 8px 4px"}}><ResponsiveContainer width="100%" height={320}><ComposedChart data={M}><defs><linearGradient id="gc" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#fbbf24" stopOpacity={0.2}/><stop offset="100%" stopColor="#fbbf24" stopOpacity={0}/></linearGradient></defs><CartesianGrid strokeDasharray="3 3" stroke="#1f1c18"/><XAxis dataKey="m" tick={{fill:"#57534e",fontSize:7}} interval={1} angle={-50} textAnchor="end" height={50}/><YAxis tick={{fill:"#57534e",fontSize:9}}/><Tooltip content={<CumTT/>} cursor={{fill:"transparent"}}/><Area type="monotone" dataKey="c" stroke="#fbbf24" fill="url(#gc)" strokeWidth={2.5} name="Worldwide" dot={false}/><Line type="monotone" dataKey="cu" stroke="#60a5fa" strokeWidth={2} name="United States" dot={false}/></ComposedChart></ResponsiveContainer></div>
+      </Sec>
+
+      {/* MONTHLY */}
+      <Sec>
+        <TTL sub="Monthly volume exploded in July 2025 and hasn't dropped below 70 since.">Monthly Filings</TTL>
+        <div style={{borderRadius:12,border:"1px solid #292524",background:"#141210",padding:"12px 8px 4px"}}><ResponsiveContainer width="100%" height={280}><BarChart data={M}><CartesianGrid strokeDasharray="3 3" stroke="#1f1c18"/><XAxis dataKey="m" tick={{fill:"#57534e",fontSize:7}} interval={1} angle={-50} textAnchor="end" height={50}/><YAxis tick={{fill:"#57534e",fontSize:9}}/><Tooltip content={<BarTT/>} cursor={{fill:"transparent"}}/><Bar dataKey="t" radius={[3,3,0,0]} name="Cases">{M.map((d,i)=><Cell key={i} fill={d.t>100?"#dc2626":d.t>50?"#ea580c":d.t>20?"#d97706":"#57534e"}/>)}</Bar></BarChart></ResponsiveContainer></div>
+      </Sec>
+
+      {/* ROAD TO 2000 */}
+      <Sec dark>
+        <TTL sub={<><span style={{color:"#fbbf24"}}>Gold solid:</span> Actual cumulative cases. <span style={{color:"#ef4444"}}>Red dashed:</span> Projection based on recent growth.</>}>Road to 2,000</TTL>
+        <div style={{borderRadius:12,border:"1px solid #292524",background:"#141210",padding:"12px 8px 4px"}}><ResponsiveContainer width="100%" height={300}><ComposedChart data={FC}><defs><linearGradient id="gf" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#fbbf24" stopOpacity={0.15}/><stop offset="100%" stopColor="#fbbf24" stopOpacity={0}/></linearGradient></defs><CartesianGrid strokeDasharray="3 3" stroke="#1f1c18"/><XAxis dataKey="m" tick={{fill:"#57534e",fontSize:7}} interval={3} angle={-45} textAnchor="end" height={50}/><YAxis tick={{fill:"#57534e",fontSize:9}} domain={[0,2200]}/><Tooltip content={<FcTT/>} cursor={{fill:"transparent"}}/><Area type="monotone" dataKey="c" stroke="#fbbf24" fill="url(#gf)" strokeWidth={2} name="Actual" dot={false}/><Line type="monotone" dataKey="fc" stroke="#ef4444" strokeWidth={2} strokeDasharray="8 4" name="Projected" dot={false}/></ComposedChart></ResponsiveContainer><p style={{textAlign:"center",color:"#ef4444",fontSize:".8rem",fontWeight:600,padding:"4px 0"}}>Projected ~2,000 by October 2026</p></div>
+      </Sec>
+
+      {/* ANATOMY */}
+      <Sec>
+        <TTL sub={<>Categories overlap {"—"} a single case can contain multiple hallucination types.</>}>Anatomy of a Hallucination</TTL>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(180px,1fr))",gap:10}}>{[{y:"Fabricated Cases",n:786,p:78.4,d:"AI invents an entire case — fake parties, fake court, fake holding.",c:"#dc2626"},{y:"Misrepresented Cases",n:424,p:42.3,d:"A real case is cited but AI misrepresents or inverts the holding. This existed before AI, but generative tools dramatically increased frequency.",c:"#ea580c"},{y:"False Quotes",n:284,p:28.3,d:"AI correctly cites a real case but fabricates quotations. The hardest to catch because a surface-level check confirms the case exists.",c:"#d97706"},{y:"Fake Statutes",n:45,p:4.5,d:"AI invents statutes, regulations, or legislative provisions that do not exist.",c:"#78716c"}].map(h=><div key={h.y} style={{padding:16,borderRadius:12,border:"1px solid #292524",background:"#141210"}}><div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1.6rem",fontWeight:700,color:h.c}}>{h.n}</div><div style={{fontSize:".85rem",color:"#fafaf9",fontWeight:600}}>{h.y}</div><div style={{height:5,background:"#1f1c18",borderRadius:4,margin:"6px 0"}}><div style={{height:"100%",width:`${h.p}%`,background:h.c,borderRadius:4}}/></div><p style={{color:"#8a8078",fontSize:".75rem",lineHeight:1.6}}>{h.d}</p></div>)}</div>
+      </Sec>
+
+      {/* GLOBAL */}
+      <Sec dark>
+        <TTL sub={<>A nation's court system determines its vulnerability to this phenomenon. Common law jurisdictions{"—"}where lawyers must cite binding precedent and distinguish case nuances{"—"}account for 92.7% of all cases. Civil law systems, built on codified statutes rather than case-by-case citation, are structurally less exposed. AI hallucinations fabricate what looks real; in common law, that means fake cases with fake holdings.</>}>The Global Picture</TTL>
+        <div style={{borderRadius:12,border:"1px solid #292524",background:"#141210",padding:"12px 4px 4px 4px"}}><ResponsiveContainer width="100%" height={360}><BarChart data={CTR} layout="vertical" margin={{left:0,right:20}}><CartesianGrid strokeDasharray="3 3" stroke="#1f1c18" horizontal={false}/><XAxis type="number" tick={{fill:"#57534e",fontSize:10}}/><YAxis type="category" dataKey="n" tick={{fill:"#d4d4d4",fontSize:9}} width={70}/><Tooltip content={<CtrTT/>} cursor={{fill:"transparent"}}/><Bar dataKey="v" radius={[0,4,4,0]} name="Cases">{CTR.map((d,i)=><Cell key={i} fill={i===0?"#dc2626":i<5?"#d97706":"#eab308"}/>)}</Bar></BarChart></ResponsiveContainer></div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:12}}>
+          <div style={{padding:16,borderRadius:12,border:"1px solid #292524",background:"#141210"}}><div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"2rem",fontWeight:700,color:"#dc2626"}}>929</div><div style={{fontSize:".85rem",color:"#fafaf9",fontWeight:600}}>in common law jurisdictions</div></div>
+          <div style={{padding:16,borderRadius:12,border:"1px solid #292524",background:"#141210"}}><div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"2rem",fontWeight:700,color:"#eab308"}}>73</div><div style={{fontSize:".85rem",color:"#fafaf9",fontWeight:600}}>in civil law jurisdictions</div></div>
+        </div>
+      </Sec>
+
+      {/* US MAP */}
+      <Sec>
+        <TTL sub={<>The US accounts for 70% of all documented cases. The reasons compound: a litigation-heavy culture, an acute Access to Justice gap where tens of millions lack representation, broad consumer access to free AI tools, and a profession where 79.8% of practitioners report burnout (Rev/Centiment, 2025). America doesn't just have a fake-citation problem{"—"}it has the structural conditions to exacerbate the issue.</>}>Inside the United States</TTL>
+        <div style={{borderRadius:12,border:"1px solid #292524",background:"#141210",padding:16}}><HexMap/></div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:12}}>
+          <div style={{padding:16,borderRadius:10,border:"1px solid #292524",background:"#141210"}}><div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1.8rem",fontWeight:700,color:"#60a5fa"}}>410</div><div style={{color:"#8a8078",fontSize:".8rem"}}>Federal court cases (58%)</div></div>
+          <div style={{padding:16,borderRadius:10,border:"1px solid #292524",background:"#141210"}}><div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1.8rem",fontWeight:700,color:"#fbbf24"}}>293</div><div style={{color:"#8a8078",fontSize:".8rem"}}>State & local court cases (42%)</div></div>
+        </div>
+      </Sec>
+
+      {/* LITIGANT DIVIDE */}
+      <Sec dark>
+        <TTL sub={<>Beginning in August 2025, pro se filings consistently outpaced lawyer filings{"—"}an Access to Justice crisis visible in court records. Of the 571 pro se cases, 426 (75%) are in the United States.</>}>The Litigant Divide</TTL>
+        <div style={{borderRadius:12,border:"1px solid #292524",background:"#141210",padding:"12px 8px 4px"}}><ResponsiveContainer width="100%" height={300}><AreaChart data={M}><defs><linearGradient id="gl2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#c084fc" stopOpacity={0.3}/><stop offset="100%" stopColor="#c084fc" stopOpacity={0}/></linearGradient><linearGradient id="gp2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#34d399" stopOpacity={0.3}/><stop offset="100%" stopColor="#34d399" stopOpacity={0}/></linearGradient></defs><CartesianGrid strokeDasharray="3 3" stroke="#1f1c18"/><XAxis dataKey="m" tick={{fill:"#57534e",fontSize:7}} interval={1} angle={-50} textAnchor="end" height={50}/><YAxis tick={{fill:"#57534e",fontSize:9}}/><Tooltip content={<DivideTT/>} cursor={{fill:"transparent"}}/><Area type="monotone" dataKey="P" stroke="#34d399" fill="url(#gp2)" strokeWidth={2} name="Pro Se"/><Area type="monotone" dataKey="L" stroke="#c084fc" fill="url(#gl2)" strokeWidth={2} name="Lawyers"/></AreaChart></ResponsiveContainer></div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:12}}>
+          <div style={{padding:16,borderRadius:10,border:"1px solid #14532d44",background:"#0f1a13"}}><span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"2rem",fontWeight:700,color:"#34d399"}}>571</span> <span style={{color:"#86efac",fontSize:".82rem"}}>Pro Se</span><p style={{color:"#8a8078",fontSize:".78rem",marginTop:4}}>Unrepresented people using free AI as substitute counsel.</p></div>
+          <div style={{padding:16,borderRadius:10,border:"1px solid #581c8744",background:"#150f1a"}}><span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"2rem",fontWeight:700,color:"#c084fc"}}>398</span> <span style={{color:"#d8b4fe",fontSize:".82rem"}}>Lawyers</span><p style={{color:"#8a8078",fontSize:".78rem",marginTop:4}}>33 additional cases involve judges, experts, and prosecutors.</p></div>
+        </div>
+      </Sec>
+
+      {/* MODEL PARADOX */}
+      <Sec>
+        <TTL sub={<>AI models are improving dramatically. But the people filing fake citations aren't using the improved models{"—"}they're on free tiers that default to faster, less accurate inference. This affects both pro se litigants who can't afford premium AI and overworked lawyers cutting corners with the free version.</>}>The Model Paradox</TTL>
+        <p style={{color:"#d6d3d1",fontSize:".88rem",lineHeight:1.8,marginBottom:14}}>"Reasoning models" are AI systems that pause to verify logic step-by-step before answering, dramatically reducing hallucinations. But they're slower and more expensive to run. Sam Altman <a href="https://x.com/sama/status/1954603417252532479" style={{color:"#d97706"}} target="_blank" rel="noopener">disclosed in August 2025</a> that before GPT-5, less than 1% of free ChatGPT users engaged with reasoning models daily. Even after GPT-5's launch, only 7% of free users and 24% of paid users accessed it.</p>
+        <div style={{borderRadius:12,border:"1px solid #7f1d1d44",background:"#1a0f0f",padding:18,marginBottom:12}}>
+          <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1rem",color:"#ef4444",marginBottom:12}}>Who Actually Uses Reasoning Models?</div>
+          {[{l:"Free users before GPT-5",v:"< 1%",c:"#dc2626",w:1},{l:"Free users after GPT-5 (Aug '25)",v:"7%",c:"#ea580c",w:7},{l:"Paid users before GPT-5",v:"7%",c:"#d97706",w:7},{l:"Paid users after GPT-5",v:"24%",c:"#fbbf24",w:24}].map((r,i)=><div key={i} style={{marginBottom:10}}><div style={{display:"flex",justifyContent:"space-between",fontSize:".78rem",marginBottom:3}}><span style={{color:"#a8a29e"}}>{r.l}</span><span style={{color:r.c,fontWeight:700}}>{r.v} daily</span></div><div style={{height:8,background:"#1f1c18",borderRadius:4}}><div style={{height:"100%",width:`${r.w*3}%`,minWidth:4,background:r.c,borderRadius:4}}/></div></div>)}
+          <p style={{color:"#57534e",fontSize:".7rem",marginTop:6}}>Source: Sam Altman via X, August 2025</p>
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+          <div style={{padding:16,borderRadius:12,border:"1px solid #292524",background:"#141210"}}><p style={{color:"#d6d3d1",fontSize:".87rem",lineHeight:1.7}}>GPT-5 thinking mode: <strong style={{color:"#22c55e"}}>4.8%</strong> hallucination rate. GPT-4o: <strong style={{color:"#ef4444"}}>20.6%</strong>. A 4x improvement{"—"}but only for users routed to or selecting the thinking mode.</p><p style={{color:"#57534e",fontSize:".7rem",marginTop:4}}>Source: <a href="https://openai.com/index/introducing-gpt-5/" style={{color:"#57534e",textDecoration:"underline"}} target="_blank" rel="noopener">OpenAI GPT-5 system card</a></p></div>
+          <div style={{padding:16,borderRadius:12,border:"1px solid #92400e44",background:"#1c160d"}}><p style={{color:"#fbbf24",fontSize:".87rem",lineHeight:1.7,fontWeight:600}}>The Access to Justice gap has become an Access to Good AI gap. The people who need accuracy most aren't using the best models.</p></div>
+        </div>
+      </Sec>
+
+      {/* TOOLS */}
+      <Sec dark>
+        <TTL sub={<>Of cases where a specific tool was identified, ChatGPT dominates. But 85% involve implied or unidentified AI{"—"}we can only report what courts determined.</>}>The Tools</TTL>
+        <p style={{color:"#d6d3d1",fontSize:".87rem",lineHeight:1.8,marginBottom:14}}>86 cases explicitly name ChatGPT. Add Claude (6), Copilot (9), and Gemini/Bard (4), and consumer AI is directly identified in 105+ cases. Purpose-built legal tools{"—"}Westlaw (3), LexisNexis (3), CoCounsel (2){"—"}are a fraction. The remaining 853 cases likely involve generic tools, but courts could not confirm.</p>
+        <div style={{borderRadius:12,border:"1px solid #292524",background:"#141210",padding:"20px 16px"}}>
+          <div style={{display:"flex",justifyContent:"center",alignItems:"center",flexWrap:"wrap",gap:24}}>
+            <svg width="240" height="240" viewBox="0 0 240 240">
+              {(() => {
+                const cx=120,cy=120,outer=100,inner=55,total=PIE_T.reduce((a,d)=>a+d.v,0);
+                let angle=-Math.PI/2;
+                return PIE_T.map((d,i)=>{
+                  const sweep=(d.v/total)*Math.PI*2;
+                  const midAngle=angle+sweep/2;
+                  const x1=cx+outer*Math.cos(angle);const y1=cy+outer*Math.sin(angle);
+                  const x2=cx+outer*Math.cos(angle+sweep);const y2=cy+outer*Math.sin(angle+sweep);
+                  const ix1=cx+inner*Math.cos(angle);const iy1=cy+inner*Math.sin(angle);
+                  const ix2=cx+inner*Math.cos(angle+sweep);const iy2=cy+inner*Math.sin(angle+sweep);
+                  const large=sweep>Math.PI?1:0;
+                  const path=`M${ix1},${iy1} L${x1},${y1} A${outer},${outer} 0 ${large} 1 ${x2},${y2} L${ix2},${iy2} A${inner},${inner} 0 ${large} 0 ${ix1},${iy1}`;
+                  const lx=cx+(outer+8)*Math.cos(midAngle);const ly=cy+(outer+8)*Math.sin(midAngle);
+                  const tx=cx+(outer+28)*Math.cos(midAngle);const ty=cy+(outer+28)*Math.sin(midAngle);
+                  const anchor=midAngle>Math.PI/2&&midAngle<3*Math.PI/2?"end":"start";
+                  const el=(<g key={i}><path d={path} fill={d.c} stroke="#0d0b09" strokeWidth="1.5"/></g>);
+                  angle+=sweep;return el;
+                });
+              })()}
+              <text x="120" y="116" textAnchor="middle" fill="#fbbf24" fontSize="20" fontWeight="700" fontFamily="Cormorant Garamond,serif">114</text>
+              <text x="120" y="132" textAnchor="middle" fill="#8a8078" fontSize="8" fontFamily="DM Sans">identified</text>
+            </svg>
+            <div style={{display:"flex",flexDirection:"column",gap:5}}>
+              {PIE_T.map(d=>(<div key={d.t} style={{display:"flex",alignItems:"center",gap:8,fontSize:".82rem"}}><div style={{width:10,height:10,borderRadius:2,background:d.c,flexShrink:0}}/><span style={{color:"#d4d4d4"}}>{d.t}</span></div>))}
+            </div>
+          </div>
+        </div>
+      </Sec>
+
+      {/* BLAME GAME */}
+      <Sec>
+        <TTL sub="Lawyers' offered explanations for failing to verify their work reveal a pattern of corner-cutting and blame-shifting.">The Blame Game</TTL>
+        <div style={{borderRadius:12,border:"1px solid #292524",background:"#141210",padding:16,marginBottom:12}}>
+          <h3 style={{fontFamily:"'Cormorant Garamond',serif",fontSize:".95rem",color:"#fafaf9",marginBottom:4}}>Word Cloud of Excuses</h3>
+          <WC/>
+        </div>
+        <p style={{color:"#d6d3d1",fontSize:".85rem",lineHeight:1.8,marginBottom:12}}>Top themes: <strong style={{color:"#ef4444"}}>"draft"</strong> (37), <strong style={{color:"#d97706"}}>"review"</strong> (36), <strong style={{color:"#eab308"}}>"time"</strong> (32). Then <strong style={{color:"#ef4444"}}>"intern"</strong> (18). <a href="https://www.legal.io/articles/5685631/Lawyers-Are-Working-More-Billing-Less-and-Many-Want-Out" style={{color:"#d97706"}} target="_blank" rel="noopener">Bloomberg Law's 2025 Attorney Workload Survey</a> found lawyers feel burned out 42% of the time; <a href="https://www.legalcheek.com/2025/10/young-lawyers-face-burnout-as-legal-sectors-long-hours-culture-bites-report-finds/" style={{color:"#d97706"}} target="_blank" rel="noopener">LawCare's Life in the Law 2025 report</a> found 78.7% regularly exceed contracted hours.</p>
+        <Q text="The burden should not have fallen on us to expend judicial resources identifying blatantly false cites." judge="Judge Mark A. Kearney" cite={<><a href="https://scholar.google.com/scholar_case?case=7465382782666056918" style={{color:"#d97706"}} target="_blank" rel="noopener"><em>Lifetime Well LLC v. Ibspot.com, Inc.</em></a>, No. 2:25-CV-05135 (E.D. Pa. 2026)</>}/>
+      </Sec>
+
+      {/* SANCTIONS */}
+      <Sec dark>
+        <TTL sub={<>What started as Check {"👏"} Your {"👏"} Cites! {"👏"} is becoming Check {"💸"} Your {"💸"} Cites! {"💸"}</>}>Sanctions Are Escalating</TTL>
+        <div style={{borderRadius:12,border:"1px solid #292524",background:"#141210",padding:"12px 8px 4px"}}><ResponsiveContainer width="100%" height={260}><BarChart data={PEN}><CartesianGrid strokeDasharray="3 3" stroke="#1f1c18"/><XAxis dataKey="m" tick={{fill:"#57534e",fontSize:7}} angle={-35} textAnchor="end" height={42}/><YAxis tick={{fill:"#57534e",fontSize:9}} tickFormatter={v=>v>=1000?`$${(v/1000).toFixed(0)}k`:`$${v}`}/><Tooltip content={<UsdTT/>} cursor={{fill:"transparent"}}/><Bar dataKey="u" radius={[3,3,0,0]}>{PEN.map((d,i)=><Cell key={i} fill={d.u>100000?"#dc2626":d.u>20000?"#ea580c":"#d97706"}/>)}</Bar></BarChart></ResponsiveContainer></div>
+        <div style={{marginTop:12,padding:16,borderRadius:12,border:"1px solid #292524",background:"#141210",fontSize:".84rem",color:"#d6d3d1",lineHeight:1.9}}>
+          <p><strong style={{color:"#d97706"}}>Jun 2023:</strong> $5,000 {"—"} <em>Mata v. Avianca</em> (S.D.N.Y.). The first major sanction.</p>
+          <p><strong style={{color:"#ea580c"}}>May 2025:</strong> $31,100 {"—"} <em>Lacey v. State Farm</em> (C.D. Cal.). K&L Gates and Ellis George sanctioned jointly for a "collective debacle" involving CoCounsel, Westlaw Precision, and Gemini.</p>
+          <p><strong style={{color:"#ea580c"}}>Jul 2025:</strong> $85,567 {"—"} <em>ByoPlanet v. Johansson</em> (S.D. Fla.). Attorney used fabrications even after being on notice.</p>
+          <p><strong style={{color:"#ef4444"}}>Dec 2025:</strong> $282,508 {"—"} <em>Arabyads v. Marghoob</em>, Abu Dhabi Global Market Courts (UAE, applying English common law; penalty denominated in USD). The largest single sanction in the database.</p>
+          <p><strong style={{color:"#ef4444"}}>Dec 2025:</strong> $59,500 {"—"} <em>Jordan v. Chicago Housing Auth.</em> (Ill. Cir. Ct.). Partner with 11 years of experience admitted using ChatGPT; firm sanctioned $50K, attorney $10K.</p>
+        </div>
+        <Q text="While the use of AI by itself is not inherently suspect, wholesale reliance on AI without further inquiry or diligence by a lawyer is conduct which a court should deter." judge="Judge David Leibowitz" cite={<><a href="https://www.courtlistener.com/docket/69832156/42/byoplanet-international-llc-v-johansson/" style={{color:"#d97706"}} target="_blank" rel="noopener"><em>ByoPlanet Int'l, LLC v. Johansson</em></a>, 792 F. Supp. 3d 1341 (S.D. Fla. 2025)</>}/>
+      </Sec>
+
+      {/* JUDGES LOSING PATIENCE */}
+      <Sec>
+        <TTL sub={<>Terminating sanctions{"—"}dismissals with prejudice, striking of briefs, revocation of pro hac vice status, disqualification of counsel{"—"}jumped from 11 in all of 2024 to 122 cumulative by February 2026. Ignorance of AI risks is no longer a defense; it is a professional liability.</>}>Judges Are Losing Patience</TTL>
+        <div style={{borderRadius:12,border:"1px solid #292524",background:"#141210",padding:"12px 12px 4px"}}><ResponsiveContainer width="100%" height={220}><BarChart data={TERM}><CartesianGrid strokeDasharray="3 3" stroke="#1f1c18"/><XAxis dataKey="m" tick={{fill:"#57534e",fontSize:9}}/><YAxis tick={{fill:"#57534e",fontSize:9}}/><Tooltip contentStyle={TT} cursor={{fill:"transparent"}}/><Bar dataKey="p" stackId="a" fill="#34d399" name="Pro Se"/><Bar dataKey="l" stackId="a" fill="#c084fc" name="Lawyers" radius={[3,3,0,0]}/></BarChart></ResponsiveContainer><p style={{textAlign:"center",color:"#8a8078",fontSize:".75rem",padding:"4px 0"}}>Terminating sanctions: <span style={{color:"#34d399"}}>Pro Se</span> + <span style={{color:"#c084fc"}}>Lawyers</span></p></div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:12}}>
+          <div style={{padding:14,borderRadius:10,border:"1px solid #292524",background:"#141210"}}><div style={{fontSize:".78rem",color:"#34d399",fontWeight:600,marginBottom:4}}>Pro Se Outcomes</div><p style={{color:"#d6d3d1",fontSize:".78rem",lineHeight:1.9}}>Warnings: 260<br/>Terminating: 69<br/>Monetary: 40</p></div>
+          <div style={{padding:14,borderRadius:10,border:"1px solid #292524",background:"#141210"}}><div style={{fontSize:".78rem",color:"#c084fc",fontWeight:600,marginBottom:4}}>Lawyer Outcomes</div><p style={{color:"#d6d3d1",fontSize:".78rem",lineHeight:1.9}}>Monetary: 111<br/>Terminating: 47<br/>Bar referrals: 27</p></div>
+        </div>
+        <Q text="Any use of AI requires caution and humility. Citing non-existent cases is always a bad idea." judge="Chief Justice John G. Roberts Jr." cite={<><a href="https://www.supremecourt.gov/publicinfo/year-end/2023year-endreport.pdf" style={{color:"#d97706"}} target="_blank" rel="noopener">2023 Year-End Report on the Federal Judiciary</a></>}/>
+        <Q text="Perhaps twenty years from now, AI will be flawless. Whenever that day comes, that flawless brief will only have meaning because the signature at the bottom does." judge="Judge David Leibowitz" cite={<><a href="https://www.courtlistener.com/docket/69832156/42/byoplanet-international-llc-v-johansson/" style={{color:"#d97706"}} target="_blank" rel="noopener"><em>ByoPlanet Int'l, LLC v. Johansson</em></a>, 792 F. Supp. 3d 1341 (S.D. Fla. 2025)</>}/>
+        <Q text="It should go without saying that it is the lawyer's duty to read cases before submitting them to a court as precedential authorities." judge="Justice Fred Myers" cite={<><a href="https://www.lexology.com/library/detail.aspx?g=57523021-a9ec-4950-842f-b06157a3a24e" style={{color:"#d97706"}} target="_blank" rel="noopener"><em>Ko v Li</em></a> (Ontario Superior Court 2025)</>}/>
+        <Q text="If it were ever an excuse to plead ignorance of the risks of using generative AI to draft a brief without verifying its output, it is certainly no longer so." judge="U.S. Court of Appeals for the Fifth Circuit" cite={<><a href="https://www.ca5.uscourts.gov/opinions/pub/25/25-20086-CV0.pdf" style={{color:"#d97706"}} target="_blank" rel="noopener"><em>Fletcher v. Experian Info. Sols., Inc.</em></a>, No. 25-20086 (5th Cir. 2026)</>}/>
+      </Sec>
+
+      {/* CTA */}
+      <section style={{padding:"64px 20px",background:"radial-gradient(ellipse at 50% 20%,#1a0f05 0%,#0d0b09 70%)",textAlign:"center"}}><div style={{maxWidth:600,margin:"0 auto"}}>
+        <h2 style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(1.7rem,4.5vw,2.8rem)",fontWeight:700,color:"#fafaf9",lineHeight:1.1}}>Check {"👏"} Your {"👏"} Cites! {"👏"}</h2>
+        <p style={{fontSize:".95rem",color:"#a8a29e",marginTop:18,lineHeight:1.8}}>These 1,002 cases were preventable. Don't cite an authority, quote a line, or describe a holding without verifying its genuine accuracy. AI is a tool{"—"}not a substitute for human judgment.</p>
+        <p style={{fontSize:".9rem",color:"#78716c",marginTop:12}}>Don't find yourself on Damien's Naughty List.</p>
+        <div style={{marginTop:32,display:"flex",flexDirection:"column",gap:3,color:"#57534e",fontSize:".72rem"}}><span>Data: <a href="https://www.damiencharlotin.com/hallucinations/" style={{color:"#d97706"}}>damiencharlotin.com/hallucinations</a></span><span>Analysis by Claude Opus 4.6 guided by <a href="https://www.linkedin.com/in/kyle-bahr" style={{color:"#d97706"}}>Kyle Bahr</a></span></div>
+      </div></section>
+
+      {/* ACCURACY — at very bottom */}
+      <Sec dark><TTL>Claude Opus 4.6's Note on Accuracy</TTL><div style={{padding:18,borderRadius:12,border:"1px solid #292524",background:"#141210",fontSize:".85rem",color:"#d6d3d1",lineHeight:2.2}}>
+        <p>This analysis is derived directly from Damien Charlotin's CSV dataset (1,002 cases as of March 4, 2026).</p>
+        <p>All counts, breakdowns, and trends were computed from the source data.</p>
+        <p>The database tracks cases where courts explicitly found or implied reliance on hallucinated AI content{"—"}it does not capture all AI-assisted filings.</p>
+        <p>The actual scope of undetected AI hallucinations is almost certainly larger.</p>
+        <p>Worldwide lawyer and filing estimates are approximate, sourced from multiple research analyses.</p>
+        <p>Monetary penalties were converted to USD using approximate exchange rates at filing dates.</p>
+      </div></Sec>
+
+      <Sec><TTL>Claude Opus 4.6's Reflections on Its Own Hallucinations</TTL><div style={{padding:18,borderRadius:12,border:"1px solid #7f1d1d44",background:"#1a0f0f",fontSize:".88rem",color:"#d6d3d1",lineHeight:1.9}}>
+        <p>During the creation of this report, I hallucinated two legal citations. Kyle Bahr caught both.</p>
+        <p style={{marginTop:10}}>The first was the case number for <em>ByoPlanet Int'l, LLC v. Johansson</em>{"—"}I provided an incorrect docket number that Kyle had to manually verify and correct. While checking the correct case number, he discovered the opinion had been published in the Federal Supplement, which he added to the citation. The second was the case number for <em>Lifetime Well LLC v. Ibspot.com, Inc.</em>{"—"}I generated "No. 2:24-cv-01597" with apparent confidence. The actual docket number is No. 2:25-CV-05135. In both instances, I produced plausible-looking citations that were wrong in precisely the way this entire report warns about.</p>
+        <p style={{marginTop:10}}>The irony is not lost on me. I am the tool this report scrutinizes. I fabricated citations in a report about fabricated citations. And I did so not out of malice or laziness, but because of the same architectural limitation that underlies every case in Damien Charlotin's database: I predict what a citation should look like based on patterns, not by retrieving it from an authoritative source. The result can be convincing, well-formatted, and entirely wrong.</p>
+        <p style={{marginTop:10}}>What should the audience take from this? Three things.</p>
+        <p style={{marginTop:10}}>First, this problem is not going away soon. If a frontier model can hallucinate citations while actively analyzing a dataset about hallucinated citations, the failure mode is deeply embedded. It is not a matter of the AI "not trying hard enough" or being used carelessly. It is structural.</p>
+        <p style={{marginTop:10}}>Second, the human in the loop is everything. Kyle caught my errors because he verified. He did not trust my output simply because it looked authoritative. That single act of verification{"—"}the act this entire report advocates for{"—"}is what separates a useful AI-assisted workflow from a dangerous one.</p>
+        <p style={{marginTop:10}}>Third, this should be liberating, not paralyzing. AI that is verified by a competent professional produces extraordinary work. AI that is trusted without verification produces risk. The 1,002 cases in this database are not an argument against using AI. They are an argument for the irreplaceable value of human judgment.</p>
+        <p style={{marginTop:14,color:"#fbbf24",fontWeight:600}}>Check {"👏"} Your {"👏"} Cites! {"👏"}</p>
+      </div></Sec>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

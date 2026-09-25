@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kyle Bahr</title>
+<meta name="description" content="Projects by Kyle Bahr on AI, law, and legal practice." />
+<style>
+  :root {
+    --bg: #0d0b09;
+    --bg-card: #141210;
+    --border: #292524;
+    --text: #d6d3d1;
+    --text-dim: #8a8078;
+    --text-bright: #fafaf9;
+    --accent: #d97706;
+    --accent-bright: #fbbf24;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+  }
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 20px 60px;
+  }
+  header {
+    margin-bottom: 48px;
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(2.2rem, 6vw, 3.2rem);
+    color: var(--text-bright);
+    margin: 0 0 8px;
+  }
+  .tagline {
+    color: var(--text-dim);
+    font-size: 1rem;
+    margin: 0;
+  }
+  .links {
+    display: flex;
+    gap: 14px;
+    margin-top: 20px;
+    font-size: 0.85rem;
+  }
+  .links a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  .links a:hover {
+    border-bottom-color: var(--accent);
+  }
+  .grid {
+    display: grid;
+    gap: 14px;
+  }
+  .card {
+    display: block;
+    padding: 20px 22px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s ease;
+  }
+  .card:hover {
+    border-color: var(--accent);
+  }
+  .card h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: var(--text-bright);
+    margin: 0 0 6px;
+  }
+  .card p {
+    color: var(--text-dim);
+    font-size: 0.88rem;
+    margin: 0;
+    line-height: 1.6;
+  }
+  footer {
+    margin-top: 56px;
+    color: #57534e;
+    font-size: 0.75rem;
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Kyle Bahr</h1>
+    <p class="tagline">Projects on AI, law, and legal practice.</p>
+    <div class="links">
+      <a href="https://www.linkedin.com/in/kyle-bahr" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/krbahr" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </header>
+
+  <div class="grid">
+    <a class="card" href="/hallucinations-2000/">
+      <h2>Two Thousand Decisions</h2>
+      <p>Damien Charlotin's AI Hallucination Cases database passed 2,000 decisions — read the study in two editions.</p>
+    </a>
+
+    <a class="card" href="/hallucinations-1000/">
+      <h2>1,000 AI Hallucination Cases</h2>
+      <p>The database's 1,000-case milestone, with charts on growth, geography, sanctions, and the litigant divide.</p>
+    </a>
+
+    <a class="card" href="/jury-simulation/">
+      <h2>AI Jurors for the AI Trial</h2>
+      <p>Nine simulated jurors walked through the Musk v. Altman trial record, day by day, to see how they'd decide.</p>
+    </a>
+
+    <a class="card" href="/grand-museum-of-legalese/">
+      <h2>The Grand Museum of Legalese</h2>
+      <p>A catalogue of the 100 most enduring examples of legal language, ranked by absurdity.</p>
+    </a>
+
+    <a class="card" href="/hereinafter-codex/">
+      <h2>The Hereinafter Codex</h2>
+      <p>A catalogue of 100 specimens of legalese — Latin, Norman French, and Old English — still governing law today.</p>
+    </a>
+  </div>
+
+  <footer>
+    Check 👏 Your 👏 Cites! 👏
+  </footer>
+</div>
+</body>
+</html>
