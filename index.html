@@ -1,117 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US" data-theme="dark">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kyle Bahr</title>
-<meta name="description" content="Projects by Kyle Bahr on AI, law, and legal practice." />
+<meta name="description" content="Projects by Kyle Bahr on AI, law, and legal practice.">
 <style>
-  :root {
-    --bg: #0d0b09;
-    --bg-card: #141210;
-    --border: #292524;
-    --text: #d6d3d1;
-    --text-dim: #8a8078;
-    --text-bright: #fafaf9;
-    --accent: #d97706;
-    --accent-bright: #fbbf24;
-  }
-  * { box-sizing: border-box; }
-  html, body {
-    margin: 0;
-    padding: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    line-height: 1.6;
-  }
-  .wrap {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 72px 20px 60px;
-  }
-  header {
-    margin-bottom: 48px;
-  }
-  h1 {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-weight: 700;
-    font-size: clamp(2.2rem, 6vw, 3.2rem);
-    color: var(--text-bright);
-    margin: 0 0 8px;
-  }
-  .tagline {
-    color: var(--text-dim);
-    font-size: 1rem;
-    margin: 0;
-  }
-  .links {
-    display: flex;
-    gap: 14px;
-    margin-top: 20px;
-    font-size: 0.85rem;
-  }
-  .links a {
-    color: var(--accent);
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-  }
-  .links a:hover {
-    border-bottom-color: var(--accent);
-  }
-  .grid {
-    display: grid;
-    gap: 14px;
-  }
-  .card {
-    display: block;
-    padding: 20px 22px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    background: var(--bg-card);
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 0.15s ease;
-  }
-  .card:hover {
-    border-color: var(--accent);
-  }
-  .card h2 {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-weight: 700;
-    font-size: 1.35rem;
-    color: var(--text-bright);
-    margin: 0 0 6px;
-  }
-  .card p {
-    color: var(--text-dim);
-    font-size: 0.88rem;
-    margin: 0;
-    line-height: 1.6;
-  }
-  footer {
-    margin-top: 56px;
-    color: #57534e;
-    font-size: 0.75rem;
-  }
+:root{
+  --ui:Arial,"Helvetica Neue",sans-serif;
+  --display:"Newsreader","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --body:"Source Serif 4","Iowan Old Style",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --paper:#101717;
+  --paper-2:#141b1b;
+  --ink:#f0f0e6;
+  --ink-3:#93998f;
+  --rule:#30403a;
+  --rule-2:#243330;
+  --gold:#e5bb69;
+  --gold-soft:#715a2b;
+  --shadow:0 8px 36px -18px #000c;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:1.0625rem;line-height:1.6;font-feature-settings:"liga","kern","onum"}
+.wrap{max-width:52rem;margin:0 auto;padding:0 1.5rem}
+.topbar{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;padding:0.9rem 1.5rem}
+.brand{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink);font:.875rem var(--ui)}
+.brand b{font-family:var(--display);font-size:1.3rem;color:var(--gold)}
+.navlinks{display:flex;gap:1.2rem;font:.8rem var(--ui)}
+.navlinks a{color:var(--ink-3);text-decoration:none}
+.navlinks a:hover{color:var(--gold)}
+main{padding:0 0 3rem}
+.hero{padding:4.5rem 0 2.5rem;max-width:42rem}
+.kicker{font:.78rem var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4rem}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(2.4rem,5vw,4.4rem);line-height:1.02;letter-spacing:-.03em;margin:0 0 1.2rem;overflow-wrap:anywhere}
+.tagline{color:var(--ink-3);font-size:1.05rem;margin:0}
+.grid{display:grid;gap:1rem;margin-top:1rem}
+.card{display:block;background:var(--paper-2);border:1px solid var(--rule);border-radius:.6rem;padding:1.4rem 1.6rem;text-decoration:none;color:inherit;box-shadow:var(--shadow);transition:border-color .15s ease}
+.card:hover{border-color:var(--gold-soft)}
+.card h2{font-family:var(--display);font-weight:400;font-size:1.4rem;color:var(--ink);margin:0 0 .4rem}
+.card p{color:var(--ink-3);font-size:.92rem;margin:0;line-height:1.6}
+footer{border-top:1px solid var(--rule);padding-top:1.4rem;margin-top:3rem;display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;font:.875rem/1.6 var(--ui);color:var(--ink-3)}
+.sig{font-family:var(--body);font-size:1.05rem;color:var(--ink);margin:0}
+@media(max-width:640px){
+  .hero{padding-top:2.5rem}
+}
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <h1>Kyle Bahr</h1>
-    <p class="tagline">Projects on AI, law, and legal practice.</p>
-    <div class="links">
-      <a href="https://www.linkedin.com/in/kyle-bahr" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://github.com/krbahr" target="_blank" rel="noopener">GitHub</a>
-    </div>
-  </header>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="/"><b>KB</b><span>&nbsp;Kyle Bahr</span></a>
+  <nav class="navlinks">
+    <a href="https://www.linkedin.com/in/kyle-bahr" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/krbahr" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</div></header>
 
-  <div class="grid">
+<main><div class="wrap">
+  <section class="hero">
+    <p class="kicker">Projects &middot; AI &amp; law</p>
+    <h1>Kyle Bahr</h1>
+    <p class="tagline">Work on AI, legal practice, and the places they collide.</p>
+  </section>
+
+  <section class="grid" aria-label="Projects">
     <a class="card" href="/hallucinations-2000/">
       <h2>Two Thousand Decisions</h2>
-      <p>Damien Charlotin's AI Hallucination Cases database passed 2,000 decisions — read the study in two editions.</p>
+      <p>Damien Charlotin's AI Hallucination Cases database passed 2,000 decisions &mdash; read the study in two editions.</p>
     </a>
 
     <a class="card" href="/hallucinations-1000/">
@@ -131,13 +87,14 @@
 
     <a class="card" href="/hereinafter-codex/">
       <h2>The Hereinafter Codex</h2>
-      <p>A catalogue of 100 specimens of legalese — Latin, Norman French, and Old English — still governing law today.</p>
+      <p>A catalogue of 100 specimens of legalese &mdash; Latin, Norman French, and Old English &mdash; still governing law today.</p>
     </a>
-  </div>
+  </section>
 
   <footer>
-    Check 👏 Your 👏 Cites! 👏
+    <div><p>Projects built with Claude and OpenAI Codex.</p></div>
+    <div><p class="sig">Check 👏 Your 👏 Cites! 👏</p></div>
   </footer>
-</div>
+</div></main>
 </body>
 </html>
